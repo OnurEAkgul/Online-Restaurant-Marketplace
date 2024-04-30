@@ -1,0 +1,6 @@
+@Dijital_carsi_HostAddress = http://localhost:5274
+
+GET {{Dijital_carsi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

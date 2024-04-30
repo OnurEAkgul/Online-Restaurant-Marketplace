@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Dijital_carsi.props" />
+</Project>
