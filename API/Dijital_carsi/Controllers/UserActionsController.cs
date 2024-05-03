@@ -233,5 +233,115 @@ namespace Dijital_carsi.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpPut]
+        [Route("UpdateUserInfo/{id}")]
+        [Authorize]
+        
+        public async Task<IActionResult> UpdateUserInfo([FromRoute]string id, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
+        {
+            // İstek geçerli değilse BadRequest döndür
+            if (userUpdateDTO == null)
+            {
+                return BadRequest("Geçersiz istek");
+            }
+
+            using (var Transaction = await context.Database.BeginTransactionAsync())
+            {
+
+                try
+                {
+                    if (isAdminUpdate)
+                    {
+                        var identityUser = await userManager.FindByIdAsync(id);
+
+                        if (identityUser == null)
+                        {
+                            return NotFound();
+                        }
+
+                        else
+                        {
+                            // Update the existing IdentityUser with the new information
+                            identityUser.UserName = userUpdateDTO.UserName;
+                            identityUser.Email = userUpdateDTO.Email;
+                            identityUser.NormalizedEmail = userUpdateDTO.Email.Trim().ToUpper();
+                            identityUser.NormalizedUserName = userUpdateDTO.UserName.Trim().ToUpper();
+
+                            var result = await userService.UpdateUserAsync(identityUser);
+
+                            if (!result.Success)
+                            {
+                                throw new Exception(result.Message);
+                            }
+                        }
+                        var response = new UpdateUserInfoDTO { Email = userUpdateDTO.UserName, UserName = userUpdateDTO.Email };
+                        await Transaction.CommitAsync();
+
+                        return Ok(response);
+                    }
+
+                    else
+                    {
+                        var identityUser = await userManager.FindByIdAsync(id);
+
+                        if (identityUser == null)
+                        {
+                            return NotFound();
+                        }
+
+
+
+                        if (!await userManager.CheckPasswordAsync(identityUser, userUpdateDTO.CurrentPassword))
+                        {
+                            return BadRequest("Yanlış şifre girdiniz");
+                        }
+
+
+                        if (!string.IsNullOrEmpty(userUpdateDTO.NewPassword))
+                        {
+                            // Update the existing IdentityUser with the new information
+                            identityUser.UserName = userUpdateDTO.UserName;
+                            identityUser.Email = userUpdateDTO.Email;
+                            identityUser.NormalizedEmail = userUpdateDTO.Email.Trim().ToUpper();
+                            identityUser.NormalizedUserName = userUpdateDTO.UserName.Trim().ToUpper();
+                            identityUser.PasswordHash = userManager.PasswordHasher.HashPassword(identityUser, userUpdateDTO.NewPassword);
+
+                            var result = await userService.UpdateUserAsync(identityUser);
+
+                            if (!result.Success)
+                            {
+                                throw new Exception(result.Message);
+                            }
+                        }
+                        else
+                        {
+                            // Update the existing IdentityUser with the new information
+                            identityUser.UserName = userUpdateDTO.UserName;
+                            identityUser.Email = userUpdateDTO.Email;
+                            identityUser.NormalizedEmail = userUpdateDTO.Email.Trim().ToUpper();
+                            identityUser.NormalizedUserName = userUpdateDTO.UserName.Trim().ToUpper();
+
+                            var result = await userService.UpdateUserAsync(identityUser);
+
+                            if (!result.Success)
+                            {
+                                throw new Exception(result.Message);
+                            }
+                        }
+
+                        await Transaction.CommitAsync();
+
+                        return Ok(userUpdateDTO);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
+    
     }
 }

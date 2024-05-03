@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dijital_carsi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb04503fefd196fb25c455b0dc9d32bed671346e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a535cee0c9023709e2c3ac4b2c22a2851a925cc1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dijital_carsi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dijital_carsi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
