@@ -25,7 +25,7 @@ namespace Business.Services
         {
             try
             {
-                var identityUser = user as IdentityUser;
+                var identityUser = user;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -39,9 +39,9 @@ namespace Business.Services
                 // JWT token'da bulunacak talepleri tanımla
                 var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, identityUser.UserName), // Kullanıcı adını içeren talep
-            new Claim(ClaimTypes.Email, identityUser.Email), // E-postayı içeren talep
-            new Claim(ClaimTypes.NameIdentifier, identityUser.Id)
+            new Claim(ClaimTypes.Name, user.UserName), // Kullanıcı adını içeren talep
+            new Claim(ClaimTypes.Email, user.Email), // E-postayı içeren talep
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
         };
 
                 // Rolleri taleplere ekle
@@ -70,5 +70,60 @@ namespace Business.Services
                 return new ErrorDataResult<string>(ex.Message);
             }
         }
+
+        public async Task<IDataResult<IDictionary<string, string>>> DecodeJwtToken(string token)
+        {
+            try
+            {
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]));
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = key
+                };
+
+                // Synchronously decode and validate the JWT token
+                SecurityToken securityToken;
+                var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+
+                // Extract claims from the validated token
+                var claims = new Dictionary<string, List<string>>();
+
+                // Iterate through each claim in the claimsPrincipal
+                foreach (var claim in claimsPrincipal.Claims)
+                {
+                    if (!claims.ContainsKey(claim.Type))
+                    {
+                        claims[claim.Type] = new List<string>();
+                    }
+
+                    claims[claim.Type].Add(claim.Value);
+                }
+
+                // Flatten the claims dictionary to have a single string value per key
+                var flattenedClaims = new Dictionary<string, string>();
+
+                foreach (var kvp in claims)
+                {
+                    string concatenatedValues = string.Join(",", kvp.Value);
+                    flattenedClaims.Add(kvp.Key, concatenatedValues);
+                }
+
+                // Return the flattened claims as a SuccessDataResult<IDictionary<string, string>>
+                return new SuccessDataResult<IDictionary<string, string>>(flattenedClaims, "JWT token decoded successfully");
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an error result
+                return new ErrorDataResult<IDictionary<string, string>>(null, $"Error decoding JWT token: {ex.Message}");
+            }
+        }
+
+
     }
 }

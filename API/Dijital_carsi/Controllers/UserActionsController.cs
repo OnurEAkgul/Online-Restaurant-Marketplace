@@ -18,144 +18,220 @@ namespace Dijital_carsi.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly InterfaceUserService userService;
         private readonly InterfaceTokenService tokenService;
-        public UserActionsController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, InterfaceUserService userService, InterfaceTokenService tokenService) {
+        public UserActionsController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, InterfaceUserService userService, InterfaceTokenService tokenService)
+        {
             this.userManager = userManager;
             this.userService = userService;
             this.tokenService = tokenService;
             this.context = dbContext;
-        
+
         }
 
-       [HttpGet("GetAllUsers")]
-        [Authorize(Roles ="adminRole")]
-       public async Task<IActionResult> GetAllUsers()
+        [HttpGet("GetAllUsers")]
+        [Authorize(Roles = "adminRole")]
+        public async Task<IActionResult> GetAllUsers()
         {
-            var result = await userService.GetAllUsersAsync();
-            
-            return result!=null ? Ok(result) : BadRequest(result);    
+            try
+            {
+                var result = await userService.GetAllUsersAsync();
+
+                return result != null ? Ok(result) : BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
 
         [HttpPost("RegisterUser")]
-       
+
         private async Task<IActionResult> RegisterUser(SignUpUserDTO request, string role)
         {
-            if (request == null)
+            try
             {
-                return BadRequest("Invalid request");
+                if (request == null)
+                {
+                    return BadRequest("Invalid request");
+                }
+
+                var existingUserEmailResult = await userService.GetUserByEmailAsync(request.Email);
+                if (existingUserEmailResult.Success && existingUserEmailResult.Data != null)
+                {
+                    return BadRequest("A user with the same email already exists");
+                }
+
+                var existingUsernameResult = await userService.GetUserByNameAsync(request.Username);
+                if (existingUsernameResult.Success && existingUsernameResult.Data != null)
+                {
+                    return BadRequest("A user with the same username already exists");
+                }
+
+                var user = new IdentityUser
+                {
+                    Email = request.Email.Trim(),
+                    UserName = request.Username.Trim(),
+                    PhoneNumber = request.PhoneNumber.Trim(),
+                };
+
+                var signUpResult = await userService.SignUpAsync(user, request.Password);
+                if (!signUpResult.Success)
+                {
+                    return BadRequest(signUpResult.Message);
+                }
+
+                var roleAssignmentResult = await userService.AddToRoleAsync(user, role);
+                if (!roleAssignmentResult.Success)
+                {
+                    return BadRequest(roleAssignmentResult.Message);
+                }
+
+                return Ok($"An account has been created and {role} has been assigned");
+
             }
-
-            var existingUserEmailResult = await userService.GetUserByEmailAsync(request.Email);
-            if (existingUserEmailResult.Success && existingUserEmailResult.Data != null)
+            catch (Exception ex)
             {
-                return BadRequest("A user with the same email already exists");
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
-
-            var existingUsernameResult = await userService.GetUserByNameAsync(request.Username);
-            if (existingUsernameResult.Success && existingUsernameResult.Data != null)
-            {
-                return BadRequest("A user with the same username already exists");
-            }
-
-            var user = new IdentityUser
-            {
-                Email = request.Email.Trim(),
-                UserName = request.Username.Trim(),
-                PhoneNumber = request.PhoneNumber.Trim(),
-            };
-
-            var signUpResult = await userService.SignUpAsync(user, request.Password);
-            if (!signUpResult.Success)
-            {
-                return BadRequest(signUpResult.Message);
-            }
-
-            var roleAssignmentResult = await userService.AddToRoleAsync(user, role);
-            if (!roleAssignmentResult.Success)
-            {
-                return BadRequest(roleAssignmentResult.Message);
-            }
-
-            return Ok($"An account has been created and {role} has been assigned");
         }
 
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUpUser(SignUpUserDTO request)
         {
-            return await RegisterUser(request, "userRole");
+            try
+            {
+                return await RegisterUser(request, "userRole");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
 
         [HttpPost("ShopOwnerSignUp")]
         public async Task<IActionResult> ShopOwnerSignUp(SignUpUserDTO request)
         {
-            return await RegisterUser(request, "shopOwnerRole");
+            try
+            {
+                return await RegisterUser(request, "shopOwnerRole");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
         }
 
         [HttpPost("SupportUserRegister")]
         [Authorize(Roles = "adminRole")]
         public async Task<IActionResult> SupportUserRegister(SignUpUserDTO request)
         {
-            return await RegisterUser(request, "supportRole");
+            try
+            {
+                return await RegisterUser(request, "supportRole");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
 
 
         [HttpDelete]
-        [Authorize(Roles ="userRole")]
+        [Authorize(Roles = "userRole")]
         [Route("UserDelete/{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute]string id)
+        public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
-            var result = await userService.DeleteUserAsync(id);
-               if (!result.Success)
+            try
             {
-                return BadRequest(result.Message.ToString());
+                var result = await userService.DeleteUserAsync(id);
+                if (!result.Success)
+                {
+                    return BadRequest(result.Message.ToString());
+                }
+                return Ok(result.Message.ToString());
+
             }
-               return Ok(result.Message.ToString());
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
         }
 
-        [HttpPost ("Login")]
+        [HttpPost("Login")]
 
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
-            var result = await userService.LoginAsync(request.Email,request.Password,request.Username);
-            if (!result.Success)
+
+            try
             {
-                return BadRequest(result.Message.ToString());
+                var result = await userService.LoginAsync(request.Email, request.Password, request.Username);
+                if (!result.Success)
+                {
+                    return BadRequest(result.Message.ToString());
+                }
+                var user = result.Data;
+
+                var rolesResult = await userService.GetRolesAsync(user);
+                if (!rolesResult.Success)
+                {
+                    return BadRequest(result.Message.ToString());
+                }
+
+                var roles = rolesResult.Data;
+
+                var tokenResult = await tokenService.CreateJwtTokenAsync(user, roles, request.RememberMe);
+
+                if (!tokenResult.Success)
+                {
+                    return BadRequest($"{tokenResult.Message}");
+                }
+                var token = tokenResult.Data;
+
+                var response = new LoginResponseDTO
+                {
+                    Token = token,
+                    Message = result.Message,
+                    Successful = result.Success,
+                };
+
+
+                return Ok(response);
             }
-            var user=result.Data;
-
-            var rolesResult = await userService.GetRolesAsync(user);
-            if (!rolesResult.Success)
+            catch (Exception ex)
             {
-                return BadRequest(result.Message.ToString());
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
 
-            var roles = rolesResult.Data;
-
-            var tokenResult = await tokenService.CreateJwtTokenAsync(user, roles, request.RememberMe);
-            
-            if(!tokenResult.Success)
-            {
-                return BadRequest($"{tokenResult.Message}");
-            }
-            var token = tokenResult.Data;
-
-            var response = new LoginResponseDTO
-            {
-                Token = token,
-                Message = result.Message,
-                Successful =result.Success,
-            };
-            
-
-            return Ok(response);
         }
 
 
-        //[HttpGet]
-        //[Route("GetUserByID/{id}")]
-        ////[Authorize(Roles ="userRole"||"shopOwnerRole"||"supportRole")]
-        //public async Task<IActionResult> GetUserByID([FromRoute]string id)
-        //{
+        [HttpGet]
+        [Route("GetUser")]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            try
+            {
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-        //}
+                // Await the asynchronous DecodeJwtToken method
+                var result = await tokenService.DecodeJwtToken(token);
+
+                if (!result.Success || result.Data == null)
+                {
+                    return BadRequest("Error decoding or invalid token");
+                }
+
+                var claimsDictionary = result.Data;
+
+                // Return the extracted claims dictionary as part of the response
+                return Ok(claimsDictionary);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

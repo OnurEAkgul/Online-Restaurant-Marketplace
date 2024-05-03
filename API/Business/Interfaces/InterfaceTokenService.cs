@@ -12,5 +12,7 @@ namespace Business.Interfaces
     {
 
         Task<IDataResult<string>> CreateJwtTokenAsync(IdentityUser user, List<string> roles, bool rememberMe);
+
+        Task<IDataResult<IDictionary<string, string>>> DecodeJwtToken(string token);
     }
 }
