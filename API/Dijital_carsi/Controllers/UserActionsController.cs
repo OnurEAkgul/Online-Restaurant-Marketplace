@@ -237,13 +237,17 @@ namespace Dijital_carsi.Controllers
         [HttpPut]
         [Route("UpdateUserInfo/{id}")]
         [Authorize]
-        
-        public async Task<IActionResult> UpdateUserInfo([FromRoute]string id, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
+
+        public async Task<IActionResult> UpdateUserInfo([FromRoute] string id, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
         {
             // İstek geçerli değilse BadRequest döndür
             if (userUpdateDTO == null)
             {
                 return BadRequest("Geçersiz istek");
+            }
+            if (isAdminUpdate == null)
+            {
+                isAdminUpdate = false;
             }
 
             using (var Transaction = await context.Database.BeginTransactionAsync())
@@ -275,7 +279,18 @@ namespace Dijital_carsi.Controllers
                                 throw new Exception(result.Message);
                             }
                         }
-                        var response = new UpdateUserInfoDTO { Email = userUpdateDTO.UserName, UserName = userUpdateDTO.Email };
+                        var data = new UserInfoDTO
+                        {
+                            UserName = identityUser.UserName,
+                            Email = identityUser.Email
+                        };
+
+                        var response = new UpdateInfoResponseDTO
+                        {
+                            Data = data,
+                            Message = "User updated successfully",
+                            Successful = true
+                        };
                         await Transaction.CommitAsync();
 
                         return Ok(response);
@@ -332,7 +347,22 @@ namespace Dijital_carsi.Controllers
 
                         await Transaction.CommitAsync();
 
-                        return Ok(userUpdateDTO);
+                        var data = new UserInfoDTO
+                        {
+                            UserName = identityUser.UserName,
+                            Email = identityUser.Email
+                        };
+
+                        var response = new UpdateInfoResponseDTO
+                        {
+                            Data = data,
+                            Message = "User updated successfully",
+                            Successful = true
+                        };
+
+
+
+                        return Ok(response);
                     }
                 }
                 catch (Exception ex)
@@ -342,6 +372,6 @@ namespace Dijital_carsi.Controllers
                 }
             }
         }
-    
+
     }
 }
