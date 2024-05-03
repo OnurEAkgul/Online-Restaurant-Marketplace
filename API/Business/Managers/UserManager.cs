@@ -151,8 +151,8 @@ namespace Business.Services
                 var RoleClaims = await _UserManager.GetClaimsAsync(user);
 
                 Roles = RoleClaims
-                    .Where(c => c.Type == ClaimTypes.Role)
-                    .Select(c => c.Value)
+                    .Where(rc => rc.Type == ClaimTypes.Role)
+                    .Select(rc => rc.Value)
                     .ToList();
             }
 
