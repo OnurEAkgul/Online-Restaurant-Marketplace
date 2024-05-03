@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HGArwieVxrTVV0wuLZEJVTbHhhfa0xuKoH9LEMbE8WfeJJ0Yby314Q06MpXuBlyh4lMxhOg28GgHYAAFw+2IuQ==",
+  "dgSpecHash": "xmvcWJe9ktOLveLd5rpEiGLgaiX5iiS3yToqLtJXMAgnebc7o+sE5d6Oe5Gl20YkkX2VwcJJJ3OecZS78H+TCQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\Dijital_carsi\\Dijital_carsi.csproj",
+  "projectFilePath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\Dijital_carsi\\Dijital_carsi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\onure\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\onure\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

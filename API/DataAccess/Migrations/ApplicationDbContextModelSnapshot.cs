@@ -212,6 +212,10 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CustomerUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -225,6 +229,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerUserId");
 
                     b.HasIndex("SupportUserId");
 
@@ -391,15 +397,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "9acbb401-b8ae-4ec8-9286-29e6dae86360",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed4ab13a-fa0e-40bf-a43b-0beaa57d7236",
+                            ConcurrencyStamp = "c0f917b4-69de-4132-ba17-14ce6d4c2ff7",
                             Email = "admin@marketplace.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MARKETPLACE.COM",
                             NormalizedUserName = "ADMIN@MARKETPLACE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOwVlepPAvAgoeNqqhppN39QA4/5lqonSIOSBdNyOlhaDQw5k5dh+DRfv3lgJ73/2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEK77BKrnLVgq7NGL17c3zvxPP1agEwvQHvBFFYdxqtAHmtwBD6rn13eoaXuKTD/6g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e37ca5c2-6e02-4f90-a676-e553c635921c",
+                            SecurityStamp = "38f65285-bfa1-4af8-8edd-014f48108929",
                             TwoFactorEnabled = false,
                             UserName = "admin@marketplace.com"
                         });
@@ -620,11 +626,19 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Core.Entities.Domains.Ticket", b =>
                 {
+                    b.HasOne("Core.Entities.Domains.NormalUser", "CustomerUser")
+                        .WithMany()
+                        .HasForeignKey("CustomerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Domains.SupportUser", "SupportUser")
                         .WithMany("Tickets")
                         .HasForeignKey("SupportUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CustomerUser");
 
                     b.Navigation("SupportUser");
                 });

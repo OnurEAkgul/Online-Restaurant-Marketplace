@@ -20,7 +20,7 @@ namespace Business.Services
         public TokenManager(IConfiguration Configuration)
         {
             this.Configuration = Configuration;
-        }   
+        }
         public async Task<IDataResult<string>> CreateJwtTokenAsync(IdentityUser user, List<string> roles, bool rememberMe)
         {
             try
@@ -29,16 +29,20 @@ namespace Business.Services
 
                 var tokenHandler = new JwtSecurityTokenHandler();
 
-                // JWT için kullanılacak anahtarı byte dizisine çevir
+                // Retrieve JWT key asynchronously from configuration
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]));
+
+                // Retrieve JWT issuer and audience asynchronously from configuration
+                var issuer = Configuration["Jwt:Issuer"];
+                var audience = Configuration["Jwt:Audience"];
 
                 // JWT token'da bulunacak talepleri tanımla
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, identityUser.UserName), // Kullanıcı adını içeren talep
-                    new Claim(ClaimTypes.Email, identityUser.Email), // E-postayı içeren talep
-                    new Claim(ClaimTypes.NameIdentifier, identityUser.Id)
-                };
+        {
+            new Claim(ClaimTypes.Name, identityUser.UserName), // Kullanıcı adını içeren talep
+            new Claim(ClaimTypes.Email, identityUser.Email), // E-postayı içeren talep
+            new Claim(ClaimTypes.NameIdentifier, identityUser.Id)
+        };
 
                 // Rolleri taleplere ekle
                 claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
@@ -46,15 +50,15 @@ namespace Business.Services
                 // JWT token parametrelerini belirle
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Issuer = Configuration["Jwt:Issuer"],
-                    Audience = Configuration["Jwt:Audience"],
+                    Issuer = issuer,
+                    Audience = audience,
                     Subject = new ClaimsIdentity(claims),
                     Expires = rememberMe ? DateTime.UtcNow.AddMonths(1) : DateTime.UtcNow.AddMinutes(15),
                     SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature),
                 };
 
-                // Token oluştur
-                var token = tokenHandler.CreateToken(tokenDescriptor);
+                // Token oluştur (async olarak işaretlenmiş özelliği kullandık)
+                var token = await Task.Run(() => tokenHandler.CreateToken(tokenDescriptor));
 
                 // Token'ı string olarak döndür
                 var tokenString = tokenHandler.WriteToken(token);

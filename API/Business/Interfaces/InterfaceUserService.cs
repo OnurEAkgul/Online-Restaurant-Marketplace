@@ -18,7 +18,7 @@ namespace Business.Interfaces
         Task<IDataResult<IdentityUser>> GetUserByIdAsync(string userId);
         Task<IDataResult<IdentityUser>> GetUserByEmailAsync(string email);
         Task<IDataResult<List<IdentityUser>>> GetAllUsersAsync();
-        Task<List<string>> GetRolesAsync(IdentityUser user);
+        Task<IDataResult<List<string>>> GetRolesAsync(IdentityUser user);
         Task<IResult> AddToRoleAsync(IdentityUser user, string role);
     }
 }

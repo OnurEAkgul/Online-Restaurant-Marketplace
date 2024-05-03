@@ -92,6 +92,13 @@ namespace DataAccess.EntityFramework
                 .HasForeignKey(t => t.SupportUserId)
                 .OnDelete(DeleteBehavior.Restrict); // Prevent deleting a SupportUser if it has associated Tickets
 
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.CustomerUser)
+                .WithMany() // Assuming a customer can have multiple tickets
+                .HasForeignKey(t => t.CustomerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             // Product to CartItem (One-to-Many)
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Product)

@@ -4258,11 +4258,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\DataAccess\\DataAccess.csproj",
+      "projectUniqueName": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\DataAccess\\DataAccess.csproj",
       "projectName": "DataAccess",
-      "projectPath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\DataAccess\\DataAccess.csproj",
+      "projectPath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\DataAccess\\DataAccess.csproj",
       "packagesPath": "C:\\Users\\onure\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\DataAccess\\obj\\",
+      "outputPath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\onure\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4279,8 +4279,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\Core\\Core.csproj": {
-              "projectPath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\Core\\Core.csproj"
+            "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\Core\\Core.csproj": {
+              "projectPath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\Core\\Core.csproj"
             }
           }
         }

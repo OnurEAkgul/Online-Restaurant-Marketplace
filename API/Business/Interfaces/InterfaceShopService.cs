@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Core.Entities.Domains;
+using Core.Utilities.Results;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +11,11 @@ namespace Business.Interfaces
 {
     public interface InterfaceShopService
     {
+
+        Task<IResult> CreateShopAsync(Shop shop);
+        Task<IResult> UpdateShopAsync(Shop shop);
+        Task<IResult> DeleteShopAsync(Shop shop);
+        Task<IDataResult<Shop>> GetShopByIdAsync(Guid shopId);
+        Task<IResult> ToggleShopStatusAsync(Guid shopId, bool isOpen);
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MqfHIYUhp3lSIYRUeaCnsu9JyIMRUQk+UCP5PROYEyQqXxGsBv1atSlitwgr3FgLKS25sEEfb6iMZy4OQogv+g==",
+  "dgSpecHash": "EDAZwamyQM8M0uTB8XIgOlq6wrqsSOroQMHzm70pVzAENQSYmuwHsEKN9YH/srlIY2a0QSe522tkJ4oaZT80ew==",
   "success": true,
-  "projectFilePath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\DataAccess\\DataAccess.csproj",
+  "projectFilePath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\DataAccess\\DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\onure\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\onure\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

@@ -13,5 +13,8 @@ namespace Core.Entities.Domains
         public string Status { get; set; }
         public string SupportUserId { get; set; }
         public SupportUser SupportUser { get; set; }
+
+        public string CustomerUserId { get; set; } // Foreign key to NormalUser (or customer user)
+        public NormalUser CustomerUser { get; set; } // Navigation property to NormalUser (or customer user)
     }
 }

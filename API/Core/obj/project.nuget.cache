@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3YPLw1bdwalSTruHwYmTRxFbUoJiQNfLTEUXAlQqx4X0GnfoXZL03iRFneyUfdQiCsF3fCxbfKuxZ6tkmqihnA==",
+  "dgSpecHash": "BNDtS+5+yMRQsLCqW/Ish9B1rCdIrSYJa2dzATPuE8Xpi1ISeTViOjWkDFVF5kobFkaZmWV6smnPSQ0BwDIKBA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\onure\\source\\repos\\Dijital Çarşı\\API\\Core\\Core.csproj",
+  "projectFilePath": "D:\\GitHub\\Online-Restaurant-Marketplace\\API\\Core\\Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\onure\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\onure\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.4\\microsoft.aspnetcore.authentication.jwtbearer.8.0.4.nupkg.sha512",
