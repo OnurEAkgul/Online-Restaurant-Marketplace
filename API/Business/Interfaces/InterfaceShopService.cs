@@ -18,6 +18,7 @@ namespace Business.Interfaces
         Task<IDataResult<Shop>> GetShopByIdAsync(Guid shopId);
         Task<IDataResult<List<Shop>>> GetShopsByNameAsync(string name);
         Task<IDataResult<List<Shop>>> GetShopsByStatusAsync(bool isOpen);
+        Task<IDataResult<List<Shop>>> GetAllShops();
         Task<IResult> ToggleShopStatusAsync(Guid shopId, bool isOpen);
     }
 }

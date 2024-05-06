@@ -15,11 +15,13 @@ namespace Business.Services
     {
         private readonly ApplicationDbContext Context;
         private readonly UserManager<IdentityUser> _UserManager;
+        private readonly RoleManager<IdentityRole> _RoleManager;
 
-        public UserManager(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public UserManager(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             Context = context;
             _UserManager = userManager;
+            _RoleManager = roleManager;
         }
 
         //CRUD METHODS
@@ -53,15 +55,16 @@ namespace Business.Services
 
         public async Task<IResult> SignUpAsync(IdentityUser user, string password)
         {
-            try { 
-            var Result = await _UserManager.CreateAsync(user, password);
-            return Result.Succeeded
-                ? new SuccessResult("User Registered Successfully")
-                : new ErrorResult(string.Join(",", "User Registeration Error"));
+            try
+            {
+                var Result = await _UserManager.CreateAsync(user, password);
+                return Result.Succeeded
+                    ? new SuccessResult("User Registered Successfully")
+                    : new ErrorResult(string.Join(",", "User Registeration Error"));
             }
             catch (Exception ex)
             {
-                return new ErrorResult( $"An error occured when signing up: {ex.Message}");
+                return new ErrorResult($"An error occured when signing up: {ex.Message}");
             }
 
         }
@@ -89,19 +92,20 @@ namespace Business.Services
 
         public async Task<IResult> DeleteUserAsync(string userId)
         {
-            try { 
-            var User = await _UserManager.FindByIdAsync(userId);
-
-            if (User == null)
+            try
             {
-                return new ErrorResult("User not found.");
-            }
+                var User = await _UserManager.FindByIdAsync(userId);
 
-            var Result = await _UserManager.DeleteAsync(User);
+                if (User == null)
+                {
+                    return new ErrorResult("User not found.");
+                }
 
-            return Result.Succeeded
-                ? new SuccessResult("User deleted successfully.")
-                : new ErrorResult(string.Join(", ", "Error occured while deleting user"));
+                var Result = await _UserManager.DeleteAsync(User);
+
+                return Result.Succeeded
+                    ? new SuccessResult("User deleted successfully.")
+                    : new ErrorResult(string.Join(", ", "Error occured while deleting user"));
             }
             catch (Exception ex)
             {
@@ -111,18 +115,19 @@ namespace Business.Services
 
         public async Task<IResult> UpdateUserAsync(IdentityUser user)
         {
-            try { 
-            if (user == null)
+            try
             {
-                return new ErrorResult("User not found.");
-            }
-            var Result = await _UserManager.UpdateAsync(user);
+                if (user == null)
+                {
+                    return new ErrorResult("User not found.");
+                }
+                var Result = await _UserManager.UpdateAsync(user);
 
-            return Result.Succeeded
-                ? new SuccessResult("User updated successfully.")
-                : new ErrorResult(string.Join(", ", "Error occured while updating user "));
-}
-             catch (Exception ex)
+                return Result.Succeeded
+                    ? new SuccessResult("User updated successfully.")
+                    : new ErrorResult(string.Join(", ", "Error occured while updating user "));
+            }
+            catch (Exception ex)
             {
                 return new ErrorResult($"An error occured when updating user: {ex.Message}");
             }
@@ -131,65 +136,91 @@ namespace Business.Services
         //GET METHODS
         public async Task<IDataResult<List<IdentityUser>>> GetAllUsersAsync()
         {
-            try {
-            var Users = await Task.Run(() => _UserManager.Users.ToList());
-            return new SuccessDataResult<List<IdentityUser>>(Users, "Users retrieved successfully."); }
-            
+            try
+            {
+                var Users = await Task.Run(() => _UserManager.Users.ToList());
+                return new SuccessDataResult<List<IdentityUser>>(Users, "Users retrieved successfully.");
+            }
+
             catch (Exception ex)
             {
-                return new ErrorDataResult<List<IdentityUser>>(null,$"An error occured when deleting user: {ex.Message}");
+                return new ErrorDataResult<List<IdentityUser>>(null, $"An error occured when deleting user: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<IdentityUser>>> GetUsersByRoleAsync(string roleName)
+        {
+            try
+            {
+                var role = await _RoleManager.FindByNameAsync(roleName);
+
+                if (role == null)
+                {
+                    return new ErrorDataResult<List<IdentityUser>>(null, $"Role '{roleName}' not found.");
+                }
+
+                var usersInRole = await _UserManager.GetUsersInRoleAsync(roleName);
+
+                return new SuccessDataResult<List<IdentityUser>>(usersInRole.ToList(), $"Users in role '{roleName}' retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<IdentityUser>>(null, $"An error occurred when retrieving users for role '{roleName}': {ex.Message}");
             }
         }
 
         public async Task<IDataResult<List<string>>> GetRolesAsync(IdentityUser user)
         {
-            try { 
-            var Roles = await _UserManager.GetRolesAsync(user) as List<string>;
-
-            if (Roles == null || Roles.Count == 0)
+            try
             {
-                var RoleClaims = await _UserManager.GetClaimsAsync(user);
+                var Roles = await _UserManager.GetRolesAsync(user) as List<string>;
 
-                Roles = RoleClaims
-                    .Where(rc => rc.Type == ClaimTypes.Role)
-                    .Select(rc => rc.Value)
-                    .ToList();
+                if (Roles == null || Roles.Count == 0)
+                {
+                    var RoleClaims = await _UserManager.GetClaimsAsync(user);
+
+                    Roles = RoleClaims
+                        .Where(rc => rc.Type == ClaimTypes.Role)
+                        .Select(rc => rc.Value)
+                        .ToList();
+                }
+
+                return new SuccessDataResult<List<string>>(Roles, "Roles retrieved successfully.");
             }
 
-            return new SuccessDataResult<List<string>>(Roles, "Roles retrieved successfully.");
-        }
-            
             catch (Exception ex)
             {
-                return new ErrorDataResult<List<string>>(null,$"An error occured when retrieveing roles: {ex.Message}");
+                return new ErrorDataResult<List<string>>(null, $"An error occured when retrieveing roles: {ex.Message}");
             }
-}
+        }
 
         public async Task<IDataResult<IdentityUser>> GetUserByEmailAsync(string email)
         {
-            try { 
-            var User = await _UserManager.FindByEmailAsync(email);
+            try
+            {
+                var User = await _UserManager.FindByEmailAsync(email);
 
-            return User != null
-                ? new SuccessDataResult<IdentityUser>(User, "User retrieved successfully.")
-                : new ErrorDataResult<IdentityUser>(null, "User not found.");
-        }
-            
+                return User != null
+                    ? new SuccessDataResult<IdentityUser>(User, "User retrieved successfully.")
+                    : new ErrorDataResult<IdentityUser>(null, "User not found.");
+            }
+
             catch (Exception ex)
             {
-                return new ErrorDataResult<IdentityUser>(null,$"An error occured when retrieveing user: {ex.Message}");
+                return new ErrorDataResult<IdentityUser>(null, $"An error occured when retrieveing user: {ex.Message}");
             }
-}
+        }
 
         public async Task<IDataResult<IdentityUser>> GetUserByIdAsync(string userId)
         {
-            try { 
-            var User = await _UserManager.FindByIdAsync(userId);
+            try
+            {
+                var User = await _UserManager.FindByIdAsync(userId);
 
-            return User != null
-                ? new SuccessDataResult<IdentityUser>(User, "User retrieved successfully.")
-                : new ErrorDataResult<IdentityUser>(User, "User not found.");
-        }
+                return User != null
+                    ? new SuccessDataResult<IdentityUser>(User, "User retrieved successfully.")
+                    : new ErrorDataResult<IdentityUser>(User, "User not found.");
+            }
 
             catch (Exception ex)
             {
@@ -200,21 +231,22 @@ namespace Business.Services
 
         public async Task<IDataResult<IdentityUser>> GetUserByNameAsync(string name)
         {
-            try { 
-            var User = await _UserManager.FindByNameAsync(name);
+            try
+            {
+                var User = await _UserManager.FindByNameAsync(name);
 
-            return User != null
-                 ? new SuccessDataResult<IdentityUser>(User, "User retrieved succesfully.")
-                 : new ErrorDataResult<IdentityUser>(null, "User not found.");
+                return User != null
+                     ? new SuccessDataResult<IdentityUser>(User, "User retrieved succesfully.")
+                     : new ErrorDataResult<IdentityUser>(null, "User not found.");
 
-        }
+            }
 
             catch (Exception ex)
             {
                 return new ErrorDataResult<IdentityUser>(null, $"An error occured when retrieveing user: {ex.Message}");
             }
 
-}
+        }
 
 
 

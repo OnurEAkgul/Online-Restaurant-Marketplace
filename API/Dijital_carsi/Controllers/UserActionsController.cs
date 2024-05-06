@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Dijital_carsi.Controllers
 {
@@ -229,6 +230,49 @@ namespace Dijital_carsi.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpGet("GetAllUsersByRole")]
+        [Authorize(Roles = "adminRole")]
+        public async Task<IActionResult> GetAllUsersByRole([FromQuery] string? role)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(role))
+                {
+                    // If 'role' parameter is missing or empty, retrieve all users
+                    var allUsersResult = await userService.GetAllUsersAsync();
+
+                    if (allUsersResult.Success)
+                    {
+                        return Ok(allUsersResult.Data);  // Return all users if successful
+                    }
+                    else
+                    {
+                        return BadRequest(allUsersResult.Message);  // Return error message if retrieval fails
+                    }
+                }
+                else
+                {
+                    // Retrieve users by specified role
+                    var usersByRoleResult = await userService.GetUsersByRoleAsync(role);
+
+                    if (usersByRoleResult.Success)
+                    {
+                        return Ok(usersByRoleResult.Data);  // Return users by role if successful
+                    }
+                    else
+                    {
+                        return BadRequest(usersByRoleResult.Message);  // Return error message if retrieval fails
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");  // Handle unexpected exceptions
+            }
+        }
+
+
 
         [HttpPut]
         [Route("UpdateUserInfo/{id}")]

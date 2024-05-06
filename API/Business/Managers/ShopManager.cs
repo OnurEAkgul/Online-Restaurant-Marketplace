@@ -115,6 +115,22 @@ namespace Business.Services
             }
         }
 
+        public async Task<IDataResult<List<Shop>>> GetAllShops()
+        {
+            try
+            {
+                var shop = await shopDAL.GetAllAsync();
+                
+                if (shop.Count == 0)
+                    return new ErrorDataResult<List<Shop>>(null, "Shop not found.");
+
+                return new SuccessDataResult<List<Shop>>(shop, "Shops has been retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Shop>>(null, $"Error retrieving cart item: {ex.Message}");
+            }
+        }
         public async Task<IDataResult<List<Shop>>> GetShopsByNameAsync(string name)
         {
             try
