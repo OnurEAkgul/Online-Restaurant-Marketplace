@@ -10,6 +10,8 @@ namespace Business.Interfaces
 {
     public interface InterfaceCartItemService
     {
+        Task<IDataResult<List<CartItem>>> GetCartItems();
+        Task<IDataResult<List<CartItem>>> GetCartItemsByShoppingCartId(Guid ShoppingCartId);
         Task<IDataResult<CartItem>> GetCartItemById(Guid cartItemId);
         Task<IResult> AddCartItem(CartItem cartItem);
         Task<IResult> UpdateCartItem(CartItem cartItem);

@@ -10,6 +10,8 @@ namespace Business.Interfaces
 {
     public interface InterfaceOrderItemService
     {
+        Task<IDataResult<List<OrderItem>>> GetOrderItems();
+        Task<IDataResult<List<OrderItem>>> GetOrderItemsByOrderId(Guid orderId);
         Task<IDataResult<OrderItem>> GetOrderItemById(Guid orderItemId);
         Task<IResult> AddOrderItem(OrderItem orderItem);
         Task<IResult> UpdateOrderItem(OrderItem orderItem);

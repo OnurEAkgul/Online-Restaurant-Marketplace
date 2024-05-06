@@ -75,5 +75,38 @@ namespace Business.Managers
                 return new ErrorResult($"Error deleting cart item: {ex.Message}");
             }
         }
+
+        public async Task<IDataResult<List<CartItem>>> GetCartItems()
+        {
+            try
+            {
+                var cartItem = await _cartItemDAL.GetAllAsync();
+                if (cartItem.Count == 0)
+                    return new ErrorDataResult<List<CartItem>>(null, "Cart items not found.");
+
+                return new SuccessDataResult<List<CartItem>>(cartItem, "Cart items retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<CartItem>>(null, $"Error retrieving cart item: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<CartItem>>> GetCartItemsByShoppingCartId(Guid ShoppingCartId)
+        {
+            
+            try
+            {
+                var cartItem = await _cartItemDAL.GetAllAsync(ci => ci.ShoppingCartId == ShoppingCartId);
+                if (cartItem.Count == 0)
+                    return new ErrorDataResult<List<CartItem>>(null, "Cart items not found.");
+
+                return new SuccessDataResult<List<CartItem>>(cartItem, "Cart items retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<CartItem>>(null, $"Error retrieving cart item: {ex.Message}");
+            }
+        }
     }
 }

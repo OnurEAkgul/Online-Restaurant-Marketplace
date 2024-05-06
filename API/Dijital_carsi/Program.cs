@@ -2,12 +2,14 @@
 using Business.Interfaces;
 using Business.Managers;
 using Business.Services;
+using Core.Entities.Domains;
 using DataAccess.EntityFramework;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
 using Dijital_carsi.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -27,9 +29,13 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+
+
+
 // Configure JWT settings
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
+builder.Services.AddScoped<UserManager<IdentityUser>>();
 //CartItem
 builder.Services.AddScoped<InterfaceCartItemDAL, CartItemDAL>();
 builder.Services.AddScoped<InterfaceCartItemService, CartItemManager>();
@@ -64,19 +70,19 @@ builder.Services.AddScoped<InterfaceUserService, UserManager>();
 //Token
 builder.Services.AddScoped<InterfaceTokenService, TokenManager>();
 
-//SupportUser
-builder.Services.AddScoped<InterfaceSupportUserDAL, SupportUserDAL>();
-builder.Services.AddScoped<InterfaceSupportUserService, SupportUserManager>();
 
 //NormalUser
 builder.Services.AddScoped<InterfaceNormalUserDAL, NormalUserDAL>();
 
 //ShopOwner
 builder.Services.AddScoped<InterfaceShopOwnerDAL, ShopOwnerDAL>();
-builder.Services.AddScoped<InterfaceShopOwnerService, ShopOwnerManager>();
+builder.Services.AddScoped<IUserStore<ShopOwner>, UserStore<ShopOwner, IdentityRole, ApplicationDbContext, string>>();
+
+//SupportUser
+builder.Services.AddScoped<InterfaceSupportUserDAL, SupportUserDAL>();
+builder.Services.AddScoped<IUserStore<SupportUser>, UserStore<SupportUser, IdentityRole, ApplicationDbContext, string>>();
 
 
-builder.Services.AddScoped<UserManager<IdentityUser>>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

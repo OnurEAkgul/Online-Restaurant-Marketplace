@@ -16,7 +16,7 @@ namespace Business.Managers
 
         private readonly InterfaceTicketDAL ticketDAL;
 
-        private TicketManager(InterfaceTicketDAL ticketDAL)
+        public TicketManager(InterfaceTicketDAL ticketDAL)
         {
             this.ticketDAL = ticketDAL;
         }

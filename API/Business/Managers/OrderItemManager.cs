@@ -75,5 +75,37 @@ namespace Business.Services
                 return new ErrorResult($"Error deleting order item: {ex.Message}");
             }
         }
+
+        public async Task<IDataResult<List<OrderItem>>> GetOrderItemsByOrderId(Guid orderId)
+        {
+            try
+            {
+                var orderItem = await _orderItemDAL.GetAllAsync(oi => oi.OrderId == orderId);
+                if (orderItem.Count == 0)
+                    return new ErrorDataResult<List<OrderItem>>(null, "Order item not found.");
+
+                return new SuccessDataResult<List<OrderItem>>(orderItem, "Order item retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<OrderItem>>(null, $"Error retrieving order item: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<OrderItem>>> GetOrderItems()
+        {
+            try
+            {
+                var orderItem = await _orderItemDAL.GetAllAsync();
+                if (orderItem.Count == 0)
+                    return new ErrorDataResult<List<OrderItem>>(null, "Order item not found.");
+
+                return new SuccessDataResult<List<OrderItem>>(orderItem, "Order item retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<OrderItem>>(null, $"Error retrieving order item: {ex.Message}");
+            }
+        }
     }
 }

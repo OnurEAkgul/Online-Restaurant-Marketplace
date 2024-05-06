@@ -2,6 +2,7 @@
 using Core.Entities.Domains;
 using Core.Utilities.Results;
 using DataAccess.Interfaces;
+using DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace Business.Services
         {
             try
             {
-                var _shop = await shopDAL.GetAsync(t => t.Id == shop.Id);
+                var _shop = await shopDAL.GetAsync(s => s.Id == shop.Id);
                 if (_shop == null)
                 {
                     return new ErrorResult("Shop not found");
@@ -78,7 +79,7 @@ namespace Business.Services
             try
             {
                 // Retrieve the existing shop entity from the database
-                var shop = await shopDAL.GetAsync(t => t.Id == shopId);
+                var shop = await shopDAL.GetAsync(s => s.Id == shopId);
                 if (shop == null)
                 {
                     return new ErrorResult("Shop not found");
@@ -103,7 +104,7 @@ namespace Business.Services
         {
             try
             {
-                var shop = await shopDAL.GetAsync(t => t.Id == shopId);
+                var shop = await shopDAL.GetAsync(s => s.Id == shopId);
                 return shop != null
                     ? new SuccessDataResult<Shop>(shop, "Shop has been retrieved successfully")
                     : new ErrorDataResult<Shop>(null, "Shop not found");
@@ -114,6 +115,36 @@ namespace Business.Services
             }
         }
 
+        public async Task<IDataResult<List<Shop>>> GetShopsByNameAsync(string name)
+        {
+            try
+            {
+                var shop = await shopDAL.GetAllAsync(s => s.Name == name);
+                if (shop.Count == 0)
+                    return new ErrorDataResult<List<Shop>> (null, "Shop not found.");
 
+                return new SuccessDataResult<List<Shop>>(shop, "Shops has been retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Shop>>(null, $"Error retrieving cart item: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<Shop>>> GetShopsByStatusAsync(bool isOpen)
+        {
+            try
+            {
+                var shop = await shopDAL.GetAllAsync(s => s.IsOpen == isOpen);
+                if (shop.Count == 0)
+                    return new ErrorDataResult<List<Shop>>(null, "Shop not found.");
+
+                return new SuccessDataResult<List<Shop>>(shop, "Shops has been retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Shop>>(null, $"Error retrieving cart item: {ex.Message}");
+            }
+        }
     }
 }

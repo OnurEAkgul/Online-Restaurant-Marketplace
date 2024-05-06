@@ -36,16 +36,16 @@ namespace Business.Managers
             }
         }
 
-        public async Task<IDataResult<List<ShoppingCart>>> GetShoppingCartsByUserId(string userId)
+        public async Task<IDataResult<ShoppingCart>> GetShoppingCartByUserId(string userId)
         {
             try
             {
-                var shoppingCarts = await _shoppingCartDAL.GetAllAsync(c => c.NormalUserId == userId);
-                return new SuccessDataResult<List<ShoppingCart>>(shoppingCarts, "Shopping carts retrieved successfully.");
+                var shoppingCarts = await _shoppingCartDAL.GetAsync(c => c.NormalUserId == userId);
+                return new SuccessDataResult<ShoppingCart>(shoppingCarts, "Shopping carts retrieved successfully.");
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<List<ShoppingCart>>(null, $"Error retrieving shopping carts: {ex.Message}");
+                return new ErrorDataResult<ShoppingCart>(null, $"Error retrieving shopping carts: {ex.Message}");
             }
         }
 
@@ -92,6 +92,22 @@ namespace Business.Managers
             catch (Exception ex)
             {
                 return new ErrorResult($"Error deleting shopping cart: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<ShoppingCart>>> GetShoppingCarts()
+        {
+            try
+            {
+                var shoppingCart = await _shoppingCartDAL.GetAllAsync();
+                if (shoppingCart == null)
+                    return new ErrorDataResult<List<ShoppingCart>> (null, "Shopping cart not found.");
+
+                return new SuccessDataResult<List<ShoppingCart>> (shoppingCart, "Shopping cart retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<ShoppingCart>> (null, $"Error retrieving shopping cart: {ex.Message}");
             }
         }
     }

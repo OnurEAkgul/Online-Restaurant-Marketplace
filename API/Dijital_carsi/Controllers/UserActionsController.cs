@@ -44,7 +44,6 @@ namespace Dijital_carsi.Controllers
         }
 
         [HttpPost("RegisterUser")]
-
         private async Task<IActionResult> RegisterUser(SignUpUserDTO request, string role)
         {
             try
@@ -135,7 +134,6 @@ namespace Dijital_carsi.Controllers
             }
         }
 
-
         [HttpDelete]
         [Authorize(Roles = "userRole")]
         [Route("UserDelete/{id}")]
@@ -159,7 +157,6 @@ namespace Dijital_carsi.Controllers
         }
 
         [HttpPost("Login")]
-
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
 
@@ -205,7 +202,6 @@ namespace Dijital_carsi.Controllers
 
         }
 
-
         [HttpGet]
         [Route("GetUser")]
         [Authorize]
@@ -237,7 +233,6 @@ namespace Dijital_carsi.Controllers
         [HttpPut]
         [Route("UpdateUserInfo/{id}")]
         [Authorize]
-
         public async Task<IActionResult> UpdateUserInfo([FromRoute] string id, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
         {
             // İstek geçerli değilse BadRequest döndür

@@ -89,5 +89,39 @@ namespace Business.Services
                 return new ErrorResult($"Error deleting product: {ex.Message}");
             }
         }
+
+        
+
+        public async Task<IDataResult<List<Product>>> GetProductsByCategory(string category)
+        {
+            try
+            {
+                var product = await _productDAL.GetAllAsync(p => p.Category == category);
+                if (product.Count == 0)
+                    return new ErrorDataResult<List<Product>>(null, "Product not found.");
+
+                return new SuccessDataResult<List<Product>>(product, "Product retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Product>>(null, $"Error retrieving product: {ex.Message}");
+            }
+        }
+
+        public async Task<IDataResult<List<Product>>> GetProductName(string name)
+        {
+            try
+            {
+                var product = await _productDAL.GetAllAsync(p => p.Name == name);
+                if (product.Count == null)
+                    return new ErrorDataResult<List<Product>>(null, "Product not found.");
+
+                return new SuccessDataResult<List<Product>>(product, "Product retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Product>>(null, $"Error retrieving product: {ex.Message}");
+            }
+        }
     }
 }
