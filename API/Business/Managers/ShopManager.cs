@@ -23,29 +23,33 @@ namespace Business.Services
 
         public async Task<IResult> CreateShopAsync(Shop shop)
         {
-            try { 
-            await shopDAL.AddAsync(shop);
-            return new SuccessResult("Shop has been created successfully");
+            try
+            {
+                await shopDAL.AddAsync(shop);
+                return new SuccessResult("Shop has been created successfully");
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<Shop>(null, $"An error has been occured while creating the shop: {ex.Message}");
+                return new ErrorResult( $"An error has been occured while creating the shop: {ex.Message}");
             }
         }
 
         public async Task<IResult> DeleteShopAsync(Shop shop)
         {
 
-            try { 
-            await shopDAL.DeleteAsync(shop); 
-            return new SuccessResult("Shop has been deleted successfully");
-        }   catch (Exception ex) {
-
-                return new ErrorDataResult<Shop>(null, $"An error has been occured while deleting the shop: {ex.Message}");
+            try
+            {
+                await shopDAL.DeleteAsync(shop);
+                return new SuccessResult("Shop has been deleted successfully");
             }
-            }
+            catch (Exception ex)
+            {
 
-        
+                return new ErrorResult( $"An error has been occured while deleting the shop: {ex.Message}");
+            }
+        }
+
+
         public async Task<IResult> UpdateShopAsync(Shop shop)
         {
             try
@@ -70,7 +74,7 @@ namespace Business.Services
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<Shop>(shop, $"An error has been occured while updating the shop: {ex.Message}");
+                return new ErrorResult( $"An error has been occured while updating the shop: {ex.Message}");
             }
         }
 
@@ -120,7 +124,7 @@ namespace Business.Services
             try
             {
                 var shop = await shopDAL.GetAllAsync();
-                
+
                 if (shop.Count == 0)
                     return new ErrorDataResult<List<Shop>>(null, "Shop not found.");
 
@@ -135,9 +139,9 @@ namespace Business.Services
         {
             try
             {
-                var shop = await shopDAL.GetAllAsync(s => s.Name == name);
+                var shop = await shopDAL.GetAllAsync(s => s.Name.Contains(name) );
                 if (shop.Count == 0)
-                    return new ErrorDataResult<List<Shop>> (null, "Shop not found.");
+                    return new ErrorDataResult<List<Shop>>(null, "Shop not found.");
 
                 return new SuccessDataResult<List<Shop>>(shop, "Shops has been retrieved successfully.");
             }

@@ -14,7 +14,7 @@ namespace Business.Interfaces
         Task<IDataResult<List<ShoppingCart>>> GetShoppingCarts();
         Task<IDataResult<ShoppingCart>> GetShoppingCartById(Guid cartId);
         Task<IDataResult<ShoppingCart>> GetShoppingCartByUserId(string userId);
-        Task<IResult> CreateShoppingCart(string userId);
+        Task<IDataResult<ShoppingCart>> CreateShoppingCart(string userId);
         Task<IResult> UpdateShoppingCart(ShoppingCart shoppingCart);
         Task<IResult> DeleteShoppingCart(Guid cartId);
     }

@@ -10,6 +10,7 @@ using Dijital_carsi.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -38,15 +39,49 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddScoped<UserManager<IdentityUser>>();
 //CartItem
 builder.Services.AddScoped<InterfaceCartItemDAL, CartItemDAL>();
-builder.Services.AddScoped<InterfaceCartItemService, CartItemManager>();
+
+builder.Services.AddScoped<InterfaceCartItemService>(serviceProvider =>
+{
+    var cartItemDAL = serviceProvider.GetRequiredService<InterfaceCartItemDAL>();
+
+    // Use a factory method to asynchronously create an instance of InterfaceCartItemService
+    Func<Task<InterfaceShoppingCartService>> shoppingCartServiceFactory = async () =>
+    {
+        // Resolve InterfaceShoppingCartService from the service provider
+        var shoppingCartService = serviceProvider.GetRequiredService<InterfaceShoppingCartService>();
+        return shoppingCartService;
+    };
+
+    // Instantiate CartItemManager with dependencies
+    return new CartItemManager(cartItemDAL, shoppingCartServiceFactory);
+});
+
+//builder.Services.AddScoped<InterfaceCartItemService, CartItemManager>();
 
 //Ticket
 builder.Services.AddScoped<InterfaceTicketDAL, TicketDAL>();
 builder.Services.AddScoped<InterfaceTicketService, TicketManager>();
 
-//ShoppingCart
+// ShoppingCart
 builder.Services.AddScoped<InterfaceShoppingCartDAL, ShoppingCartDAL>();
-builder.Services.AddScoped<InterfaceShoppingCartService, ShoppingCartManager>();
+// Register InterfaceShoppingCartService with a factory method
+
+builder.Services.AddScoped<InterfaceShoppingCartService>(serviceProvider =>
+{
+    var shoppingCartDAL = serviceProvider.GetRequiredService<InterfaceShoppingCartDAL>();
+    var cartItemDAL = serviceProvider.GetRequiredService<InterfaceCartItemDAL>();
+
+    // Use a factory method to asynchronously create an instance of InterfaceCartItemService
+    Func<Task<InterfaceCartItemService>> cartItemServiceFactory = async () =>
+    {
+        // Resolve InterfaceCartItemService from the service provider
+        var cartItemService = serviceProvider.GetRequiredService<InterfaceCartItemService>();
+        return await Task.FromResult(cartItemService);
+    };
+
+    // Instantiate ShoppingCartManager with dependencies
+    return new ShoppingCartManager(shoppingCartDAL, cartItemDAL, cartItemServiceFactory);
+});
 
 //OrderItem
 builder.Services.AddScoped<InterfaceOrderItemDAL, OrderItemDAL>();

@@ -14,19 +14,33 @@ namespace Business.Managers
     public class ShoppingCartManager : InterfaceShoppingCartService
     {
         private readonly InterfaceShoppingCartDAL _shoppingCartDAL;
+        private readonly InterfaceCartItemDAL _cartItemDAL;
+        private readonly Func<Task<InterfaceCartItemService>> _cartItemServiceFactory;
 
-        public ShoppingCartManager(InterfaceShoppingCartDAL shoppingCartDAL)
+        public ShoppingCartManager(InterfaceShoppingCartDAL shoppingCartDAL, InterfaceCartItemDAL cartItemDAL, Func<Task<InterfaceCartItemService>> cartItemServiceFactory)
         {
             _shoppingCartDAL = shoppingCartDAL;
+            _cartItemDAL = cartItemDAL;
+            _cartItemServiceFactory = cartItemServiceFactory;
         }
-
         public async Task<IDataResult<ShoppingCart>> GetShoppingCartById(Guid cartId)
         {
             try
             {
+                var cartItemService = await _cartItemServiceFactory();
                 var shoppingCart = await _shoppingCartDAL.GetAsync(sc => sc.Id == cartId);
                 if (shoppingCart == null)
                     return new ErrorDataResult<ShoppingCart>(null, "Shopping cart not found.");
+
+                // Check if the retrieved shopping cart has associated cart items
+                var cartItemsResult = await cartItemService.GetCartItemsByShoppingCartId(cartId);
+                if (!cartItemsResult.Success || cartItemsResult.Data.Count == 0)
+                {
+                    // No associated cart items found, delete the shopping cart
+                    await _shoppingCartDAL.DeleteAsync(shoppingCart);
+
+                    return new ErrorDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
+                }
 
                 return new SuccessDataResult<ShoppingCart>(shoppingCart, "Shopping cart retrieved successfully.");
             }
@@ -40,33 +54,63 @@ namespace Business.Managers
         {
             try
             {
-                var shoppingCarts = await _shoppingCartDAL.GetAsync(c => c.NormalUserId == userId);
-                return new SuccessDataResult<ShoppingCart>(shoppingCarts, "Shopping carts retrieved successfully.");
+                var cartItemService = await _cartItemServiceFactory();
+                var shoppingCart = await _shoppingCartDAL.GetAsync(c => c.NormalUserId == userId);
+
+                if (shoppingCart == null)
+                {
+                    return new ErrorDataResult<ShoppingCart>(null, "Shopping cart not found.");
+                }
+
+                // Check if the shopping cart has any associated cart items
+                var cartItemsResult = await cartItemService.GetCartItemsByShoppingCartId(shoppingCart.Id);
+                if (!cartItemsResult.Success || cartItemsResult.Data.Count == 0)
+                {
+                    // No associated cart items found, delete the shopping cart
+                    await _shoppingCartDAL.DeleteAsync(shoppingCart);
+                    return new ErrorDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
+                }
+
+                // Shopping cart retrieved successfully
+                return new SuccessDataResult<ShoppingCart>(shoppingCart, "Shopping cart retrieved successfully.");
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<ShoppingCart>(null, $"Error retrieving shopping carts: {ex.Message}");
+                return new ErrorDataResult<ShoppingCart>(null, $"Error retrieving shopping cart: {ex.Message}");
             }
         }
 
-        public async Task<IResult> CreateShoppingCart(string userId)
+
+        public async Task<IDataResult<ShoppingCart>> CreateShoppingCart(string userId)
         {
             try
             {
-                var shoppingCart = new ShoppingCart
-                {
-                    Id = Guid.NewGuid(),
-                    NormalUserId = userId
-                };
+                // Check if a shopping cart already exists for the user
+                var existingCarts = await _shoppingCartDAL.GetAllAsync(c => c.NormalUserId == userId);
 
-                await _shoppingCartDAL.AddAsync(shoppingCart);
-                return new SuccessResult("Shopping cart created successfully.");
+                if (existingCarts != null && existingCarts.Any())
+                {
+                    // A shopping cart already exists for the user
+                    return new ErrorDataResult<ShoppingCart>(null,"A shopping cart already exists for the user.");
+                }
+                else
+                {
+                    var shoppingCart = new ShoppingCart
+                    {
+                        Id = Guid.NewGuid(),
+                        NormalUserId = userId
+                    };
+
+                    await _shoppingCartDAL.AddAsync(shoppingCart);
+                    return new SuccessDataResult<ShoppingCart>(shoppingCart, "Shopping cart created successfully.");
+                }
             }
             catch (Exception ex)
             {
-                return new ErrorResult($"Error creating shopping cart: {ex.Message}");
+                return new ErrorDataResult<ShoppingCart>(null,$"Error creating shopping cart: {ex.Message}");
             }
         }
+
 
         public async Task<IResult> UpdateShoppingCart(ShoppingCart shoppingCart)
         {
@@ -85,15 +129,41 @@ namespace Business.Managers
         {
             try
             {
-                var shoppingCart = new ShoppingCart { Id = cartId };
-                await _shoppingCartDAL.DeleteAsync(shoppingCart);
-                return new SuccessResult("Shopping cart deleted successfully.");
+                var cartItemService = await _cartItemServiceFactory();
+                // Retrieve the shopping cart by ID
+                var shoppingCartResult = await this.GetShoppingCartById(cartId);
+                if (!shoppingCartResult.Success)
+                {
+                    // Shopping cart not found
+                    return new ErrorResult($"Shopping cart not found: {shoppingCartResult.Message}");
+                }
+
+                // Check if the shopping cart has associated cart items
+                var cartItemsResult = await cartItemService.GetCartItemsByShoppingCartId(cartId);
+                if (!cartItemsResult.Success)
+                {
+                    // No associated cart items found, directly delete the shopping cart
+                    await _shoppingCartDAL.DeleteAsync(shoppingCartResult.Data); // Delete shopping cart
+                    return new SuccessResult("Shopping cart deleted successfully.");
+                }
+
+                // If there are associated cart items, delete them first
+                foreach (var cartItem in cartItemsResult.Data)
+                {
+                    await _cartItemDAL.DeleteAsync(cartItem); // Delete each cart item
+                }
+
+                // After deleting all cart items, delete the shopping cart
+                await _shoppingCartDAL.DeleteAsync(shoppingCartResult.Data);
+
+                return new SuccessResult("Shopping cart and associated cart items deleted successfully.");
             }
             catch (Exception ex)
             {
                 return new ErrorResult($"Error deleting shopping cart: {ex.Message}");
             }
         }
+
 
         public async Task<IDataResult<List<ShoppingCart>>> GetShoppingCarts()
         {

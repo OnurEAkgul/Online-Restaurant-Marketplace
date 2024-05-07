@@ -2,6 +2,8 @@
 using Business.Services;
 using DataAccess.EntityFramework;
 using Dijital_carsi.DTOs;
+using Dijital_carsi.DTOs.Common;
+using Dijital_carsi.DTOs.Shop;
 using Dijital_carsi.DTOs.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +30,7 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //GET ALL USERS ADMIN ROLE ONLY
         [HttpGet("GetAllUsers")]
         [Authorize(Roles = "adminRole")]
         public async Task<IActionResult> GetAllUsers()
@@ -44,6 +47,7 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        //REGISTER USER
         [HttpPost("RegisterUser")]
         private async Task<IActionResult> RegisterUser(SignUpUserDTO request, string role)
         {
@@ -94,6 +98,7 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        //REGISTER NORMAL USER REQUEST
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUpUser(SignUpUserDTO request)
         {
@@ -107,6 +112,7 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        //REGISTER SHOP OWNER REQUEST
         [HttpPost("ShopOwnerSignUp")]
         public async Task<IActionResult> ShopOwnerSignUp(SignUpUserDTO request)
         {
@@ -121,6 +127,7 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //REGISTER SUPPORT USER REQUEST ADMIN ROLE ONLY
         [HttpPost("SupportUserRegister")]
         [Authorize(Roles = "adminRole")]
         public async Task<IActionResult> SupportUserRegister(SignUpUserDTO request)
@@ -135,8 +142,9 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        //USER DELETE AUTHORIZED USERS ONLY
         [HttpDelete]
-        [Authorize(Roles = "userRole")]
+        [Authorize]
         [Route("UserDelete/{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
@@ -157,6 +165,7 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //LOGIN
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
@@ -203,6 +212,7 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //GET LOGGED IN USERS INFO
         [HttpGet]
         [Route("GetUser")]
         [Authorize]
@@ -231,6 +241,7 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        //GET ALL USERS BY THE ROLE
         [HttpGet("GetAllUsersByRole")]
         [Authorize(Roles = "adminRole")]
         public async Task<IActionResult> GetAllUsersByRole([FromQuery] string? role)
@@ -272,8 +283,7 @@ namespace Dijital_carsi.Controllers
             }
         }
 
-
-
+        //UPDATE USERS BY ID
         [HttpPut]
         [Route("UpdateUserInfo/{id}")]
         [Authorize]
@@ -324,7 +334,7 @@ namespace Dijital_carsi.Controllers
                             Email = identityUser.Email
                         };
 
-                        var response = new UpdateInfoResponseDTO
+                        var response = new CommonResponseDTO<UserInfoDTO>()
                         {
                             Data = data,
                             Message = "User updated successfully",
@@ -392,7 +402,7 @@ namespace Dijital_carsi.Controllers
                             Email = identityUser.Email
                         };
 
-                        var response = new UpdateInfoResponseDTO
+                        var response = new CommonResponseDTO<UserInfoDTO>()
                         {
                             Data = data,
                             Message = "User updated successfully",
@@ -412,5 +422,26 @@ namespace Dijital_carsi.Controllers
             }
         }
 
+        [HttpGet("GetUserInfoById/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInfoById([FromRoute] string id)
+        {
+            {
+                try
+                {
+                    var result = await userService.GetUserByIdAsync(id);
+                    if (!result.Success)
+                    {
+                        return BadRequest(result);
+                    }
+                    // Return the extracted claims dictionary as part of the response
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"An error occurred: {ex.Message}");
+                }
+            }
+        }
     }
 }

@@ -14,10 +14,12 @@ namespace Business.Managers
     public class CartItemManager:InterfaceCartItemService
     {
         private readonly InterfaceCartItemDAL _cartItemDAL;
+        private readonly Func<Task<InterfaceShoppingCartService>> _shoppingCartServiceFactory;
 
-        public CartItemManager(InterfaceCartItemDAL cartItemDAL)
+        public CartItemManager(InterfaceCartItemDAL cartItemDAL, Func<Task<InterfaceShoppingCartService>> shoppingCartServiceFactory)
         {
             _cartItemDAL = cartItemDAL;
+            _shoppingCartServiceFactory = shoppingCartServiceFactory;
         }
 
         public async Task<IDataResult<CartItem>> GetCartItemById(Guid cartItemId)
@@ -40,11 +42,34 @@ namespace Business.Managers
         {
             try
             {
+                var shoppingCartService = await _shoppingCartServiceFactory();
+                // Retrieve or create the shopping cart for the user
+                var shoppingCartResult = await shoppingCartService.GetShoppingCartByUserId(cartItem.ShoppingCart.NormalUserId);
+                if (!shoppingCartResult.Success)
+                {
+                    // Create a new shopping cart if none exists
+                    var createCartResult = await shoppingCartService.CreateShoppingCart(cartItem.ShoppingCart.NormalUserId);
+                    if (!createCartResult.Success)
+                    {
+                        // Failed to create shopping cart
+                        return new ErrorResult($"Failed to create shopping cart: {createCartResult.Message}");
+                    }
+                    // Update the cart item with the newly created shopping cart ID
+                    cartItem.ShoppingCartId = createCartResult.Data.Id;
+                }
+                else
+                {
+                    // Use the existing shopping cart ID
+                    cartItem.ShoppingCartId = shoppingCartResult.Data.Id;
+                }
+
+                // Add the cart item to the database
                 await _cartItemDAL.AddAsync(cartItem);
                 return new SuccessResult("Cart item added successfully.");
             }
             catch (Exception ex)
             {
+                // Log the exception for troubleshooting
                 return new ErrorResult($"Error adding cart item: {ex.Message}");
             }
         }
