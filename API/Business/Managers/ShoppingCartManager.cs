@@ -55,7 +55,7 @@ namespace Business.Managers
             try
             {
                 var cartItemService = await _cartItemServiceFactory();
-                var shoppingCart = await _shoppingCartDAL.GetAsync(c => c.NormalUserId == userId);
+                var shoppingCart = await _shoppingCartDAL.GetAsync(c => c.CustomerUserId == userId);
 
                 if (shoppingCart == null)
                 {
@@ -86,7 +86,7 @@ namespace Business.Managers
             try
             {
                 // Check if a shopping cart already exists for the user
-                var existingCarts = await _shoppingCartDAL.GetAllAsync(c => c.NormalUserId == userId);
+                var existingCarts = await _shoppingCartDAL.GetAllAsync(c => c.CustomerUserId == userId);
 
                 if (existingCarts != null && existingCarts.Any())
                 {
@@ -98,7 +98,7 @@ namespace Business.Managers
                     var shoppingCart = new ShoppingCart
                     {
                         Id = Guid.NewGuid(),
-                        NormalUserId = userId
+                        CustomerUserId = userId
                     };
 
                     await _shoppingCartDAL.AddAsync(shoppingCart);

@@ -12,8 +12,10 @@ namespace Business.Interfaces
     {
 
         Task<IDataResult<Product>> GetProductById(Guid productId);
-        Task<IDataResult<List<Product>>> GetProductName(string name);
-        Task<IDataResult<List<Product>>> GetProductsByCategory(string category);
+        Task<IDataResult<List<Product>>> GetProductsByName(string name);
+        Task<IDataResult<Product>> GetProductByName(string name);
+        Task<IDataResult<List<Product>>> GetProductsByCategory(Guid categoryId);
+        Task<IDataResult<List<Product>>> GetProductsByCategoryName(string name);
         Task<IDataResult<List<Product>>> GetAllProducts();
         Task<IResult> CreateProduct(Product product);
         Task<IResult> UpdateProduct(Product product);

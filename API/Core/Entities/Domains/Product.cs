@@ -12,7 +12,8 @@ namespace Core.Entities.Domains
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; }
+        public Guid CategoryId { get; set; } // Foreign key for Category
+        public Category Category { get; set; } // Navigation property to Category
         public string ImageUrl { get; set; }
         public bool IsActive { get; set; }
 

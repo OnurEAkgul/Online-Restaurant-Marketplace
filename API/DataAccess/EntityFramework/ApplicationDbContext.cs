@@ -26,6 +26,7 @@ namespace DataAccess.EntityFramework
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -46,7 +47,7 @@ namespace DataAccess.EntityFramework
             modelBuilder.Entity<NormalUser>()
                 .HasOne(nu => nu.ShoppingCart)
                 .WithOne(sc => sc.NormalUser)
-                .HasForeignKey<ShoppingCart>(sc => sc.NormalUserId)
+                .HasForeignKey<ShoppingCart>(sc => sc.CustomerUserId)
                 .OnDelete(DeleteBehavior.Cascade); // Delete the ShoppingCart if the associated NormalUser is deleted
 
             // ShoppingCart to CartItem (One-to-Many)
@@ -60,7 +61,7 @@ namespace DataAccess.EntityFramework
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.NormalUser)
                 .WithMany(nu => nu.Orders)
-                .HasForeignKey(o => o.NormalUserId)
+                .HasForeignKey(o => o.CustomerUserId)
                 .IsRequired(false) // Specify that NormalUserId is nullable
                 .OnDelete(DeleteBehavior.Cascade); // Cascade delete associated orders when the NormalUser is deleted
 
@@ -98,6 +99,10 @@ namespace DataAccess.EntityFramework
                 .HasForeignKey(t => t.CustomerUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany() // Assuming Category has a collection of products (one-to-many relationship)
+                .HasForeignKey(p => p.CategoryId);
 
             // Product to CartItem (One-to-Many)
             modelBuilder.Entity<CartItem>()

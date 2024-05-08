@@ -39,7 +39,6 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddScoped<UserManager<IdentityUser>>();
 //CartItem
 builder.Services.AddScoped<InterfaceCartItemDAL, CartItemDAL>();
-
 builder.Services.AddScoped<InterfaceCartItemService>(serviceProvider =>
 {
     var cartItemDAL = serviceProvider.GetRequiredService<InterfaceCartItemDAL>();
@@ -62,10 +61,14 @@ builder.Services.AddScoped<InterfaceCartItemService>(serviceProvider =>
 builder.Services.AddScoped<InterfaceTicketDAL, TicketDAL>();
 builder.Services.AddScoped<InterfaceTicketService, TicketManager>();
 
+//Category
+builder.Services.AddScoped<InterfaceCategoryDAL, CategoryDAL>();
+builder.Services.AddScoped<InterfaceCategoryService, CategoryManager>();
+
+
 // ShoppingCart
 builder.Services.AddScoped<InterfaceShoppingCartDAL, ShoppingCartDAL>();
 // Register InterfaceShoppingCartService with a factory method
-
 builder.Services.AddScoped<InterfaceShoppingCartService>(serviceProvider =>
 {
     var shoppingCartDAL = serviceProvider.GetRequiredService<InterfaceShoppingCartDAL>();

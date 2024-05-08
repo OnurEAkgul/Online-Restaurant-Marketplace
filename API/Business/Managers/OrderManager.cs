@@ -94,7 +94,7 @@ namespace Business.Services
         {
             try
             {
-                var order = await _orderDAL.GetAsync(o => o.NormalUserId == id);
+                var order = await _orderDAL.GetAsync(o => o.CustomerUserId == id);
                 if (order == null)
                     return new ErrorDataResult<Order>(null, "Order not found.");
 
@@ -110,7 +110,7 @@ namespace Business.Services
         {
             try
             {
-                var orders = await _orderDAL.GetAllAsync(o => o.NormalUserId == id);
+                var orders = await _orderDAL.GetAllAsync(o => o.CustomerUserId == id);
                 if (orders.Count == 0)
                 {
                     return new ErrorDataResult<List<Order>>(null, "No orders found for the user.");
@@ -159,11 +159,11 @@ namespace Business.Services
                 return new ErrorDataResult<List<Order>>(null, $"Error retrieving all orders: {ex.Message}");
             }
         }
-        public async Task<IDataResult<List<Order>>> GetActiveOrdersByUserId(Guid id)
+        public async Task<IDataResult<List<Order>>> GetActiveOrdersByUserId(string id)
         {
             try
             {
-                Expression<Func<Order, bool>> filter = o => o.CustomerId == id && o.IsCompleted == false;
+                Expression<Func<Order, bool>> filter = o => o.CustomerUserId == id && o.IsCompleted == false;
                 var orders = await _orderDAL.GetAllAsync(filter);
                 if (orders.Count == 0)
                 {

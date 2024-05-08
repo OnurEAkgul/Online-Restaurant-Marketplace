@@ -16,7 +16,7 @@ namespace Business.Interfaces
         Task<IDataResult<Order>> GetOrderById(Guid orderId);
         Task<IDataResult<Order>> GetOrderByUserId(string id);
         Task<IDataResult<List<Order>>> GetAllOrders(); 
-        Task<IDataResult<List<Order>>> GetActiveOrdersByUserId(Guid id);
+        Task<IDataResult<List<Order>>> GetActiveOrdersByUserId(string id);
         Task<IDataResult<List<Order>>> GetAllOrdersByUserId(string id);
         Task<IDataResult<List<Order>>> GetActiveOrdersByShopId(Guid id);
         Task<IDataResult<List<Order>>> GetAllOrdersByShopId(Guid id);

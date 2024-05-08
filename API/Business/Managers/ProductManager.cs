@@ -82,7 +82,7 @@ namespace Business.Services
             {
                 var product = new Product { Id = productId };
                 await _productDAL.DeleteAsync(product);
-                return new SuccessResult("Product deleted successfully.");
+                return new SuccessResult("Product has been deleted successfully.");
             }
             catch (Exception ex)
             {
@@ -92,15 +92,30 @@ namespace Business.Services
 
         
 
-        public async Task<IDataResult<List<Product>>> GetProductsByCategory(string category)
+        public async Task<IDataResult<List<Product>>> GetProductsByCategory(Guid categoryId)
         {
             try
             {
-                var product = await _productDAL.GetAllAsync(p => p.Category == category);
+                var product = await _productDAL.GetAllAsync(p => p.CategoryId == categoryId);
                 if (product.Count == 0)
                     return new ErrorDataResult<List<Product>>(null, "Product not found.");
 
-                return new SuccessDataResult<List<Product>>(product, "Product retrieved successfully.");
+                return new SuccessDataResult<List<Product>>(product, "Products retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Product>>(null, $"Error retrieving product: {ex.Message}");
+            }
+        }
+        public async Task<IDataResult<List<Product>>> GetProductsByCategoryName(string name)
+        {
+            try
+            {
+                var product = await _productDAL.GetAllAsync(p => p.Category.Name == name);
+                if (product.Count == 0)
+                    return new ErrorDataResult<List<Product>>(null, "Product not found.");
+
+                return new SuccessDataResult<List<Product>>(product, "Products retrieved successfully.");
             }
             catch (Exception ex)
             {
@@ -108,19 +123,34 @@ namespace Business.Services
             }
         }
 
-        public async Task<IDataResult<List<Product>>> GetProductName(string name)
+        public async Task<IDataResult<List<Product>>> GetProductsByName(string name)
         {
             try
             {
-                var product = await _productDAL.GetAllAsync(p => p.Name == name);
-                if (product.Count == null)
+                var product = await _productDAL.GetAllAsync(p => p.Name.Contains(name) );
+                if (product.Count == 0)
                     return new ErrorDataResult<List<Product>>(null, "Product not found.");
 
-                return new SuccessDataResult<List<Product>>(product, "Product retrieved successfully.");
+                return new SuccessDataResult<List<Product>>(product, "Products retrieved successfully.");
             }
             catch (Exception ex)
             {
                 return new ErrorDataResult<List<Product>>(null, $"Error retrieving product: {ex.Message}");
+            }
+        }
+        public async Task<IDataResult<Product>> GetProductByName(string name)
+        {
+            try
+            {
+                var product = await _productDAL.GetAsync(p => p.Name == name);
+                if (product == null)
+                    return new ErrorDataResult<Product>(null, "Product not found.");
+
+                return new SuccessDataResult<Product>(product, "Products retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<Product>(null, $"Error retrieving product: {ex.Message}");
             }
         }
     }

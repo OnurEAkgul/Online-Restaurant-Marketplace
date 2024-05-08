@@ -46,20 +46,39 @@ namespace DataAccess.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("Core.Entities.Domains.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Core.Entities.Domains.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CustomerUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("NormalUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -72,7 +91,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalUserId");
+                    b.HasIndex("CustomerUserId");
 
                     b.HasIndex("ShopId");
 
@@ -112,9 +131,8 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -138,6 +156,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ShopId");
 
@@ -194,13 +214,13 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("NormalUserId")
+                    b.Property<string>("CustomerUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalUserId")
+                    b.HasIndex("CustomerUserId")
                         .IsUnique();
 
                     b.ToTable("ShoppingCarts");
@@ -397,15 +417,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "9acbb401-b8ae-4ec8-9286-29e6dae86360",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c0f917b4-69de-4132-ba17-14ce6d4c2ff7",
+                            ConcurrencyStamp = "f29c3b44-6ab5-4779-8885-70f6318456b1",
                             Email = "admin@marketplace.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MARKETPLACE.COM",
                             NormalizedUserName = "ADMIN@MARKETPLACE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEK77BKrnLVgq7NGL17c3zvxPP1agEwvQHvBFFYdxqtAHmtwBD6rn13eoaXuKTD/6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELR5y5OIWRlPHmJ85yOr+U4S6+I57MqZ9O8VYiVdgV57I8rDX+B8mUeEH8OL816tEQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "38f65285-bfa1-4af8-8edd-014f48108929",
+                            SecurityStamp = "115f0156-fa2c-41ab-a648-0567f1e280f3",
                             TwoFactorEnabled = false,
                             UserName = "admin@marketplace.com"
                         });
@@ -558,7 +578,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Core.Entities.Domains.NormalUser", "NormalUser")
                         .WithMany("Orders")
-                        .HasForeignKey("NormalUserId")
+                        .HasForeignKey("CustomerUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Core.Entities.Domains.Shop", "Shops")
@@ -593,11 +613,19 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Core.Entities.Domains.Product", b =>
                 {
+                    b.HasOne("Core.Entities.Domains.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Domains.Shop", "Shops")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Shops");
                 });
@@ -617,7 +645,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Core.Entities.Domains.NormalUser", "NormalUser")
                         .WithOne("ShoppingCart")
-                        .HasForeignKey("Core.Entities.Domains.ShoppingCart", "NormalUserId")
+                        .HasForeignKey("Core.Entities.Domains.ShoppingCart", "CustomerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
