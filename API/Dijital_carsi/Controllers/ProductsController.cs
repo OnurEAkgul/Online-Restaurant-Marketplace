@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Interfaces;
+using Core.Entities.Domains;
+using Dijital_carsi.DTOs.CartItem;
+using Dijital_carsi.DTOs.Common;
+using Dijital_carsi.DTOs.Product;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dijital_carsi.Controllers
@@ -9,63 +14,352 @@ namespace Dijital_carsi.Controllers
     {
 
 
-
-        //GET
-
-        [HttpGet("GetAllOrders")]
-        public async Task<IActionResult> GetAllOrders()
+        private readonly InterfaceProductService _productService;
+        public ProductsController(InterfaceProductService productService)
         {
-            return Ok();
 
-        }
-
-        [HttpGet("GetProductById/{id:guid}")]
-        public async Task<IActionResult> GetProductById([FromRoute] Guid id)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetProductsByName/{name}")]
-        public async Task<IActionResult> GetProductsByName([FromRoute] string name)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetProductsByCategory/{id:Guid}")]
-        public async Task<IActionResult> GetProductsByCategory([FromRoute] Guid id)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetProductsByCategoryName/{name}")]
-        public async Task<IActionResult> GetProductsByCategoryName([FromRoute] string name)
-        {
-            return Ok();
+            _productService = productService;
 
         }
 
 
+
+        //---------------GET----------------
+
+        //GET ALL
+        [HttpGet("GetAllProducts")]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            try
+            {
+                var result = await _productService.GetAllProducts();
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(product => new ProductInfoDTO
+                {
+
+                    CategoryId = product.Category.Id,
+                    CategoryName = product.Category.Name,
+                    /*Category =
+                    //new DTOs.Category.CategoryInfoDTO{
+                    //    Description = product.Category.Description,
+                    //    Id = product.Category.Id,
+                    //    IsActive = product.Category.IsActive,
+                    //    Name = product.Category.Name
+                    },*/
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    IsActive = product.IsActive,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ShopId = product.ShopId,
+                    ShopName = product.Shops.Name,
+                }).ToList();
+
+
+                var response = new CommonResponseDTO<List<ProductInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            };
+
+        }
+
+        //GET BY PRODUCT ID
+        [HttpGet("GetProductById/{ProductId:guid}")]
+        public async Task<IActionResult> GetProductById([FromRoute] Guid ProductId)
+        {
+            try
+            {
+                var result = await _productService.GetProductById(ProductId);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = new ProductInfoDTO
+                {
+                    CategoryName = result.Data.Category.Name,
+                    CategoryId = result.Data.Category.Id,
+                    Description = result.Data.Description,
+                    ImageUrl = result.Data.ImageUrl,
+                    IsActive = result.Data.IsActive,
+                    Name = result.Data.Name,
+                    Price = result.Data.Price,
+                    ShopId = result.Data.ShopId,
+                    ShopName = result.Data.Shops.Name,
+                };
+
+                var response = new CommonResponseDTO<ProductInfoDTO>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }; 
+
+        }
+
+        //GET BY PRODUCT NAME
+        [HttpGet("GetProductsByName/{ProductName}")]
+        public async Task<IActionResult> GetProductsByName([FromRoute] string ProductName)
+        {
+            try
+            {
+                var result = await _productService.GetProductsByName(ProductName);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(product => new ProductInfoDTO
+                {
+                    CategoryName = product.Category.Name,
+                    CategoryId = product.Category.Id,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    IsActive = product.IsActive,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ShopId = product.ShopId,
+                    ShopName = product.Shops.Name,
+                }).ToList();
+
+                var response = new CommonResponseDTO<List<ProductInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }; 
+
+        }
+
+        //GET BY CATEGORY ID
+        [HttpGet("GetProductsByCategory/{CategoryId:Guid}")]
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] Guid CategoryId)
+        {
+            try
+            {
+                var result = await _productService.GetProductsByCategory(CategoryId);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(product => new ProductInfoDTO
+                {
+                    CategoryName = product.Category.Name,
+                    CategoryId = product.Category.Id,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    IsActive = product.IsActive,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ShopId = product.ShopId,
+                    ShopName = product.Shops.Name,
+                }).ToList();
+
+                var response = new CommonResponseDTO<List<ProductInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            };
+
+        }
+
+        //GET BY CATEGORY NAME
+        [HttpGet("GetProductsByCategoryName/{CategoryName}")]
+        public async Task<IActionResult> GetProductsByCategoryName([FromRoute] string CategoryName)
+        {
+            try
+            {
+                var result = await _productService.GetProductsByCategoryName(CategoryName);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(product => new ProductInfoDTO
+                {
+                    CategoryName = product.Category.Name,
+                    CategoryId = product.Category.Id,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    IsActive = product.IsActive,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ShopId = product.ShopId,
+                    ShopName = product.Shops.Name,
+                }).ToList();
+
+                var response = new CommonResponseDTO<List<ProductInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            };
+
+
+        }
+
+        //---------------POST----------------
+        
+        //CREATE PRODUCT
         [HttpPost("CreateProduct")]
-        public async Task<IActionResult> CreateProduct()
+        public async Task<IActionResult> CreateProduct(ProductCreateRequestDTO request)
         {
-            return Ok();
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request");
+                }
+
+                var CreateRequest = new Product
+                {
+                    CategoryId = request.CategoryId,
+                    ImageUrl = request.ImageUrl,
+                    Description = request.Description,
+                    Name = request.Name,
+                    Price = request.Price,
+                    ShopId = request.ShopId,
+                    IsActive = false,
+                    
+                    
+                };
+
+                var CreateResult = await _productService.CreateProduct(CreateRequest);
+                if (!CreateResult.Success)
+                {
+                    return BadRequest(CreateResult.Message);
+                }
+
+
+                return Ok($"Product has been added");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
 
         }
 
-        [HttpPut("UpdateProduct")]
-        public async Task<IActionResult> UpdateProduct()
+        //---------------PUT----------------
+        
+        //UPDATE PRODUCT
+        [HttpPut("UpdateProduct/{ProductId:guid}")]
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid ProductId, ProductCreateRequestDTO request)
         {
-            return Ok();
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request");
+                }
+
+                var UpdateRequest = new Product
+                {
+                    Id = ProductId,
+                    CategoryId = request.CategoryId,
+                    ImageUrl = request.ImageUrl,
+                    Description = request.Description,
+                    Name = request.Name,
+                    Price = request.Price,
+                    ShopId = request.ShopId,
+                    IsActive = request.IsActive,
+                };
+
+                var UpdateResult = await _productService.CreateProduct(UpdateRequest);
+                if (!UpdateResult.Success)
+                {
+                    return BadRequest(UpdateResult.Message);
+                }
+
+
+                return Ok($"Product has been Updated");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
 
         }
 
-        [HttpDelete("DeleteProduct")]
-        public async Task<IActionResult> DeleteProduct()
+        //---------------DELETE----------------
+
+        //DELETE PRODUCT
+        [HttpDelete("DeleteProduct/{ProductId:guid}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute]Guid ProductId)
         {
-            return Ok();
+            try
+            {
+                if (ProductId == null)
+                {
+                    return BadRequest("Invalid request");
+                }
+
+
+
+                var UpdateResult = await _productService.DeleteProduct(ProductId);
+                if (!UpdateResult.Success)
+                {
+                    return BadRequest(UpdateResult.Message);
+                }
+
+
+                return Ok($"Item has been Deleted");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
 
         }
 

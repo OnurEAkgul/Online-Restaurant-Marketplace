@@ -9,8 +9,8 @@ namespace Core.DataAccess
 {
     public interface InterfaceEntityRepository<T>
     {
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter=null);
-        Task<T> GetAsync(Expression<Func<T, bool>> filter);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter=null, string includeProperties = "");
+        Task<T> GetAsync(Expression<Func<T, bool>> filter, string includeProperties = "");
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

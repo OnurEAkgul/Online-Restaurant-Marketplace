@@ -38,17 +38,17 @@ namespace Business.Managers
             }
         }
 
-        public async Task<IResult> AddCartItem(CartItem cartItem)
+        public async Task<IResult> AddCartItem(string UserId, CartItem cartItem)
         {
             try
             {
                 var shoppingCartService = await _shoppingCartServiceFactory();
                 // Retrieve or create the shopping cart for the user
-                var shoppingCartResult = await shoppingCartService.GetShoppingCartByUserId(cartItem.ShoppingCart.CustomerUserId);
+                var shoppingCartResult = await shoppingCartService.GetShoppingCartByUserId(UserId);
                 if (!shoppingCartResult.Success)
                 {
                     // Create a new shopping cart if none exists
-                    var createCartResult = await shoppingCartService.CreateShoppingCart(cartItem.ShoppingCart.CustomerUserId);
+                    var createCartResult = await shoppingCartService.CreateShoppingCart(UserId);
                     if (!createCartResult.Success)
                     {
                         // Failed to create shopping cart

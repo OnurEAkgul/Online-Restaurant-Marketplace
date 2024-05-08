@@ -13,7 +13,7 @@ namespace Business.Interfaces
         Task<IDataResult<List<CartItem>>> GetCartItems();
         Task<IDataResult<List<CartItem>>> GetCartItemsByShoppingCartId(Guid ShoppingCartId);
         Task<IDataResult<CartItem>> GetCartItemById(Guid cartItemId);
-        Task<IResult> AddCartItem(CartItem cartItem);
+        Task<IResult> AddCartItem(string UserId,CartItem cartItem);
         Task<IResult> UpdateCartItem(CartItem cartItem);
         Task<IResult> DeleteCartItem(Guid cartItemId);
     }

@@ -8,58 +8,69 @@ namespace Dijital_carsi.Controllers
     public class OrdersController : ControllerBase
     {
 
-        //GET
-        [HttpGet("GetOrderById/{id:guid}")]
-        public async Task<IActionResult> GetOrderById([FromRoute] Guid id)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetOrderByUserId/{id}")]
-        public async Task<IActionResult> GetOrderByUserId([FromRoute] string id)
-        {
-            return Ok();
-
-        }
-
+        //---------------GET----------------
+        
+        //GET ALL
         [HttpGet("GetAllOrders")]
         public async Task<IActionResult> GetAllOrders()
         {
             return Ok();
 
         }
-
-        [HttpGet("GetActiveOrdersByUserId/{id}")]
-        public async Task<IActionResult> GetActiveOrdersByUserId([FromRoute] string id)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetAllOrdersByUserId/{id}")]
-        public async Task<IActionResult> GetAllOrdersByUserId([FromRoute] string id)
-        {
-            return Ok();
-
-        }
-
-        [HttpGet("GetActiveOrdersByShopId/{id:guid}")]
-        public async Task<IActionResult> GetActiveOrdersByShopId([FromRoute] Guid id)
+       
+        //GET ALL BY USER ID
+        [HttpGet("GetAllOrdersByUserId/{UserId}")]
+        public async Task<IActionResult> GetAllOrdersByUserId([FromRoute] string UserId)
         {
             return Ok();
 
         }
         
-        [HttpGet("GetAllOrdersByShopId/{id:guid}")]
-        public async Task<IActionResult> GetAllOrdersByShopId([FromRoute] Guid id)
+        //GET ALL BY SHOP ID
+        [HttpGet("GetAllOrdersByShopId/{ShopId:guid}")]
+        public async Task<IActionResult> GetAllOrdersByShopId([FromRoute] Guid ShopId)
+        {
+            return Ok();
+
+        }
+        
+        //GET BY ORDER ID
+        [HttpGet("GetOrderById/{OrderId:guid}")]
+        public async Task<IActionResult> GetOrderById([FromRoute] Guid OrderId)
         {
             return Ok();
 
         }
 
+        //GET BY USER ID
+        [HttpGet("GetOrderByUserId/{UserId}")]
+        public async Task<IActionResult> GetOrderByUserId([FromRoute] string UserId)
+        {
+            return Ok();
 
+        }
 
+        //GET ACTIVE ORDERS BY USER ID
+        [HttpGet("GetActiveOrdersByUserId/{UserId}")]
+        public async Task<IActionResult> GetActiveOrdersByUserId([FromRoute] string UserId)
+        {
+            return Ok();
+
+        }
+
+        //GET ACTIVE BY SHOP ID
+        [HttpGet("GetActiveOrdersByShopId/{ShopId:guid}")]
+        public async Task<IActionResult> GetActiveOrdersByShopId([FromRoute] Guid ShopId)
+        {
+            return Ok();
+
+        }
+        
+       
+
+        //---------------POST----------------
+
+        //CREATE ORDER
         [HttpPost("CreateOrder")]
         public async Task<IActionResult> CreateOrder()
         {
@@ -67,13 +78,18 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //---------------PUT----------------
+
+        //UPDATE ORDER
         [HttpPut("UpdateOrder")]
         public async Task<IActionResult> UpdateOrder()
         {
             return Ok();
 
         }
+        //---------------DELETE----------------
 
+        //DELETE ORDER
         [HttpDelete("DeleteOrder")]
         public async Task<IActionResult> DeleteOrder()
         {

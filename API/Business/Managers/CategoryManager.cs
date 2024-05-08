@@ -121,6 +121,28 @@ namespace Business.Managers
             }
         }
 
-        
+        public async Task<IResult> UpdateStatus(Guid categoryId, bool isActive)
+        {
+            try
+            {
+                var category= await _categoryDAL.GetAsync(c=>c.Id == categoryId);
+                if(category == null)
+                    return new ErrorDataResult<Category>(null, "Category not found.");
+
+
+                // Update the IsOpen property only if the status has changed
+                if (category.IsActive!= isActive)
+                {
+                    category.IsActive= isActive;
+                    await _categoryDAL.UpdateAsync(category);
+                }
+
+                return new SuccessResult($"Category status set to {(isActive ? "open" : "closed")} successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorResult($"Error updating Category: {ex.Message}");
+            }
+        }
     }
 }

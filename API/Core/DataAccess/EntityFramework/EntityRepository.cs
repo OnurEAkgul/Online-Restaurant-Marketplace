@@ -37,23 +37,48 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
-        {
-           using (TContext c = new TContext())
-            {
-                return filter ==null 
-                    ? await c.Set<TEntity>().ToListAsync()
-                    :await c.Set<TEntity>().Where(filter).ToListAsync();
-            }
-        }
-
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
         {
             using (TContext c = new TContext())
             {
-                return await c.Set<TEntity>().SingleOrDefaultAsync(filter);
+                IQueryable<TEntity> query = c.Set<TEntity>();
+
+                if (!string.IsNullOrEmpty(includeProperties))
+                {
+                    foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(includeProperty);
+                    }
+                }
+
+                if (filter != null)
+                {
+                    query = query.Where(filter);
+                }
+
+                return await query.ToListAsync();
             }
         }
+
+
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter, string includeProperties = "")
+        {
+            using (TContext c = new TContext())
+            {
+                IQueryable<TEntity> query = c.Set<TEntity>();
+
+                if (!string.IsNullOrEmpty(includeProperties))
+                {
+                    foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(includeProperty);
+                    }
+                }
+
+                return await query.SingleOrDefaultAsync(filter);
+            }
+        }
+
 
         public async Task UpdateAsync(TEntity entity)
         {

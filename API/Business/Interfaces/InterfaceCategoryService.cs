@@ -16,6 +16,7 @@ namespace Business.Interfaces
         Task<IDataResult<List<Category>>> GetAllCategories();
         Task<IResult> CreateCategory(Category category);
         Task<IResult> UpdateCategory(Category category);
+        Task<IResult> UpdateStatus(Guid categoryId, bool isActive);
         Task<IResult> DeleteCategory(Guid categoryId);
     }
 }

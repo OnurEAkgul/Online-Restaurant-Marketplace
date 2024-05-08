@@ -197,6 +197,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// CORS ayarları
+app.UseCors(Options =>
+{
+    Options.AllowAnyHeader();
+    Options.AllowAnyOrigin();
+    Options.AllowAnyMethod();
+});
+
+
 app.UseAuthorization();
 
 app.MapControllers();

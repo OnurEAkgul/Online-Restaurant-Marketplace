@@ -25,7 +25,7 @@ namespace Business.Services
         {
             try
             {
-                var product = await _productDAL.GetAsync(p => p.Id == productId);
+                var product = await _productDAL.GetAsync(p => p.Id == productId, includeProperties: "Category,Shops");
                 if (product == null)
                     return new ErrorDataResult<Product>(null, "Product not found.");
 
@@ -41,7 +41,7 @@ namespace Business.Services
         {
             try
             {
-                var products = await _productDAL.GetAllAsync();
+                var products = await _productDAL.GetAllAsync(includeProperties: "Category,Shops");
                 return new SuccessDataResult<List<Product>>(products, "All products retrieved successfully.");
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace Business.Services
         {
             try
             {
-                var product = await _productDAL.GetAllAsync(p => p.Category.Name == name);
+                var product = await _productDAL.GetAllAsync(p => p.Category.Name.Contains(name) );
                 if (product.Count == 0)
                     return new ErrorDataResult<List<Product>>(null, "Product not found.");
 

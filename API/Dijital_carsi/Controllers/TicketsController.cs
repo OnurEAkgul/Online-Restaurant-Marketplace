@@ -9,8 +9,9 @@ namespace Dijital_carsi.Controllers
     {
 
 
-        //GET
+        //---------------GET----------------
 
+        //GET ALL
         [HttpGet("GetAllTickets")]
         public async Task<IActionResult> GetAllTickets()
         {
@@ -18,35 +19,42 @@ namespace Dijital_carsi.Controllers
 
         }
 
-        [HttpGet("GetTicketById/{id:guid}")]
-        public async Task<IActionResult> GetTicketById([FromRoute] Guid id)
+        //GET BY STATUS
+        [HttpGet("GetTicketsByStatus/{TicketStatus}")]
+        public async Task<IActionResult> GetTicketsByStatus([FromRoute] string TicketStatus)
         {
             return Ok();
 
         }
 
-        [HttpGet("GetTicketsByStatus/{status}")]
-        public async Task<IActionResult> GetTicketsByStatus([FromRoute] string status)
+        //GET BY SUPPORT USER
+        [HttpGet("GetTicketsBySupportUser/{SupportUserId}")]
+        public async Task<IActionResult> GetTicketsBySupportUser([FromRoute] string SupportUserId)
         {
             return Ok();
 
         }
 
-        [HttpGet("GetTicketsBySupportUser/{id}")]
-        public async Task<IActionResult> GetTicketsBySupportUser([FromRoute] string id)
+        //GET BY CUSTOMER USER
+        [HttpGet("GetTicketsByCustomerUser/{CustomerUserId}")]
+        public async Task<IActionResult> GetTicketsByCustomerUser([FromRoute] string CustomerUserId)
         {
             return Ok();
 
         }
 
-        [HttpGet("GetTicketsByCustomerUser/{id}")]
-        public async Task<IActionResult> GetTicketsByCustomerUser([FromRoute] string id)
+        //GET BY TICKET ID
+        [HttpGet("GetTicketById/{TicketId:guid}")]
+        public async Task<IActionResult> GetTicketById([FromRoute] Guid TicketId)
         {
             return Ok();
 
         }
 
 
+        //---------------POST----------------
+
+        //CREATE TICKET
         [HttpPost("CreateTicket")]
         public async Task<IActionResult> CreateTicket()
         {
@@ -54,15 +62,21 @@ namespace Dijital_carsi.Controllers
 
         }
 
-        [HttpPut("UpdateTicket")]
-        public async Task<IActionResult> UpdateTicket()
+        //---------------PUT----------------
+        
+        //UPDATE TICKET
+        [HttpPut("UpdateTicket/{TicketId:guid}")]
+        public async Task<IActionResult> UpdateTicket([FromRoute] Guid TicketId)
         {
             return Ok();
 
         }
 
-        [HttpDelete("DeleteTicket")]
-        public async Task<IActionResult> DeleteTicket()
+        //---------------DELETE----------------
+
+        //DELETE TICKET
+        [HttpDelete("DeleteTicket/{TicketId:guid}")]
+        public async Task<IActionResult> DeleteTicket([FromRoute] Guid TicketId)
         {
             return Ok();
 

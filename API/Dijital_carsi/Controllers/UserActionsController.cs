@@ -30,9 +30,130 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //---------------LOGIN----------------
+
+        //LOGIN
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(UserLoginDTO request)
+        {
+
+            try
+            {
+                var result = await userService.LoginAsync(request.Email, request.Password, request.Username);
+                if (!result.Success)
+                {
+                    return BadRequest(result.Message.ToString());
+                }
+                var user = result.Data;
+
+                var rolesResult = await userService.GetRolesAsync(user);
+                if (!rolesResult.Success)
+                {
+                    return BadRequest(result.Message.ToString());
+                }
+
+                var roles = rolesResult.Data;
+
+                var tokenResult = await tokenService.CreateJwtTokenAsync(user, roles, request.RememberMe);
+
+                if (!tokenResult.Success)
+                {
+                    return BadRequest($"{tokenResult.Message}");
+                }
+                var token = tokenResult.Data;
+
+                var response = new LoginResponseDTO
+                {
+                    Token = token,
+                    Message = result.Message,
+                    Successful = result.Success,
+                };
+
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
+        }
+
+        //---------------GET----------------
+        //GET LOGGED IN USERS INFO
+        [HttpGet]
+        [Route("GetUser")]
+        //[Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            try
+            {
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+                // Await the asynchronous DecodeJwtToken method
+                var result = await tokenService.DecodeJwtToken(token);
+
+                if (!result.Success || result.Data == null)
+                {
+                    return BadRequest("Error decoding or invalid token");
+                }
+
+                var claimsDictionary = result.Data;
+
+                // Return the extracted claims dictionary as part of the response
+                return Ok(claimsDictionary);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        //GET ALL USERS BY THE ROLE
+        [HttpGet("GetAllUsersByRole")]
+        //[Authorize(Roles = "adminRole")]
+        public async Task<IActionResult> GetAllUsersByRole([FromQuery] string? role)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(role))
+                {
+                    // If 'role' parameter is missing or empty, retrieve all users
+                    var allUsersResult = await userService.GetAllUsersAsync();
+
+                    if (allUsersResult.Success)
+                    {
+                        return Ok(allUsersResult.Data);  // Return all users if successful
+                    }
+                    else
+                    {
+                        return BadRequest(allUsersResult.Message);  // Return error message if retrieval fails
+                    }
+                }
+                else
+                {
+                    // Retrieve users by specified role
+                    var usersByRoleResult = await userService.GetUsersByRoleAsync(role);
+
+                    if (usersByRoleResult.Success)
+                    {
+                        return Ok(usersByRoleResult.Data);  // Return users by role if successful
+                    }
+                    else
+                    {
+                        return BadRequest(usersByRoleResult.Message);  // Return error message if retrieval fails
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");  // Handle unexpected exceptions
+            }
+        }
+
         //GET ALL USERS ADMIN ROLE ONLY
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "adminRole")]
+        //[Authorize(Roles = "adminRole")]
         public async Task<IActionResult> GetAllUsers()
         {
             try
@@ -46,6 +167,32 @@ namespace Dijital_carsi.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+        //GET USER INFO BY USERID
+        [HttpGet("GetUserInfoById/{UserId}")]
+        //[Authorize]
+        public async Task<IActionResult> GetUserInfoById([FromRoute] string UserId)
+        {
+            {
+                try
+                {
+                    var result = await userService.GetUserByIdAsync(UserId);
+                    if (!result.Success)
+                    {
+                        return BadRequest(result);
+                    }
+                    // Return the extracted claims dictionary as part of the response
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"An error occurred: {ex.Message}");
+                }
+            }
+        }
+
+        //---------------POST----------------
+
 
         //REGISTER USER
         [HttpPost("RegisterUser")]
@@ -129,7 +276,7 @@ namespace Dijital_carsi.Controllers
 
         //REGISTER SUPPORT USER REQUEST ADMIN ROLE ONLY
         [HttpPost("SupportUserRegister")]
-        [Authorize(Roles = "adminRole")]
+        //[Authorize(Roles = "adminRole")]
         public async Task<IActionResult> SupportUserRegister(SignUpUserDTO request)
         {
             try
@@ -142,152 +289,14 @@ namespace Dijital_carsi.Controllers
             }
         }
 
-        //USER DELETE AUTHORIZED USERS ONLY
-        [HttpDelete]
-        [Authorize]
-        [Route("UserDelete/{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] string id)
-        {
-            try
-            {
-                var result = await userService.DeleteUserAsync(id);
-                if (!result.Success)
-                {
-                    return BadRequest(result.Message.ToString());
-                }
-                return Ok(result.Message.ToString());
+        //---------------PUT----------------
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-
-        }
-
-        //LOGIN
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login(UserLoginDTO request)
-        {
-
-            try
-            {
-                var result = await userService.LoginAsync(request.Email, request.Password, request.Username);
-                if (!result.Success)
-                {
-                    return BadRequest(result.Message.ToString());
-                }
-                var user = result.Data;
-
-                var rolesResult = await userService.GetRolesAsync(user);
-                if (!rolesResult.Success)
-                {
-                    return BadRequest(result.Message.ToString());
-                }
-
-                var roles = rolesResult.Data;
-
-                var tokenResult = await tokenService.CreateJwtTokenAsync(user, roles, request.RememberMe);
-
-                if (!tokenResult.Success)
-                {
-                    return BadRequest($"{tokenResult.Message}");
-                }
-                var token = tokenResult.Data;
-
-                var response = new LoginResponseDTO
-                {
-                    Token = token,
-                    Message = result.Message,
-                    Successful = result.Success,
-                };
-
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-
-        }
-
-        //GET LOGGED IN USERS INFO
-        [HttpGet]
-        [Route("GetUser")]
-        [Authorize]
-        public async Task<IActionResult> GetUser()
-        {
-            try
-            {
-                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-                // Await the asynchronous DecodeJwtToken method
-                var result = await tokenService.DecodeJwtToken(token);
-
-                if (!result.Success || result.Data == null)
-                {
-                    return BadRequest("Error decoding or invalid token");
-                }
-
-                var claimsDictionary = result.Data;
-
-                // Return the extracted claims dictionary as part of the response
-                return Ok(claimsDictionary);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
-
-        //GET ALL USERS BY THE ROLE
-        [HttpGet("GetAllUsersByRole")]
-        [Authorize(Roles = "adminRole")]
-        public async Task<IActionResult> GetAllUsersByRole([FromQuery] string? role)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(role))
-                {
-                    // If 'role' parameter is missing or empty, retrieve all users
-                    var allUsersResult = await userService.GetAllUsersAsync();
-
-                    if (allUsersResult.Success)
-                    {
-                        return Ok(allUsersResult.Data);  // Return all users if successful
-                    }
-                    else
-                    {
-                        return BadRequest(allUsersResult.Message);  // Return error message if retrieval fails
-                    }
-                }
-                else
-                {
-                    // Retrieve users by specified role
-                    var usersByRoleResult = await userService.GetUsersByRoleAsync(role);
-
-                    if (usersByRoleResult.Success)
-                    {
-                        return Ok(usersByRoleResult.Data);  // Return users by role if successful
-                    }
-                    else
-                    {
-                        return BadRequest(usersByRoleResult.Message);  // Return error message if retrieval fails
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");  // Handle unexpected exceptions
-            }
-        }
 
         //UPDATE USERS BY ID
         [HttpPut]
-        [Route("UpdateUserInfo/{id}")]
-        [Authorize]
-        public async Task<IActionResult> UpdateUserInfo([FromRoute] string id, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
+        [Route("UpdateUserInfo/{UserId}")]
+        //[Authorize]
+        public async Task<IActionResult> UpdateUserInfo([FromRoute] string UserId, UpdateUserInfoDTO userUpdateDTO, [FromQuery] bool isAdminUpdate)
         {
             // İstek geçerli değilse BadRequest döndür
             if (userUpdateDTO == null)
@@ -306,7 +315,7 @@ namespace Dijital_carsi.Controllers
                 {
                     if (isAdminUpdate)
                     {
-                        var identityUser = await userManager.FindByIdAsync(id);
+                        var identityUser = await userManager.FindByIdAsync(UserId);
 
                         if (identityUser == null)
                         {
@@ -347,7 +356,7 @@ namespace Dijital_carsi.Controllers
 
                     else
                     {
-                        var identityUser = await userManager.FindByIdAsync(id);
+                        var identityUser = await userManager.FindByIdAsync(UserId);
 
                         if (identityUser == null)
                         {
@@ -422,26 +431,33 @@ namespace Dijital_carsi.Controllers
             }
         }
 
-        [HttpGet("GetUserInfoById/{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetUserInfoById([FromRoute] string id)
+
+        //---------------DELETE----------------
+
+        //USER DELETE AUTHORIZED USERS ONLY
+        [HttpDelete]
+        //[Authorize]
+        [Route("UserDelete/{UserId}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] string UserId)
         {
+            try
             {
-                try
+                var result = await userService.DeleteUserAsync(UserId);
+                if (!result.Success)
                 {
-                    var result = await userService.GetUserByIdAsync(id);
-                    if (!result.Success)
-                    {
-                        return BadRequest(result);
-                    }
-                    // Return the extracted claims dictionary as part of the response
-                    return Ok(result);
+                    return BadRequest(result.Message.ToString());
                 }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, $"An error occurred: {ex.Message}");
-                }
+                return Ok(result.Message.ToString());
+
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
         }
+
+        
+       
     }
 }

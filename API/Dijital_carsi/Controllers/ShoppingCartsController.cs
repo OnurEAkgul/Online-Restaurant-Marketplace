@@ -19,7 +19,10 @@ namespace Dijital_carsi.Controllers
 
             Service = shoppingCartService;
         }
-
+        
+        
+        //---------------GET----------------
+        
         //GET ALL
         [HttpGet("GetAllShoppingCarts")]
         public async Task<IActionResult> GetAllShoppingCarts()
@@ -28,20 +31,23 @@ namespace Dijital_carsi.Controllers
         }
 
         //GET BY CART ID
-        [HttpGet("GetShoppingCartById/{id:Guid}")]
-        public async Task<IActionResult> GetShoppingCartById([FromRoute] Guid id) { return Ok(); }
+        [HttpGet("GetShoppingCartById/{ShoppingCartId:Guid}")]
+        public async Task<IActionResult> GetShoppingCartById([FromRoute] Guid ShoppingCartId) { return Ok(); }
 
         //GET BY USERID
-        [HttpGet("GetShoppingCartByUserId/{userId}")]
-        public async Task<IActionResult> GetShoppingCartByUserId([FromRoute] string userId) { return Ok(); }
-
+        [HttpGet("GetShoppingCartByUserId/{UserId}")]
+        public async Task<IActionResult> GetShoppingCartByUserId([FromRoute] string UserId) { return Ok(); }
+        
+        
+        //---------------POST----------------
+       
         //CREATE NEW CART
-        [HttpPost("CreateShoppingCart/{userId}")]
-        public async Task<IActionResult> CreateShoppingCart([FromRoute] string userId)
+        [HttpPost("CreateShoppingCart/{UserId}")]
+        public async Task<IActionResult> CreateShoppingCart([FromRoute] string UserId)
         {
             try
             {
-                var result = await Service.CreateShoppingCart(userId);
+                var result = await Service.CreateShoppingCart(UserId);
 
                 if (!result.Success)
                 {
@@ -56,14 +62,21 @@ namespace Dijital_carsi.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-
+        
+        
+        //---------------PUT----------------
+        
         //UPDATE CART
-        [HttpPut("UpdateShoppingCart")]
-        public async Task<IActionResult> UpdateShoppingCart() { return Ok(); }
-
+        [HttpPut("UpdateShoppingCart/{ShoppingCartId:guid}")]
+        public async Task<IActionResult> UpdateShoppingCart([FromRoute] Guid ShoppingCartId) { return Ok(); }
+        
+        
+        
+        //---------------DELETE----------------
+        
         //DELETE CART
-        [HttpDelete("DeleteShoppingCart/{id:Guid}")]
-        public async Task<IActionResult> DeleteShoppingCart([FromRoute] Guid id) { return Ok(); }
+        [HttpDelete("DeleteShoppingCart/{ShoppingCartId:Guid}")]
+        public async Task<IActionResult> DeleteShoppingCart([FromRoute] Guid ShoppingCartId) { return Ok(); }
 
     }
 }

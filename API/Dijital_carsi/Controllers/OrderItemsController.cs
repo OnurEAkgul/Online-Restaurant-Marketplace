@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Business.Interfaces;
+using Dijital_carsi.DTOs.Product;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dijital_carsi.Controllers
@@ -7,20 +9,15 @@ namespace Dijital_carsi.Controllers
     [ApiController]
     public class OrderItemsController : ControllerBase
     {
+        private readonly InterfaceOrderItemService _orderItemService;
 
-        [HttpGet("GetOrderItemsByOrderId/{id:guid}")]
-        public async Task<IActionResult> GetOrderItemsByOrderId([FromRoute] Guid id)
+        public OrderItemsController(InterfaceOrderItemService orderItemService)
         {
-            return Ok();
 
+            _orderItemService = orderItemService;
         }
-        [HttpGet("GetOrderItemById/{id:guid}")]
-        public async Task<IActionResult> GetOrderItemById([FromRoute] Guid id)
-        {
-            return Ok();
-
-        }
-
+        //---------------GET----------------
+        //GET ALL
         [HttpGet("GetAllOrderItems")]
         public async Task<IActionResult> GetAllOrderItems()
         {
@@ -28,6 +25,28 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //GET ORDER ITEMS BY ORDER ID
+        [HttpGet("GetOrderItemsByOrderId/{OrderId:guid}")]
+        public async Task<IActionResult> GetOrderItemsByOrderId([FromRoute] Guid OrderId)
+        {
+            return Ok();
+
+        }
+
+        //GET ORDER BY ORDER ITEM ID        
+        [HttpGet("GetOrderItemById/{OrderItemId:guid}")]
+        public async Task<IActionResult> GetOrderItemById([FromRoute] Guid OrderItemId)
+        {
+            return Ok();
+
+        }
+
+
+
+
+        //---------------POST----------------
+
+        //ADD ORDER ITEM
         [HttpPost("AddOrderItem")]
         public async Task<IActionResult> AddOrderItem()
         {
@@ -35,15 +54,25 @@ namespace Dijital_carsi.Controllers
 
         }
 
-        [HttpPut("UpdateOrderItem")]
-        public async Task<IActionResult> UpdateOrderItem()
+
+        //---------------PUT----------------
+
+        //UPDATE ORDER ITEM
+        [HttpPut("UpdateOrderItem/{OrderItemId:guid}")]
+        public async Task<IActionResult> UpdateOrderItem([FromRoute] Guid OrderItemId)
         {
             return Ok();
 
         }
 
-        [HttpDelete("DeleteOrderItem")]
-        public async Task<IActionResult> DeleteOrderItem()
+
+
+        //---------------DELETE----------------
+
+
+        //DELETE ORDER ITEM
+        [HttpDelete("DeleteOrderItem/{OrderItemId:guid}")]
+        public async Task<IActionResult> DeleteOrderItem([FromRoute] Guid OrderItemId)
         {
             return Ok();
 
