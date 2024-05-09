@@ -16,7 +16,7 @@ namespace Business.Interfaces
         Task<IResult> DeleteTicket(Guid ticketId);
         Task<IDataResult<Ticket>> GetTicketById(Guid ticketId);
         Task<IDataResult<List<Ticket>>> GetAllTickets();
-        Task<IDataResult<List<Ticket>>> GetTicketsByStatus(string status);
+        Task<IDataResult<List<Ticket>>> GetTicketsByStatus(bool isActive);
         Task<IDataResult<List<Ticket>>> GetTicketsBySupportUser(string supportUserId);
         Task<IDataResult<List<Ticket>>> GetTicketsByCustomerUser(string customerUserId);
         Task<IResult> AssignSupportUser(Guid ticketId, string supportUserId);

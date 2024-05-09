@@ -9,6 +9,6 @@ namespace Dijital_carsi.DTOs.CartItem
         
         public int Quantity { get; set; }
         public Guid ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        
     }
 }

@@ -39,7 +39,7 @@ namespace Business.Managers
                     // No associated cart items found, delete the shopping cart
                     await _shoppingCartDAL.DeleteAsync(shoppingCart);
 
-                    return new ErrorDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
+                    return new SuccessDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
                 }
 
                 return new SuccessDataResult<ShoppingCart>(shoppingCart, "Shopping cart retrieved successfully.");
@@ -68,7 +68,7 @@ namespace Business.Managers
                 {
                     // No associated cart items found, delete the shopping cart
                     await _shoppingCartDAL.DeleteAsync(shoppingCart);
-                    return new ErrorDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
+                    return new SuccessDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
                 }
 
                 // Shopping cart retrieved successfully
@@ -90,8 +90,13 @@ namespace Business.Managers
 
                 if (existingCarts != null && existingCarts.Any())
                 {
+                    var shoppingCart = new ShoppingCart
+                    {
+                        Id = existingCarts.First().Id,
+                        CustomerUserId = userId
+                    };
                     // A shopping cart already exists for the user
-                    return new ErrorDataResult<ShoppingCart>(null,"A shopping cart already exists for the user.");
+                    return new SuccessDataResult<ShoppingCart>(shoppingCart, "A shopping cart already exists for the user.");
                 }
                 else
                 {

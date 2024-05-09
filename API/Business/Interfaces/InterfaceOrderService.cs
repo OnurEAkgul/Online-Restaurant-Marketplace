@@ -12,6 +12,7 @@ namespace Business.Interfaces
     {
         Task<IResult> CreateOrder(Order order);
         Task<IResult> UpdateOrder(Order order);
+        Task<IResult> UpdateOrderStatus(Guid OrderId, bool isCompleted);
         Task<IResult> DeleteOrder(Guid orderId);
         Task<IDataResult<Order>> GetOrderById(Guid orderId);
         Task<IDataResult<Order>> GetOrderByUserId(string id);

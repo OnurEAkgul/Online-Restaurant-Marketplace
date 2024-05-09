@@ -29,7 +29,7 @@ namespace Business.Managers
             }
             catch (Exception ex)
             {
-                return new ErrorResult($"Error creating ticket: {ex.Message}");
+                return new ErrorResult($"Error creating ticket: {ex.ToString()}");
             }
         }
 
@@ -83,6 +83,9 @@ namespace Business.Managers
             try
             {
                 var tickets = await ticketDAL.GetAllAsync();
+                if (tickets == null || tickets.Count == 0)
+                    return new ErrorDataResult<List<Ticket>>(null, "Tickets not found.");
+
                 return new SuccessDataResult<List<Ticket>>(tickets, "All tickets retrieved successfully.");
             }
             catch (Exception ex)
@@ -107,11 +110,11 @@ namespace Business.Managers
             }
         }
 
-        public async Task<IDataResult<List<Ticket>>> GetTicketsByStatus(string status)
+        public async Task<IDataResult<List<Ticket>>> GetTicketsByStatus(bool isActive)
         {
             try
             {
-                var tickets = await ticketDAL.GetAllAsync(t => t.Status == status);
+                var tickets = await ticketDAL.GetAllAsync(t => t.IsActive == isActive);
 
                 return new SuccessDataResult<List<Ticket>>(tickets, "Tickets retrieved successfully by status.");
             }

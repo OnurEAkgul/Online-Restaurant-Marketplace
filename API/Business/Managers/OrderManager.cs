@@ -177,5 +177,31 @@ namespace Business.Services
                 return new ErrorDataResult<List<Order>>(null, $"Error retrieving all orders: {ex.Message}");
             }
         }
+
+        public async Task<IResult> UpdateOrderStatus(Guid OrderId,bool isCompleted)
+        {
+            try
+            {
+                // Retrieve the existing Order entity from the database
+                var order = await _orderDAL.GetAsync(o => o.Id == OrderId);
+                if (order == null)
+                {
+                    return new ErrorResult("Order not found");
+                }
+
+                // Update the isCompleted property only if the status has changed
+                if (order.IsCompleted != isCompleted)
+                {
+                    order.IsCompleted= isCompleted;
+                    await _orderDAL.UpdateAsync(order);
+                }
+
+                return new SuccessResult($"Order status set to {(isCompleted ? "open" : "closed")} successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorResult($"An error occurred while toggling order status: {ex.Message}");
+            }
+        }
     }
 }

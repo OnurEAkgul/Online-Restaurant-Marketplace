@@ -10,10 +10,11 @@ namespace Core.Entities.Domains
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
-        public string SupportUserId { get; set; }
-        public SupportUser SupportUser { get; set; }
-
+        public bool IsActive { get; set; }
+        public string? SupportUserId { get; set; }
+        public SupportUser? SupportUser { get; set; }
+        public string TicketContext { get; set; }
+        public string? TicketContextResponse{ get; set; }
         public string CustomerUserId { get; set; } // Foreign key to NormalUser (or customer user)
         public NormalUser CustomerUser { get; set; } // Navigation property to NormalUser (or customer user)
     }

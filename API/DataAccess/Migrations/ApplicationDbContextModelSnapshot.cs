@@ -240,13 +240,18 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SupportUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TicketContext")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupportUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("TicketContextResponse")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -417,15 +422,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "9acbb401-b8ae-4ec8-9286-29e6dae86360",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f29c3b44-6ab5-4779-8885-70f6318456b1",
+                            ConcurrencyStamp = "f8754482-817c-4115-be72-7d9558939079",
                             Email = "admin@marketplace.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MARKETPLACE.COM",
                             NormalizedUserName = "ADMIN@MARKETPLACE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELR5y5OIWRlPHmJ85yOr+U4S6+I57MqZ9O8VYiVdgV57I8rDX+B8mUeEH8OL816tEQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMvO2DkqT5nPts7qy3034CwEBPCSGNMSOA9nM4g/kEJchDPwm5wAZKXJWXcOd6h9gA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "115f0156-fa2c-41ab-a648-0567f1e280f3",
+                            SecurityStamp = "9bab2205-0570-495d-8243-6a2e8cdb25db",
                             TwoFactorEnabled = false,
                             UserName = "admin@marketplace.com"
                         });
@@ -663,8 +668,7 @@ namespace DataAccess.Migrations
                     b.HasOne("Core.Entities.Domains.SupportUser", "SupportUser")
                         .WithMany("Tickets")
                         .HasForeignKey("SupportUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CustomerUser");
 

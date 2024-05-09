@@ -421,7 +421,32 @@ namespace Dijital_carsi.Controllers
 
 
         }
-        
+
+        //UPDATE ORDER STATUS
+        [HttpPut("UpdateOrderStatus/{OrderId:guid}/{isCompleted:bool}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderId, [FromRoute]bool isCompleted)
+        {
+            try
+            {
+                if (OrderId == null)
+                    return BadRequest("Invalid request");
+
+               
+                var Result = await _orderService.UpdateOrderStatus(OrderId,isCompleted);
+
+                if (!Result.Success)
+                    return BadRequest(Result.Message);
+
+                return Ok(Result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
+
+        }
+
         //---------------DELETE----------------
 
         //DELETE ORDER
