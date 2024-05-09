@@ -24,7 +24,7 @@ namespace Business.Services
         {
             try
             {
-                var orderItem = await _orderItemDAL.GetAsync(oi => oi.Id == orderItemId);
+                var orderItem = await _orderItemDAL.GetAsync(oi => oi.Id == orderItemId, includeProperties: "Products,Products.Category,Products.Shops");
                 if (orderItem == null)
                     return new ErrorDataResult<OrderItem>(null, "Order item not found.");
 
@@ -80,7 +80,7 @@ namespace Business.Services
         {
             try
             {
-                var orderItem = await _orderItemDAL.GetAllAsync(oi => oi.OrderId == orderId);
+                var orderItem = await _orderItemDAL.GetAllAsync(oi => oi.OrderId == orderId, includeProperties: "Products,Products.Category,Products.Shops");
                 if (orderItem.Count == 0)
                     return new ErrorDataResult<List<OrderItem>>(null, "Order item not found.");
 
@@ -96,10 +96,10 @@ namespace Business.Services
         {
             try
             {
-                var orderItem = await _orderItemDAL.GetAllAsync();
+                var orderItem = await _orderItemDAL.GetAllAsync(includeProperties: "Products,Products.Category,Products.Shops");
                 if (orderItem.Count == 0)
                     return new ErrorDataResult<List<OrderItem>>(null, "Order item not found.");
-
+                
                 return new SuccessDataResult<List<OrderItem>>(orderItem, "Order item retrieved successfully.");
             }
             catch (Exception ex)

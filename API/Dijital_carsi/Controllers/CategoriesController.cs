@@ -13,6 +13,8 @@ namespace Dijital_carsi.Controllers
     public class CategoriesController : ControllerBase
     {
 
+        //------------------FINISHED---------------------
+
         private readonly InterfaceCategoryService _CategoryService;
 
         public CategoriesController(InterfaceCategoryService CategoryService)

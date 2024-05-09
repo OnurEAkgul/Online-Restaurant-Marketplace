@@ -25,7 +25,7 @@ namespace Business.Services
         {
             try
             {
-                var order = await _orderDAL.GetAsync(o => o.Id == orderId);
+                var order = await _orderDAL.GetAsync(o => o.Id == orderId, includeProperties: "Shops,OrderItems");
                 if (order == null)
                     return new ErrorDataResult<Order>(null, "Order not found.");
 
@@ -41,7 +41,7 @@ namespace Business.Services
         {
             try
             {
-                var orders = await _orderDAL.GetAllAsync();
+                var orders = await _orderDAL.GetAllAsync(includeProperties: "Shops,OrderItems");
                 return new SuccessDataResult<List<Order>>(orders, "All orders retrieved successfully.");
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace Business.Services
         {
             try
             {
-                var order = await _orderDAL.GetAsync(o => o.CustomerUserId == id);
+                var order = await _orderDAL.GetAsync(o => o.CustomerUserId == id, includeProperties: "Shops,OrderItems");
                 if (order == null)
                     return new ErrorDataResult<Order>(null, "Order not found.");
 
@@ -110,7 +110,7 @@ namespace Business.Services
         {
             try
             {
-                var orders = await _orderDAL.GetAllAsync(o => o.CustomerUserId == id);
+                var orders = await _orderDAL.GetAllAsync(o => o.CustomerUserId == id, includeProperties: "Shops,OrderItems");
                 if (orders.Count == 0)
                 {
                     return new ErrorDataResult<List<Order>>(null, "No orders found for the user.");
@@ -127,7 +127,7 @@ namespace Business.Services
         {
             try
             {
-                var orders = await _orderDAL.GetAllAsync(o => o.ShopId == id);
+                var orders = await _orderDAL.GetAllAsync(o => o.ShopId == id, includeProperties: "Shops,OrderItems");
                 if (orders.Count == 0)
                 {
                     return new ErrorDataResult<List<Order>>(null, "No orders found for the shop ID.");
@@ -146,7 +146,7 @@ namespace Business.Services
             try
             {
                 Expression<Func<Order, bool>> filter = o => o.ShopId == id && o.IsCompleted == false;
-                var orders = await _orderDAL.GetAllAsync(filter);
+                var orders = await _orderDAL.GetAllAsync(filter, includeProperties: "Shops,OrderItems");
                 if (orders.Count == 0)
                 {
                     return new ErrorDataResult<List<Order>>(null, "No active orders found for the shop ID.");
@@ -164,7 +164,7 @@ namespace Business.Services
             try
             {
                 Expression<Func<Order, bool>> filter = o => o.CustomerUserId == id && o.IsCompleted == false;
-                var orders = await _orderDAL.GetAllAsync(filter);
+                var orders = await _orderDAL.GetAllAsync(filter,includeProperties: "Shops,OrderItems");
                 if (orders.Count == 0)
                 {
                     return new ErrorDataResult<List<Order>>(null, "No active orders found for the shop ID.");

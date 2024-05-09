@@ -18,6 +18,8 @@ namespace Dijital_carsi.Controllers
     public class ShopsController : ControllerBase
     {
 
+        //------------------FINISHED---------------------
+
         private readonly InterfaceShopService _shopService;
 
         public ShopsController(ApplicationDbContext dbContext, InterfaceShopService shopService, InterfaceUserService userService, UserManager<IdentityUser> userManager)

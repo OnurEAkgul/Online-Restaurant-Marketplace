@@ -109,7 +109,7 @@ namespace Business.Managers
         {
             try
             {
-                var category = await _categoryDAL.GetAsync(c => c.Name == name);
+                var category = await _categoryDAL.GetAsync(c => c.Name.Contains(name) );
                 if (category == null)
                     return new ErrorDataResult<Category>(null, "Category not found.");
 

@@ -17,6 +17,12 @@ namespace Dijital_carsi.Controllers
     [ApiController]
     public class UserActionsController : ControllerBase
     {
+
+
+        //------------------FINISHED---------------------
+
+
+
         private readonly ApplicationDbContext context;
         private readonly UserManager<IdentityUser> userManager;
         private readonly InterfaceUserService userService;
