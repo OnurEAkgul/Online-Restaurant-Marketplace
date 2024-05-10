@@ -214,8 +214,8 @@ namespace Dijital_carsi.Controllers
         //---------------PUT----------------
 
         //UPDATE CATEGORY
-        [HttpPut("UpdateCategory")]
-        public async Task<IActionResult> UpdateCategory(CategoryCreateRequestDTO request)
+        [HttpPut("UpdateCategory/{categoryId}")]
+        public async Task<IActionResult> UpdateCategory([FromRoute]Guid categoryId,CategoryCreateRequestDTO request)
         {
             try
             {
@@ -226,6 +226,7 @@ namespace Dijital_carsi.Controllers
 
                 var UpdateRequest = new Category
                 {
+                    Id = categoryId,
                     Description = request.Description,
                     Name = request.Name,
 

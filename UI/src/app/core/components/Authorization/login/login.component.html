@@ -1,0 +1,37 @@
+<div header="Login" Class="surface-ground px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+            <!-- <img src="assets/demo/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
+            <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+            <span class="text-600 font-medium line-height-3">Don't have an account?</span>
+            <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" [routerLink]="['/SignUp']">Create
+                today!</a>
+        </div>
+
+        <div>
+            <form #LoginForm="ngForm" (ngSubmit)="Login()">
+
+
+                <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+                <input id="email1" name="Email" type="text" placeholder="Enter your Email"
+                    [(ngModel)]="loginModel.email" pInputText class="w-full mb-3">
+
+                <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+                <input id="password1" name="Password" type="password" placeholder="Enter your password"
+                    [(ngModel)]="loginModel.password" pInputText class="w-full mb-3">
+
+                <div class="flex align-items-center justify-content-between mb-6">
+                    <div class="flex align-items-center">
+                        <p-checkbox name="Checkbox" [(ngModel)]="loginModel.rememberMe" [binary]="true"
+                            inputId="binary"></p-checkbox>
+                        <label for="rememberme1">Remember me</label>
+                    </div>
+                    <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot
+                        password?</a>
+                </div>
+
+                <button pButton pRipple type="submit" label="Sign In" icon="pi pi-user" class="w-full"></button>
+            </form>
+        </div>
+    </div>
+</div>

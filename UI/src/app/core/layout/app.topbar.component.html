@@ -1,0 +1,42 @@
+<div class="layout-topbar">
+
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3" [routerLink]="['']">
+        Home
+    </button>
+    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
+        [routerLink]="['about-me']">
+        About me
+    </button>
+    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
+        [routerLink]="['contact-me']">
+        Contact me
+    </button>
+    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
+        [routerLink]="['my-links']">
+        My links
+    </button>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
+        [routerLink]="['my-projects']">
+        My Projects
+    </button>
+
+
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+
+        <button class="p-link layout-topbar-button" type="button" (click)="onConfigButtonClick()">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button>
+    </div>
+</div>

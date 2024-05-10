@@ -242,7 +242,7 @@ namespace Dijital_carsi.Controllers
                     return BadRequest(roleAssignmentResult.Message);
                 }
 
-                return Ok($"An account has been created and {role} has been assigned");
+                return Ok(signUpResult);
 
             }
             catch (Exception ex)
@@ -451,9 +451,9 @@ namespace Dijital_carsi.Controllers
                 var result = await userService.DeleteUserAsync(UserId);
                 if (!result.Success)
                 {
-                    return BadRequest(result.Message.ToString());
+                    return BadRequest(result);
                 }
-                return Ok(result.Message.ToString());
+                return Ok(result);
 
             }
             catch (Exception ex)
