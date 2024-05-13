@@ -1,25 +1,27 @@
 <div class="layout-topbar">
 
+    <!-- <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button> -->
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3" [routerLink]="['']">
+
+
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button inline text-nowrap" [routerLink]="['']">
         Home
     </button>
-    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
-        [routerLink]="['about-me']">
-        About me
-    </button>
-    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
-        [routerLink]="['contact-me']">
-        Contact me
-    </button>
-    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
-        [routerLink]="['my-links']">
-        My links
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button text-center " [routerLink]="['my-links']">
+        Previous Orders
     </button>
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-menu-mobile-active m-3"
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button text-center"
         [routerLink]="['my-projects']">
-        My Projects
+        My Basket
+    </button>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button text-center" [routerLink]="['admin']">
+        admin
     </button>
 
 
@@ -33,6 +35,25 @@
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
 
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['Profile/1']">
+            <i class="pi pi-user mr-2"></i>
+            <span class="flex inline text-nowrap">My Account</span>
+        </button>
+        <div class="mx-3"></div>
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['Login']">
+            <i class="pi pi-user mr-2"></i>
+            <span class="flex inline text-nowrap">Login</span>
+        </button>
+        <div class="mx-2"></div>
+
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['SignUp']">
+            <i class="pi pi-user-plus mr-2"></i><span class="flex inline text-nowrap"> Sign Up</span>
+        </button>
+
+        <button class="p-link layout-topbar-button" type="button" (click)="UserLogout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Logout</span>
+        </button>
 
         <button class="p-link layout-topbar-button" type="button" (click)="onConfigButtonClick()">
             <i class="pi pi-cog"></i>

@@ -5,6 +5,7 @@ namespace Dijital_carsi.DTOs.Product
     public class ProductInfoDTO
     {
 
+        public Guid Id { get; set; } 
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }

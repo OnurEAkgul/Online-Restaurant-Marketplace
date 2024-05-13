@@ -175,8 +175,8 @@ namespace Business.Managers
             try
             {
                 var shoppingCart = await _shoppingCartDAL.GetAllAsync();
-                if (shoppingCart == null)
-                    return new ErrorDataResult<List<ShoppingCart>> (null, "Shopping cart not found.");
+                if (shoppingCart.Count ==0)
+                    return new ErrorDataResult<List<ShoppingCart>> (null, "No active shopping cart  found.");
 
                 return new SuccessDataResult<List<ShoppingCart>> (shoppingCart, "Shopping cart retrieved successfully.");
             }

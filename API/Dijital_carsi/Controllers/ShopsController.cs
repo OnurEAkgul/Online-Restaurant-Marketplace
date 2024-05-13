@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Business.Interfaces;
 using Core.Entities.Domains;
+using Core.Utilities.Results;
 using DataAccess.EntityFramework;
 using Dijital_carsi.DTOs.Common;
 using Dijital_carsi.DTOs.Shop;
@@ -46,6 +47,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(shop => new ShopInfoDTO
                 {
+                    Id = shop.Id,
                     Name = shop.Name,
                     Description = shop.Description,
                     Location = shop.Location,
@@ -84,6 +86,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(shop => new ShopInfoDTO
                 {
+                    Id = shop.Id,
                     Name = shop.Name,
                     Description = shop.Description,
                     Location = shop.Location,
@@ -125,6 +128,7 @@ namespace Dijital_carsi.Controllers
 
                     var NullResultData = NullResult.Data.Select(shop => new ShopInfoDTO
                     {
+                        Id = shop.Id,
                         Name = shop.Name,
                         Description = shop.Description,
                         Location = shop.Location,
@@ -152,6 +156,7 @@ namespace Dijital_carsi.Controllers
 
                 var NameResultData = NameResult.Data.Select(shop => new ShopInfoDTO
                 {
+                    Id = shop.Id,
                     Name = shop.Name,
                     Description = shop.Description,
                     Location = shop.Location,
@@ -193,6 +198,7 @@ namespace Dijital_carsi.Controllers
 
                 var responseData = new ShopInfoDTO
                 {
+                    Id = result.Data.Id,
                     Name = result.Data.Name,
                     Description = result.Data.Description,
                     Location = result.Data.Location,

@@ -49,6 +49,7 @@ namespace Dijital_carsi.Controllers
 
                     ProductInfo = new ProductInfoDTO
                     {
+                        Id=OrderItems.ProductId,
                         CategoryId = OrderItems.Products.CategoryId,
                         CategoryName = OrderItems.Products.Category.Name,
                         Name = OrderItems.Products.Name,
@@ -109,6 +110,7 @@ namespace Dijital_carsi.Controllers
 
                     ProductInfo = new ProductInfoDTO
                     {
+                        Id = OrderItems.ProductId,
                         CategoryId = OrderItems.Products.CategoryId,
                         CategoryName = OrderItems.Products.Category.Name,
                         Name = OrderItems.Products.Name,
@@ -168,6 +170,7 @@ namespace Dijital_carsi.Controllers
 
                     ProductInfo = new ProductInfoDTO
                     {
+                        Id = result.Data.ProductId,
                         CategoryId = result.Data.Products.CategoryId,
                         CategoryName = result.Data.Products.Category.Name,
                         Name = result.Data.Products.Name,

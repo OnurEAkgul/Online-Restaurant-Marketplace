@@ -30,6 +30,8 @@ export class LoginComponent implements OnDestroy {
       .Login(this.loginModel)
       .subscribe((response) => {
         console.log(response);
+        console.log(response.token);
+        this.userService.SaveToCookies(response.token);
       });
   }
 }

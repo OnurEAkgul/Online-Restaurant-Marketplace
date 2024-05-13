@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
@@ -9,7 +11,7 @@ import { environment } from 'src/environments/environment.development';
 export class UserActionsService {
   ApiBaseUrl = environment.apiBaseUrl + 'UserActions';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   //-----------------GET-----------------
   GetAllUsers(): Observable<any> {
@@ -53,5 +55,19 @@ export class UserActionsService {
   //-----------------DELETE-----------------
   UserDelete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.ApiBaseUrl}/UserDelete/${id}`);
+  }
+
+  //-----------------LOCAL ACITONS-----------------
+  SaveToCookies(token: string) {
+    this.cookieService.set('Authorization', token);
+  }
+
+  Logout() {
+    this.cookieService.delete('Authorization');
+  }
+
+  TokenDecode(EncodedToken: string) {
+    let DecodedToken = jwtDecode(EncodedToken);
+    return DecodedToken;
   }
 }

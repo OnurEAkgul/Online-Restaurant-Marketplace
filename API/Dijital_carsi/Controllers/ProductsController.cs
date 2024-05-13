@@ -43,7 +43,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(product => new ProductInfoDTO
                 {
-
+                    Id = product.Id,
                     CategoryId = product.Category.Id,
                     CategoryName = product.Category.Name,
                     /*Category =
@@ -94,6 +94,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = new ProductInfoDTO
                 {
+                    Id = result.Data.Id,
                     CategoryName = result.Data.Category.Name,
                     CategoryId = result.Data.Category.Id,
                     Description = result.Data.Description,
@@ -136,6 +137,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(product => new ProductInfoDTO
                 {
+                    Id = product.Id,
                     CategoryName = product.Category.Name,
                     CategoryId = product.Category.Id,
                     Description = product.Description,
@@ -178,6 +180,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(product => new ProductInfoDTO
                 {
+                    Id = product.Id,
                     CategoryName = product.Category.Name,
                     CategoryId = product.Category.Id,
                     Description = product.Description,
@@ -220,6 +223,7 @@ namespace Dijital_carsi.Controllers
 
                 var resultData = result.Data.Select(product => new ProductInfoDTO
                 {
+                    Id = product.Id,
                     CategoryName = product.Category.Name,
                     CategoryId = product.Category.Id,
                     Description = product.Description,

@@ -10,8 +10,8 @@ export class TicketsService {
   ApiBaseUrl = environment.apiBaseUrl + 'Tickets';
   constructor(private http: HttpClient) {}
   //-----------------GET-----------------
-  GetAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllTicekts`);
+  GetAllTickets(): Observable<any> {
+    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllTickets`);
   }
 
   GetTicketsByStatus(status: boolean): Observable<any> {
