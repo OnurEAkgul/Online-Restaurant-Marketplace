@@ -13,6 +13,11 @@ export class ProductsService {
   GetAllProducts(): Observable<any> {
     return this.http.get<any>(`${this.ApiBaseUrl}/GetAllProducts`);
   }
+  GetProductsByShopId(ShopId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.ApiBaseUrl}/GetProductsByShopId/${ShopId}`
+    );
+  }
   GetProductById(ProductId: string): Observable<any> {
     return this.http.get<any>(`${this.ApiBaseUrl}/GetProductById/${ProductId}`);
   }
@@ -47,6 +52,13 @@ export class ProductsService {
       any
     );
   }
+  ToggleProductStatus(ProductId: string, isActive: boolean): Observable<any> {
+    return this.http.put<any>(
+      `${this.ApiBaseUrl}/ToggleProductStatus/${ProductId}/${isActive}`,
+      null
+    );
+  }
+
   //-----------------DELETE-----------------
   DeleteProduct(ProductId: string): Observable<any> {
     return this.http.delete<any>(

@@ -304,9 +304,9 @@ namespace Dijital_carsi.Controllers
         }
         
         //TOGGLE STATUS
-        [HttpPut("OpenCloseShop/{ShopId:Guid}")]
+        [HttpPut("OpenCloseShop/{ShopId:Guid}/{ToggleStatus:bool}")]
         //[Authorize(Roles = "shopOwnerRole")]
-        public async Task<IActionResult> OpenCloseShop([FromRoute] Guid ShopId, bool ToggleStatus)
+        public async Task<IActionResult> OpenCloseShop([FromRoute] Guid ShopId,[FromRoute] bool ToggleStatus)
         {
             try
             {

@@ -19,6 +19,7 @@ namespace Business.Interfaces
         Task<IDataResult<List<Ticket>>> GetTicketsByStatus(bool isActive);
         Task<IDataResult<List<Ticket>>> GetTicketsBySupportUser(string supportUserId);
         Task<IDataResult<List<Ticket>>> GetTicketsByCustomerUser(string customerUserId);
+        Task<IResult> ToggleTicketStatus(Guid ticketId, bool isActive);
         Task<IResult> AssignSupportUser(Guid ticketId, string supportUserId);
     }
 }

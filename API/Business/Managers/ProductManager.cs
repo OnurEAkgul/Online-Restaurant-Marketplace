@@ -153,5 +153,47 @@ namespace Business.Services
                 return new ErrorDataResult<Product>(null, $"Error retrieving product: {ex.Message}");
             }
         }
+
+        public async Task<IDataResult<List<Product>>> GetProductsByShopId(Guid ShopId)
+        {
+            try
+            {
+                var product = await _productDAL.GetAllAsync(p => p.ShopId == ShopId, includeProperties: "Category,Shops");
+                if (product.Count == 0)
+                    return new ErrorDataResult<List<Product>>(null, "Product not found.");
+
+                return new SuccessDataResult<List<Product>>(product, "Products retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<List<Product>>(null, $"Error retrieving product: {ex.Message}");
+            }
+        }
+
+        public async Task<IResult> ToggleProductStatus(Guid productId, bool isActive)
+        {
+            try
+            {
+                // Retrieve the existing Order entity from the database
+                var Product = await _productDAL.GetAsync(p => p.Id == productId);
+                if (Product == null)
+                {
+                    return new ErrorResult("Product not found");
+                }
+
+                // Update the isCompleted property only if the status has changed
+                if (Product.IsActive != isActive)
+                {
+                    Product.IsActive = isActive;
+                    await _productDAL.UpdateAsync(Product);
+                }
+
+                return new SuccessResult($"Product status set to {(isActive ? "open" : "closed")} successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorResult($"An error occurred while toggling product status: {ex.Message}");
+            }
+        }
     }
 }

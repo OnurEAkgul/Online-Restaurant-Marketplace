@@ -1,245 +1,25 @@
-<!-- USERS TABLE -->
-<label>Users Table</label>
-<p-table [value]="users.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:25%">id</th>
-            <th style="width:25%">email</th>
-            <th style="width:25%">userName</th>
-            <th style="width:25%">phoneNumber</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.email }}</td>
-            <td>{{ TableData.userName }}</td>
-            <td>{{ TableData.phoneNumber }}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
+<div class="card"><!-- USERS TABLE -->
+    <label class="text-color primary" for="Users">Users Table</label>
+    <div class="card">
 
-<!-- TICKETS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Tickets Table</label>
-<p-table [value]="tickets.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:14.28%">TableDataUserId</th>
-            <th style="width:14.28%">description</th>
-            <th style="width:14.28%">id</th>
-            <th style="width:14.28%">isActive</th>
-            <th style="width:14.28%">supportUserId</th>
-            <th style="width:14.28%">ticketContext</th>
-            <th style="width:14.28%">ticketContextResponse</th>
-
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.TableDataUserId }}</td>
-            <td>{{ TableData.description }}</td>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.isActive }}</td>
-            <td>{{ TableData.supportUserId }}</td>
-            <td>{{ TableData.ticketContext }}</td>
-            <td>{{ TableData.ticketContextResponse }}</td>
-
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
-
-
-<!-- SHOPS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Shops Table</label>
-<p-table [value]="shops.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:12.5%">contactEmail</th>
-            <th style="width:12.5%">contactPhone</th>
-            <th style="width:12.5%">description</th>
-            <th style="width:12.5%">id</th>
-            <th style="width:12.5%">isOpen</th>
-            <th style="width:12.5%">location</th>
-            <th style="width:12.5%">logoUrl</th>
-            <th style="width:12.5%">name</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.contactEmail }}</td>
-            <td>{{ TableData.contactPhone }}</td>
-            <td>{{ TableData.description }}</td>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.isOpen }}</td>
-            <td>{{ TableData.location }}</td>
-            <td>{{ TableData.logoUrl }}</td>
-            <td>{{ TableData.name }}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
-
-<!-- SHOPPING CARTS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>ShoppingCarts Table</label>
-<ng-container *ngIf="shoppingCart">
-
-    <p-table [value]="shoppingCart.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10, 15, 25]">
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:50%">TableDataUserId</th>
-                <th style="width:50%">id</th>
-
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-TableData>
-            <tr>
-                <td>{{ TableData.TableDataUserId }}</td>
-                <td>{{ TableData.id }}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-        </ng-template>
-    </p-table></ng-container>
-
-<!-- PRODUCTS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Products Table</label>
-<p-table [value]="products.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:10%">categoryId</th>
-            <th style="width:10%">categoryName</th>
-            <th style="width:10%">description</th>
-            <th style="width:10%">id</th>
-            <th style="width:10%">imageUrl</th>
-            <th style="width:10%">isActive</th>
-            <th style="width:10%">name</th>
-            <th style="width:10%">price</th>
-            <th style="width:10%">shopId</th>
-            <th style="width:10%">shopName</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.categoryId }}</td>
-            <td>{{ TableData.categoryName }}</td>
-            <td>{{ TableData.description }}</td>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.imageUrl }}</td>
-            <td>{{ TableData.isActive }}</td>
-            <td>{{ TableData.name }}</td>
-            <td>{{ TableData.price }}</td>
-            <td>{{ TableData.shopId }}</td>
-            <td>{{ TableData.shopName }}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
-
-<!-- ORDERS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Orders Table</label>
-<p-table [value]="orders.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:14.28%">TableDataUserId</th>
-            <th style="width:14.28%">id</th>
-            <th style="width:14.28%">isCompleted</th>
-            <th style="width:14.28%">orderDate</th>
-            <th style="width:14.28%">shopId</th>
-            <th style="width:14.28%">shopName</th>
-            <th style="width:14.28%">totalAmount</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.TableDataUserId }}</td>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.isCompleted }}</td>
-            <td>{{ TableData.orderDate }}</td>
-            <td>{{ TableData.shopId }}</td>
-            <td>{{ TableData.shopName }}</td>
-            <td>{{ TableData.totalAmount }}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
-
-<!-- ORDER ITEMS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Order Items Table</label>
-<div>
-    <ng-container *ngIf="orderItems.orderItem; else orderItemsData">
-
-        <p-table [value]="orderItems.orderItem" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="users.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:16.6%">id</th>
-                    <th style="width:16.6%">orderId</th>
-                    <th style="width:16.6%">productId</th>
-                    <th style="width:16.6%">quantity</th>
-                    <th style="width:16.6%">totalPrice</th>
-                    <th style="width:16.6%">unitPrice</th>
+                    <th style="width:25%">User Id</th>
+                    <th style="width:25%">User Email</th>
+                    <th style="width:25%">User Name</th>
+                    <th style="width:25%">User Phone Number</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-TableData>
                 <tr>
                     <td>{{ TableData.id }}</td>
-                    <td>{{ TableData.orderId }}</td>
-                    <td>{{ TableData.productId }}</td>
-                    <td>{{ TableData.quantity }}</td>
-                    <td>{{ TableData.totalPrice }}</td>
-                    <td>{{ TableData.unitPrice }}</td>
+                    <td>{{ TableData.email }}</td>
+                    <td>{{ TableData.userName }}</td>
+                    <td>{{ TableData.phoneNumber }}</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="paginatorleft">
@@ -249,31 +29,42 @@
                 <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
             </ng-template>
         </p-table>
-    </ng-container>
-    <ng-template #orderItemsData>
+    </div>
 
-        <p-table [value]="orderItems.orderItems" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    <!-- TICKETS TABLE -->
+    <label class="text-color primary" for="Tickets">Tickets Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <p-table [value]="tickets.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:16.6%">id</th>
-                    <th style="width:16.6%">orderId</th>
-                    <th style="width:16.6%">productId</th>
-                    <th style="width:16.6%">quantity</th>
-                    <th style="width:16.6%">totalPrice</th>
-                    <th style="width:16.6%">unitPrice</th>
+                    <th style="width:14.28%">Ticket Id</th>
+                    <th style="width:14.28%">Customer Id</th>
+                    <th style="width:14.28%">Assigned Support User Id</th>
+                    <th style="width:14.28%">Ticket Description</th>
+                    <th style="width:14.28%">Ticket Context</th>
+                    <th style="width:14.28%">Ticket Response Context</th>
+                    <th style="width:14.28%">Is Ticket Active</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-TableData>
                 <tr>
                     <td>{{ TableData.id }}</td>
-                    <td>{{ TableData.orderId }}</td>
-                    <td>{{ TableData.productId }}</td>
-                    <td>{{ TableData.quantity }}</td>
-                    <td>{{ TableData.totalPrice }}</td>
-                    <td>{{ TableData.unitPrice }}</td>
+                    <td>{{ TableData.customerUserId }}</td>
+                    <td>{{ TableData.supportUserId }}</td>
+                    <td>{{ TableData.description }}</td>
+                    <td>{{ TableData.ticketContext }}</td>
+                    <td>{{ TableData.ticketContextResponse }}</td>
+                    <td>
+                        <p-checkbox [(ngModel)]="TableData.isActive" [binary]=" true" inputId="binary"
+                            (ngModelChange)="TicketUpdateStatus(TableData.id,TableData.isActive)">
+                        </p-checkbox>
+                        {{ TableData.isActive }}
+                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="paginatorleft">
@@ -283,71 +74,350 @@
                 <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
             </ng-template>
         </p-table>
-    </ng-template>
+    </div>
+
+
+    <!-- SHOPS TABLE -->
+    <label class="text-color primary" for="Shops">Shops Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <p-table [value]="shops.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 15, 25]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:12.5%">Restaurant Id</th>
+                    <th style="width:12.5%">Restaurant Name</th>
+                    <th style="width:12.5%">Restaurant Contact Email</th>
+                    <th style="width:12.5%">Restaurant Contact Phone</th>
+                    <th style="width:12.5%">Restaurant Description</th>
+                    <th style="width:12.5%">Restaurant Location</th>
+                    <th hidden style="width:12.5%">Restaurant Logo Url</th>
+                    <th style="width:12.5%">Is Restaurant Open</th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-TableData>
+                <tr>
+                    <td>{{ TableData.id }}</td>
+                    <td>{{ TableData.name }}</td>
+                    <td>{{ TableData.contactEmail }}</td>
+                    <td>{{ TableData.contactPhone }}</td>
+                    <td>{{ TableData.description }}</td>
+                    <td>{{ TableData.location }}</td>
+                    <td hidden>{{ TableData.logoUrl }}</td>
+                    <td>
+                        <p-checkbox [(ngModel)]="TableData.isOpen" [binary]=" true" inputId="binary"
+                            (ngModelChange)="ShopUpdateStatus(TableData.id,TableData.isOpen)">
+                        </p-checkbox>
+                        {{ TableData.isOpen }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!-- SHOPPING CARTS TABLE -->
+    <label class="text-color primary" for="ShopppingCarts">Shopping Carts Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <ng-container *ngIf="shoppingCart">
+
+            <p-table [value]="shoppingCart.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 15, 25]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:50%">Shopping Cart ID</th>
+                        <th style="width:50%">Customer Id</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-TableData>
+                    <tr>
+                        <td>{{ TableData.id }}</td>
+                        <td>{{ TableData.customerUserId }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table></ng-container>
+    </div>
+
+    <!-- PRODUCTS TABLE -->
+    <label class="text-color primary" for="Products">Products Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <p-table [value]="products.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 15, 25]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:10%">Product Id</th>
+                    <th style="width:10%">Product Name</th>
+                    <th style="width:10%">Product Description</th>
+                    <th style="width:10%">Product Category Id</th>
+                    <th style="width:10%">Product Category Name</th>
+                    <th hidden style="width:10%">Product Image Url</th>
+                    <th style="width:10%">Product Price</th>
+                    <th style="width:10%">Product's Shop Id</th>
+                    <th style="width:10%">Product's Shop Name</th>
+                    <th style="width:10%">Is Product Active</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-TableData>
+                <tr>
+                    <td>{{ TableData.id }}</td>
+                    <td>{{ TableData.name }}</td>
+                    <td>{{ TableData.description }}</td>
+                    <td>{{ TableData.categoryId }}</td>
+                    <td>{{ TableData.categoryName }}</td>
+                    <td hidden>{{ TableData.imageUrl }}</td>
+                    <td>{{ TableData.price }}</td>
+                    <td>{{ TableData.shopId }}</td>
+                    <td>{{ TableData.shopName }}</td>
+                    <td>
+                        <p-checkbox [(ngModel)]="TableData.isActive" [binary]=" true" inputId="binary"
+                            (ngModelChange)="ProductUpdateStatus(TableData.id,TableData.isActive)">
+                        </p-checkbox>
+                        {{TableData.isActive }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <label class="text-color primary" for="Orders">Orders Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3">
+
+            <p-table [value]="orders.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 15, 25]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:14.28%">Order Id</th>
+                        <th style="width:14.28%">Order Date</th>
+                        <th style="width:14.28%">Total Amount of the Order </th>
+
+                        <th style="width:14.28%">User Id of the Order Owner</th>
+
+                        <th style="width:14.28%">Shop Id for the Order</th>
+                        <th style="width:14.28%">Shop Name for the Order </th>
+
+                        <th style="width:14.28%">Is Order Completed</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-TableData>
+                    <tr>
+                        <td>{{ TableData.id }}</td>
+                        <td>{{ TableData.orderDate }}</td>
+                        <td>{{ TableData.totalAmount }}</td>
+                        <td>{{ TableData.customerUserId }}</td>
+                        <td>{{ TableData.shopId }}</td>
+                        <td>{{ TableData.shopName }}</td>
+                        <td>
+                            <p-checkbox [(ngModel)]="TableData.isCompleted" [binary]="true" inputId="binary"
+                                (ngModelChange)="OrderUpdateStatus(TableData.id,TableData.isCompleted)">
+                            </p-checkbox>
+                            {{ TableData.isCompleted }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- ORDER ITEMS TABLE -->
+    <label class="text-color primary" for="OrderItems">Order Items Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <div>
+            <ng-container *ngIf="orderItems.orderItem; else orderItemsData">
+
+                <p-table [value]="orderItems.orderItem" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 15, 25]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:16.6%">Item Id</th>
+                            <th style="width:16.6%">Order Id</th>
+                            <th style="width:16.6%">Product Id</th>
+                            <th style="width:16.6%">Unit Price of Item</th>
+                            <th style="width:16.6%">Quantity of Item</th>
+                            <th style="width:16.6%">Total Price of Item</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-TableData>
+                        <tr>
+                            <td>{{ TableData.id }}</td>
+                            <td>{{ TableData.orderId }}</td>
+                            <td>{{ TableData.productId }}</td>
+                            <td>{{ TableData.unitPrice }}</td>
+                            <td>{{ TableData.quantity }}</td>
+                            <td>{{ TableData.totalPrice }}</td>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft">
+                        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorright">
+                        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                    </ng-template>
+                </p-table>
+            </ng-container>
+            <ng-template #orderItemsData>
+
+                <p-table [value]="orderItems.orderItems" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 15, 25]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:16.6%">id</th>
+                            <th style="width:16.6%">orderId</th>
+                            <th style="width:16.6%">productId</th>
+                            <th style="width:16.6%">quantity</th>
+                            <th style="width:16.6%">totalPrice</th>
+                            <th style="width:16.6%">unitPrice</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-TableData>
+                        <tr>
+                            <td>{{ TableData.id }}</td>
+                            <td>{{ TableData.orderId }}</td>
+                            <td>{{ TableData.productId }}</td>
+                            <td>{{ TableData.quantity }}</td>
+                            <td>{{ TableData.totalPrice }}</td>
+                            <td>{{ TableData.unitPrice }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft">
+                        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorright">
+                        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                    </ng-template>
+                </p-table>
+            </ng-template>
+        </div>
+    </div>
+
+
+
+    <!-- CATEGORIES TABLE -->
+    <label class="text-color primary" for="Categories">Categories Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <p-table [value]="categories.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 15, 25]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width:25%">Category Id</th>
+                    <th style="width:25%">Category Name</th>
+                    <th style="width:25%">Category Description</th>
+                    <th style="width:25%">Is Category Active</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-TableData>
+                <tr>
+                    <td>{{ TableData.id }}</td>
+                    <td>{{ TableData.name }}</td>
+                    <td>{{ TableData.description }}</td>
+                    <td>
+                        <p-checkbox [(ngModel)]="TableData.isActive" [binary]=" true" inputId="binary"
+                            (ngModelChange)="CategoryUpdateStatus(TableData.id,TableData.isActive)">
+                        </p-checkbox>
+                        {{ TableData.isActive }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+
+    <!-- CART ITEMS TABLE -->
+    <label class="text-color primary" for="CartItems">Cart Items Table</label>
+    <div class="card">
+        <div class="mt-3 mb-3"></div>
+
+        <ng-container *ngIf="cartItems.data">
+            <p-table [value]="cartItems.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 15, 25]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:25%">Cart Item Id</th>
+                        <th style="width:25%">Shopping Cart Id</th>
+                        <th style="width:25%">Product Id</th>
+                        <th style="width:25%">Quantity of Cart Item </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-TableData>
+                    <tr>
+                        <td>{{ TableData.id }}</td>
+                        <td>{{ TableData.shoppingCartId }}</td>
+                        <td>{{ TableData.productId }}</td>
+                        <td>{{ TableData.quantity }}</td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <div class="mt-3 mb-3"></div>
+    </div>
 </div>
-
-<!-- CATEGORIES TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Categories Table</label>
-<p-table [value]="categories.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 15, 25]">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:25%">description</th>
-            <th style="width:25%">id</th>
-            <th style="width:25%">isActive</th>
-            <th style="width:25%">name</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-TableData>
-        <tr>
-            <td>{{ TableData.description }}</td>
-            <td>{{ TableData.id }}</td>
-            <td>{{ TableData.isActive }}</td>
-            <td>{{ TableData.name }}</td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
-</p-table>
-
-
-
-<!-- CART ITEMS TABLE -->
-<div class="mt-3 mb-3"></div>
-<label>Cart Items Table</label>
-<ng-container *ngIf="cartItems.data">
-    <p-table [value]="cartItems.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10, 15, 25]">
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:25%">id</th>
-                <th style="width:25%">productId</th>
-                <th style="width:25%">quantity</th>
-                <th style="width:25%">shoppingCartId</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-TableData>
-            <tr>
-                <td>{{ TableData.id }}</td>
-                <td>{{ TableData.productId }}</td>
-                <td>{{ TableData.quantity }}</td>
-                <td>{{ TableData.shoppingCartId }}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-        </ng-template>
-    </p-table>
-</ng-container>
-<div class="mt-3 mb-3"></div>

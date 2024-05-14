@@ -13,12 +13,14 @@ namespace Business.Interfaces
 
         Task<IDataResult<Product>> GetProductById(Guid productId);
         Task<IDataResult<List<Product>>> GetProductsByName(string name);
+        Task<IDataResult<List<Product>>> GetProductsByShopId(Guid ShopId);
         Task<IDataResult<Product>> GetProductByName(string name);
         Task<IDataResult<List<Product>>> GetProductsByCategory(Guid categoryId);
         Task<IDataResult<List<Product>>> GetProductsByCategoryName(string name);
         Task<IDataResult<List<Product>>> GetAllProducts();
         Task<IResult> CreateProduct(Product product);
         Task<IResult> UpdateProduct(Product product);
+        Task<IResult> ToggleProductStatus(Guid productId, bool isActive);
         Task<IResult> DeleteProduct(Guid productId);
 
 

@@ -36,9 +36,10 @@ export class ShopsService {
     );
   }
   OpenCloseShop(ShopId: string, Status: boolean): Observable<any> {
-    return this.http.put<any>(`${this.ApiBaseUrl}/OpenCloseShop/${ShopId}`, {
-      params: { ToggleStatus: Status ?? '' },
-    });
+    return this.http.put<any>(
+      `${this.ApiBaseUrl}/OpenCloseShop/${ShopId}/${Status}`,
+      null
+    );
   }
   //-----------------DELETE-----------------
   RemoveShop(ShopId: string): Observable<any> {

@@ -1,1 +1,104 @@
-<p>shop-page works!</p>
+<ng-container *ngIf="InMaintenance; else elseTemplate">
+    <app-maintenance></app-maintenance>
+</ng-container>
+<ng-template #elseTemplate>
+    <div class="card">
+        <p-tabView class="align-items-center" styleClass="tabview-custom ">
+
+            <p-tabPanel>
+
+                <ng-template pTemplate="header">
+                    <i class="pi pi-list"></i>
+                    <span class="ml-2">The Menu</span>
+                </ng-template>
+                <div class="card">
+                    <p-dataView #dv [value]="Products.data" [rows]="5" [paginator]="true">
+                        <ng-template let-product pTemplate="listItem">
+                            <ng-container *ngIf="product.isActive ">
+
+                                <div class="col-12">
+                                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                                            [src]="product.imageUrl" [alt]="product.name" />
+                                        <div
+                                            class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                                <div class="text-2xl font-bold text-900">{{ product.name }}</div>
+                                                <div class="text-xl font-bold text-900">{{ product.description }}</div>
+
+                                                <!-- <p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                                                <div class="flex align-items-center gap-3">
+                                                    <span class="flex align-items-center gap-2">
+                                                        <i class="pi pi-tag"></i>
+                                                        <span class="font-semibold">{{ product.category }}</span>
+                                                    </span>
+                                                    <!-- <p-tag [value]="product.price" [severity]="getSeverity(product)"></p-tag> -->
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                                <span class="text-2xl font-semibold">{{ '₺' + product.price }}</span>
+                                                <button pButton icon="pi pi-plus"
+                                                    class="md:align-self-end mb-2 p-button-rounded"
+                                                    [routerLink]="['Shop',product.id]"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </ng-container>
+                        </ng-template>
+
+                    </p-dataView>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+
+                    <i class="pi pi-info"></i>
+                    <span class="ml-2">About Restaurant</span>
+
+                </ng-template>
+
+
+
+                <div class="flex align-items-center text-primary">
+                    <span class="pi pi-info mr-2"></span>
+                    <span class="font-bold text-lg">About Restaurant</span>
+                </div>
+                <p-fieldset>
+
+                    <ng-template pTemplate="header">
+
+
+                    </ng-template>
+
+
+                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                            [src]="ShopInfo.data.logoUrl" [alt]="ShopInfo.data.name" />
+                        <div
+                            class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                <div class="text-2xl font-bold text-900">Restaurant name: {{ ShopInfo.data.name }}</div>
+                                <div class="text-xl font-bold text-900">Address: {{ ShopInfo.data.location }}</div>
+                                <div class="text-lg font-bold text-900">{{ ShopInfo.data.description }}</div>
+                                <div class="text-lg font-bold text-900">E-mail: {{ ShopInfo.data.contactEmail }}</div>
+                                <div class="text-lg font-bold text-900">Restaurant Number: {{ ShopInfo.data.contactPhone
+                                    }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </p-fieldset>
+
+            </p-tabPanel>
+
+        </p-tabView>
+    </div>
+</ng-template>

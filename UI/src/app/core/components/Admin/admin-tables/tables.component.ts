@@ -24,7 +24,6 @@ export class AdminTablesComponent implements OnInit {
   orderItems: any;
   categories: any;
   cartItems: any;
-
   constructor(
     private cartItemService: CartItemsService,
     private categoryService: CategoriesService,
@@ -103,5 +102,32 @@ export class AdminTablesComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  //STATUS UPDATE METHODS
+  OrderUpdateStatus(OrderId: string, bool: boolean): void {
+    this.orderService
+      .UpdateOrderStatus(OrderId, bool)
+      .subscribe((response) => {});
+  }
+  CategoryUpdateStatus(CategoryId: string, bool: boolean): void {
+    this.categoryService
+      .ToggleCategoryStatus(CategoryId, bool)
+      .subscribe((response) => {});
+  }
+  ProductUpdateStatus(ProductId: string, bool: boolean): void {
+    this.productService
+      .ToggleProductStatus(ProductId, bool)
+      .subscribe((response) => {});
+  }
+  TicketUpdateStatus(TicketId: string, bool: boolean): void {
+    this.ticketService
+      .ToggleTicketStatus(TicketId, bool)
+      .subscribe((response) => {});
+  }
+  ShopUpdateStatus(ShopId: string, bool: boolean): void {
+    console.log(ShopId);
+    console.log(bool);
+    this.shopService.OpenCloseShop(ShopId, bool).subscribe((response) => {});
   }
 }

@@ -2,6 +2,7 @@
 using Core.Entities.Domains;
 using Core.Utilities.Results;
 using DataAccess.Interfaces;
+using DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,6 +156,32 @@ namespace Business.Managers
             catch (Exception ex)
             {
                 return new ErrorResult($"Error assigning support user to ticket: {ex.Message}");
+            }
+        }
+
+        public async Task<IResult> ToggleTicketStatus(Guid ticketId, bool isActive)
+        {
+            try
+            {
+                // Retrieve the existing Order entity from the database
+                var ticket = await ticketDAL.GetAsync(t => t.Id == ticketId);
+                if (ticket == null)
+                {
+                    return new ErrorResult("Ticket not found");
+                }
+
+                // Update the isCompleted property only if the status has changed
+                if (ticket.IsActive != isActive)
+                {
+                    ticket.IsActive = isActive;
+                    await ticketDAL.UpdateAsync(ticket);
+                }
+
+                return new SuccessResult($"Ticket status set to {(isActive ? "open" : "closed")} successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorResult($"An error occurred while toggling ticket status: {ex.Message}");
             }
         }
     }

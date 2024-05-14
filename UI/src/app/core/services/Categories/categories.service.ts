@@ -48,8 +48,8 @@ export class CategoriesService {
     ToggleStatus: boolean
   ): Observable<any> {
     return this.http.put<any>(
-      `${this.ApiBaseUrl}/ToggleCategoryStatus/${CategoryId}`,
-      ToggleStatus
+      `${this.ApiBaseUrl}/ToggleCategoryStatus/${CategoryId}/${ToggleStatus}`,
+      null
     );
   }
 

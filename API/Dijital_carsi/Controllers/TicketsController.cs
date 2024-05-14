@@ -428,6 +428,29 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //TOGGLE STATUS
+        [HttpPut("ToggleTicketStatus/{TicketId:Guid}/{ToggleStatus:bool}")]
+        //[Authorize(Roles = "shopOwnerRole")]
+        public async Task<IActionResult> ToggleProductStatus([FromRoute] Guid TicketId, bool ToggleStatus)
+        {
+            try
+            {
+
+                var result = await _TicketService.ToggleTicketStatus(TicketId, ToggleStatus);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
         //---------------DELETE----------------
 
         //DELETE TICKET

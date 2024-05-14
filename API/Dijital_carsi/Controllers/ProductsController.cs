@@ -252,8 +252,54 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //GET BY CATEGORY NAME
+        [HttpGet("GetProductsByShopId/{ShopId}")]
+        public async Task<IActionResult> GetProductsByCategoryName([FromRoute] Guid ShopId)
+        {
+            try
+            {
+                var result = await _productService.GetProductsByShopId(ShopId);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(product => new ProductInfoDTO
+                {
+                    Id = product.Id,
+                    CategoryName = product.Category.Name,
+                    CategoryId = product.Category.Id,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    IsActive = product.IsActive,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ShopId = product.ShopId,
+                    ShopName = product.Shops.Name,
+                }).ToList();
+
+                var response = new CommonResponseDTO<List<ProductInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            };
+
+
+        }
+
+
+
         //---------------POST----------------
-        
+
         //CREATE PRODUCT
         [HttpPost("CreateProduct")]
         public async Task<IActionResult> CreateProduct(ProductCreateRequestDTO request)
@@ -320,7 +366,7 @@ namespace Dijital_carsi.Controllers
                     IsActive = request.IsActive,
                 };
 
-                var UpdateResult = await _productService.CreateProduct(UpdateRequest);
+                var UpdateResult = await _productService.UpdateProduct(UpdateRequest);
                 if (!UpdateResult.Success)
                 {
                     return BadRequest(UpdateResult.Message);
@@ -336,6 +382,30 @@ namespace Dijital_carsi.Controllers
             }
 
         }
+
+        //TOGGLE STATUS
+        [HttpPut("ToggleProductStatus/{ProductId:Guid}/{ToggleStatus:bool}")]
+        //[Authorize(Roles = "shopOwnerRole")]
+        public async Task<IActionResult> ToggleProductStatus([FromRoute] Guid ProductId, bool ToggleStatus)
+        {
+            try
+            {
+
+                var result = await _productService.ToggleProductStatus(ProductId, ToggleStatus);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
 
         //---------------DELETE----------------
 

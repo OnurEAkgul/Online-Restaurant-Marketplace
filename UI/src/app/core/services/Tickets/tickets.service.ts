@@ -54,6 +54,14 @@ export class TicketsService {
       null
     );
   }
+
+  ToggleTicketStatus(TicketId: string, isActive: boolean): Observable<any> {
+    return this.http.put<any>(
+      `${this.ApiBaseUrl}/ToggleTicketStatus/${TicketId}/${isActive}`,
+      null
+    );
+  }
+
   //-----------------DELETE-----------------
   DeleteTicket(TicketId: string): Observable<any> {
     return this.http.delete<any>(`${this.ApiBaseUrl}/DeleteTicket/${TicketId}`);

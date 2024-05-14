@@ -57,7 +57,7 @@ export class OrdersService {
   }
   UpdateOrderStatus(OrderId: string, isCompleted: boolean): Observable<any> {
     return this.http.put<any>(
-      `${this.ApiBaseUrl}/UpdateOrder/${OrderId}/${isCompleted}`,
+      `${this.ApiBaseUrl}/UpdateOrderStatus/${OrderId}/${isCompleted}`,
       null
     );
   }
