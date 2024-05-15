@@ -12,6 +12,7 @@ namespace Business.Interfaces
     {
         Task<IDataResult<List<CartItem>>> GetCartItems();
         Task<IDataResult<List<CartItem>>> GetCartItemsByShoppingCartId(Guid ShoppingCartId);
+        Task<IDataResult<List<CartItem>>> GetCartItemsByUserId(string UserId);
         Task<IDataResult<CartItem>> GetCartItemById(Guid cartItemId);
         Task<IResult> AddCartItem(string UserId,CartItem cartItem);
         Task<IResult> UpdateCartItem(CartItem cartItem);

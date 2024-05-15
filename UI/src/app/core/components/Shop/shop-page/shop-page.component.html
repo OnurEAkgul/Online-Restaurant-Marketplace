@@ -40,12 +40,37 @@
                                                 <span class="text-2xl font-semibold">{{ '₺' + product.price }}</span>
                                                 <button pButton icon="pi pi-plus"
                                                     class="md:align-self-end mb-2 p-button-rounded"
-                                                    [routerLink]="['Shop',product.id]"></button>
+                                                    (click)="ShowDialog(product)"></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <p-dialog header="{{ModalItems?.name}}" [(visible)]="visible" [modal]="true"
+                                    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false"
+                                    [closeOnEscape]="true">
+                                    <div class="modal-header">
+
+                                        <p class="m-0">
+                                            <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                                                [src]="ModalItems?.imageUrl" [alt]="ModalItems?.name" />
+
+                                            {{ModalItems?.name}}
+
+                                        </p>
+                                    </div>
+                                    {{itemQuantity}}
+                                    <br>
+                                    <div class="modal-body"><p-button icon="pi pi-plus"
+                                            (onClick)="itemQuantity=itemQuantity+1" [rounded]="true"></p-button>
+                                        <p-button icon="pi pi-minus" (onClick)="itemQuantity=itemQuantity-1"
+                                            [rounded]="true"></p-button>
+                                    </div>
+                                    <div class="modal-footer"><p-button (click)="AddToBasket(itemQuantity)">Add to
+                                            Cart</p-button>
+                                        <p-button (click)="visible=!visible" severity="danger">close</p-button>
+                                    </div>
+                                </p-dialog>
                             </ng-container>
                         </ng-template>
 

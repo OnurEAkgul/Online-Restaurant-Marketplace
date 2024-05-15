@@ -23,16 +23,18 @@ export class CartItemsService {
       `${this.ApiBaseUrl}/GetCartItemsByShoppingCartId/${ShoppingCartId}`
     );
   }
+  GetCartItemsByUserId(UserId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.ApiBaseUrl}/GetCartItemsByUserId/${UserId}`
+    );
+  }
 
   //-----------------POST-----------------
-  AddCartItem(UserId: string, any: any, cartId: string): Observable<any> {
-    return this.http.post<any>(`${this.ApiBaseUrl}/AddCartItem/${UserId}`, {
-      params: {
-        productId: any.productId,
-        quantity: any.quantity,
-        CartId: cartId ?? '',
-      },
-    });
+  AddCartItem(UserId: string, model: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.ApiBaseUrl}/AddCartItem/${UserId}`,
+      model
+    );
   }
 
   //-----------------PUT-----------------

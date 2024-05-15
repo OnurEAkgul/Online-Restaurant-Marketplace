@@ -65,6 +65,53 @@ namespace Dijital_carsi.Controllers
 
         }
 
+        //GET ITEMS BY USER ID
+        [HttpGet("GetCartItemsByUserId/{UserId}")]
+        public async Task<IActionResult> GetCartItemsByUserId([FromRoute] string UserId)
+        {
+            try
+            {
+                var result = await _cartItemService.GetCartItemsByUserId(UserId);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var resultData = result.Data.Select(CartItems => new CartItemInfoDTO
+                {
+                    Id = CartItems.Id,
+                    ProductId = CartItems.ProductId,
+                    Quantity = CartItems.Quantity,
+                    ShoppingCartId = CartItems.ShoppingCartId,
+                    Product = new ProductItemInfoDTO()
+                    {
+                        ImageUrl = CartItems.Product.ImageUrl,
+                        Name = CartItems.Product.Name,
+                        Price = CartItems.Product.Price,
+
+                    },
+                    TotalAmount = CartItems.Product.Price * CartItems.Quantity
+
+                }).ToList();
+
+                
+                var response = new CommonResponseDTO<List<CartItemInfoDTO>>()
+                {
+                    Data = resultData,
+                    Message = result.Message,
+                    Successful = result.Success
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            };
+
+        }
+
         //GET ITEMS BY ITEM ID
         [HttpGet("GetCartItemById/{ItemId:guid}")]
         public async Task<IActionResult> GetCartItemById([FromRoute] Guid ItemId)
@@ -147,7 +194,7 @@ namespace Dijital_carsi.Controllers
         
         //ADD CART ITEM
         [HttpPost("AddCartItem/{UserId}")]
-        public async Task<IActionResult> AddCartItem([FromRoute] string UserId, [FromQuery] Guid CartId, CartItemRequestDTO request)
+        public async Task<IActionResult> AddCartItem([FromRoute] string UserId, CartItemRequestDTO request)
         {
             try
             {
@@ -160,7 +207,7 @@ namespace Dijital_carsi.Controllers
                 {
                     ProductId = request.ProductId,
                     Quantity = request.Quantity,
-                    ShoppingCartId = CartId
+                     
 
                 };
 
@@ -239,11 +286,11 @@ namespace Dijital_carsi.Controllers
                 var UpdateResult = await _cartItemService.DeleteCartItem(ItemId);
                 if (!UpdateResult.Success)
                 {
-                    return BadRequest(UpdateResult.Message);
+                    return BadRequest(UpdateResult);
                 }
 
 
-                return Ok($"Item has been Deleted");
+                return Ok(UpdateResult);
 
             }
             catch (Exception ex)
