@@ -8,7 +8,11 @@ export const authGuard: CanActivateFn = (route, state) => {
   const UserService = inject(UserActionsService);
   const router = inject(Router);
   // console.log(cookieService.get('Authorization'));
-  if (cookieService.get('Authorization')) {
+  if (!cookieService.get('Authorization')) {
+    // UserService.Logout();
+    // router.navigateByUrl('');
+    // return false;
+  } else {
     const user: any = UserService.TokenDecode(
       cookieService.get('Authorization')
     );

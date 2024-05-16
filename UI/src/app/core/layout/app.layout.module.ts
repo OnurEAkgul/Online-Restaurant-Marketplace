@@ -18,6 +18,7 @@ import { AppConfigModule } from './config/config.module';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppLayoutComponent } from './app.layout.component';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AppLayoutComponent } from './app.layout.component';
     RouterModule,
     AppConfigModule,
     TabMenuModule,
+    DividerModule,
   ],
   exports: [AppLayoutComponent],
 })

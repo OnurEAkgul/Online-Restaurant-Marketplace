@@ -1,8 +1,9 @@
-<ng-container *ngIf="!flag; else elseTemplate">
-    item{{flag}}
+<ng-container *ngIf="flag; else elseTemplate">
+    <!-- shopcart{{flag}} -->
+    <app-cart-items></app-cart-items>
 </ng-container>
 <ng-template #elseTemplate>
+    <!-- shopcart!{{!flag}} -->
 
-    {{flag}}
-    <app-cart-items></app-cart-items>
+
 </ng-template>

@@ -34,18 +34,18 @@ export class CartItemsComponent implements OnInit {
     this.UserInfo = this.UserService.TokenDecode(
       this.CookieService.get('Authorization')
     );
-    console.log(this.UserInfo);
+    // console.log(this.UserInfo);
   }
   getCartItems() {
     this.CartItemService.GetCartItemsByUserId(this.UserInfo.nameid).subscribe(
       (response) => {
         this.CartItems = response.data;
-        console.log(this.CartItems);
+        // console.log(this.CartItems);
         this.GetTotalPrice();
       },
       (error) => {
         this.ItemFlag = false;
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('Foods/Restaurants');
       }
     );
   }
@@ -55,18 +55,18 @@ export class CartItemsComponent implements OnInit {
       return sum + item.totalAmount;
     }, 0);
 
-    console.log('Total sum of totalAmount:', this.totalPrice);
+    // console.log('Total sum of totalAmount:', this.totalPrice);
   }
 
   removeItem(itemId: any) {
-    console.log(itemId);
+    // console.log(itemId);
     this.CartItemService.DeleteCartItem(itemId).subscribe(
       (response) => {
         this.getCartItems();
-        console.log('hererereree');
-        console.log(this.CartItems);
+        // console.log('hererereree');
+        // console.log(this.CartItems);
         if (this.CartItems == null) {
-          this.router.navigateByUrl('');
+          this.router.navigateByUrl('Foods/Restaurants');
         }
       },
       (error) => {

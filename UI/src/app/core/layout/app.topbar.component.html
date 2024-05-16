@@ -7,7 +7,8 @@
 
 
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-button inline text-nowrap" [routerLink]="['']">
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button inline text-nowrap"
+        [routerLink]="['Restaurants']">
         Home
     </button>
 
@@ -41,13 +42,13 @@
             <span class="flex inline text-nowrap">My Account</span>
         </button>
         <div class="mx-3"></div>
-        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['Login']">
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['/Login']">
             <i class="pi pi-user mr-2"></i>
             <span class="flex inline text-nowrap">Login</span>
         </button>
         <div class="mx-2"></div>
 
-        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['SignUp']">
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['/SignUp']">
             <i class="pi pi-user-plus mr-2"></i><span class="flex inline text-nowrap"> Sign Up</span>
         </button>
 

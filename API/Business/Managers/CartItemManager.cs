@@ -3,6 +3,7 @@ using Core.Entities.Domains;
 using Core.Utilities.Results;
 using DataAccess.Interfaces;
 using DataAccess.Repositories;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,20 @@ namespace Business.Managers
         {
             try
             {
+                if(cartItem.ShoppingCartId== Guid.Parse("00000000-0000-0000-0000-000000000000")|| cartItem.ShoppingCartId.ToString().IsNullOrEmpty() ){
+                    var shoppingCartService = await _shoppingCartServiceFactory();
+
+                    var createCartResult = await shoppingCartService.CreateShoppingCart(UserId);
+                    if (!createCartResult.Success)
+                    {
+                        // Failed to create shopping cart
+                        return new ErrorResult($"Failed to create shopping cart: {createCartResult.Message}");
+                    }
+                    // Update the cart item with the newly created shopping cart ID
+                    cartItem.ShoppingCartId = createCartResult.Data.Id;
+
+                }
+                else { 
                 var shoppingCartService = await _shoppingCartServiceFactory();
                 // Retrieve or create the shopping cart for the user
                 var shoppingCartResult = await shoppingCartService.GetShoppingCartByUserId(UserId);
@@ -62,7 +77,7 @@ namespace Business.Managers
                     // Use the existing shopping cart ID
                     cartItem.ShoppingCartId = shoppingCartResult.Data.Id;
                 }
-
+                }
                 // Add the cart item to the database
                 await _cartItemDAL.AddAsync(cartItem);
                 return new SuccessResult("Cart item added successfully.");

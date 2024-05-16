@@ -126,7 +126,7 @@
     </div>
 
     <!-- SHOPPING CARTS TABLE -->
-    <label class="text-color primary" for="ShopppingCarts">Shopping Carts Table</label>
+    <!-- <label class="text-color primary" for="ShopppingCarts">Shopping Carts Table</label>
     <div class="card">
         <div class="mt-3 mb-3"></div>
 
@@ -155,7 +155,7 @@
                     <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
                 </ng-template>
             </p-table></ng-container>
-    </div>
+    </div> -->
 
     <!-- PRODUCTS TABLE -->
     <label class="text-color primary" for="Products">Products Table</label>
@@ -383,11 +383,10 @@
 
 
     <!-- CART ITEMS TABLE -->
-    <label class="text-color primary" for="CartItems">Cart Items Table</label>
-    <div class="card">
-        <div class="mt-3 mb-3"></div>
-
-        <ng-container *ngIf="cartItems.data">
+    <ng-container *ngIf="cartItems.data; else noCartItem">
+        <label class="text-color primary" for="CartItems">Cart Items Table</label>
+        <div class="card">
+            <div class="mt-3 mb-3"></div>
             <p-table [value]="cartItems.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -417,7 +416,13 @@
                     <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
                 </ng-template>
             </p-table>
-        </ng-container>
-        <div class="mt-3 mb-3"></div>
-    </div>
+
+            <div class="mt-3 mb-3"></div>
+        </div>
+    </ng-container>
+    <ng-template #noCartItem>
+
+    </ng-template>
+
+
 </div>

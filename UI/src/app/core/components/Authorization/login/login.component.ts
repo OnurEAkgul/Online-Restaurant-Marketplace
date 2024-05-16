@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
@@ -13,7 +14,7 @@ export class LoginComponent implements OnDestroy {
   LoginSubs?: Subscription;
   loginModel: any;
 
-  constructor(private userService: UserActionsService) {
+  constructor(private userService: UserActionsService, private router: Router) {
     this.loginModel = {
       email: '',
       password: '',
@@ -26,12 +27,16 @@ export class LoginComponent implements OnDestroy {
   }
   Login() {
     this.loginModel.username = this.loginModel.email;
-    this.LoginSubs = this.userService
-      .Login(this.loginModel)
-      .subscribe((response) => {
+    this.LoginSubs = this.userService.Login(this.loginModel).subscribe(
+      (response) => {
         console.log(response);
         console.log(response.token);
         this.userService.SaveToCookies(response.token);
-      });
+        this.router.navigateByUrl('');
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
   }
 }

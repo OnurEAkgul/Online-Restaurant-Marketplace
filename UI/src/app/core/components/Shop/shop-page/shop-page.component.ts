@@ -100,5 +100,7 @@ export class ShopPageComponent {
       .subscribe((response) => {
         console.log(response);
       });
+
+    this.visible = !this.visible;
   }
 }

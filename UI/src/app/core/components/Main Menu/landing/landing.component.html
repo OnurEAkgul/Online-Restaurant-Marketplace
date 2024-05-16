@@ -1,7 +1,142 @@
-<div class="card text-primary">
-    <span> Own a restaurant?
-    </span>
+<div class="layout-topbar">
+    <div #topbarmenu class="layout-topbar-menu">
+        <div class="mx-3"></div>
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['Login']">
+            <i class="pi pi-user mr-2"></i>
+            <span class="flex inline text-nowrap">Login</span>
+        </button>
+        <div class="mx-2"></div>
 
-    <span>Become a GetirFood business partner, grow your business at smaller costs, increase customer happiness.
-    </span>
+        <button #menubutton class="p-link layout-topbar-button  mr-2 " [routerLink]="['SignUp']">
+            <i class="pi pi-user-plus mr-2"></i><span class="flex inline text-nowrap"> Sign Up</span>
+        </button>
+    </div>
+</div>
+
+<div class="grid grid-nogutter surface-section text-800">
+    <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
+        <section>
+            <span class="block text-6xl font-bold mb-1">Join us now!</span>
+            <div class="text-6xl text-primary font-bold mb-3"><span> Want to explore our restaurants?
+                </span></div>
+            <p class="mt-0 mb-4 text-700 line-height-3"><span>Enjoy delicious foods from our various restaurants by
+                    becoming a memeber.
+                </span></p>
+            <button pButton pRipple label="Login" type="button" [routerLink]="['Login']"
+                class="mr-3 p-button-raised"></button>
+            <button pButton pRipple label="Sign up" type="button" [routerLink]="['SignUp']"
+                class="p-button-outlined"></button>
+        </section>
+    </div>
+
+    <div class="flex justify-content-center col-12 lg:col-6 bg-100 p-0 flex-order-1 lg:flex-order-0"
+        style="border-radius:8px;">
+        <img src="/assets/images/licensed-image.jpeg" class="w-full h-auto" alt="venedik"
+            style="clip-path: polygon(5% 0, 100% 0%, 100% 100%, 0 100%)">
+    </div>
+</div>
+<br><br><br><br>
+
+<div class="card text-color">
+
+    <section>
+        <span class="block text-6xl font-bold mb-1 text-primary">Own a restaurant?</span>
+
+        <p class="mt-0 mb-4 text-700 line-height-3"><span>Become a YemekMarketim business partner, grow your
+                business at
+                smaller costs, increase customer happiness.
+
+            </span></p>
+
+        <button pButton pRipple label="Sign up" type="button" [routerLink]="['CreateShop']"
+            class="p-button-outlined"></button>
+    </section>
+</div>
+
+<div class="layout-footer">
+    <div class="container-fluid mt-5 ">
+        <div class="text-center">
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-primary text-xl">About Us</div>
+                <!-- Need Help? -->
+                <div class="col text-primary text-xl">Need Help?</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-primary text-xl">Want to Become Our Partner?</div>
+            </div>
+
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg cursor-pointer">About Us</div>
+                <!-- Need Help? -->
+                <div [routerLink]="['FAQ']" class="col text-lg cursor-pointer">FAQ</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-lg cursor-pointer">Want to Work With Us?</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg cursor-pointer">Contact Us</div>
+                <!-- Need Help? -->
+                <div [routerLink]="['KVKK']" class="col text-lg cursor-pointer">Protection of Personal Data</div>
+                <!-- Want to Become Our Partner?  -->
+                <div [routerLink]="['Become-Partner']" class="col text-lg cursor-pointer"> Become our Restaurant Partner
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg cursor-pointer">Our Social Media Accounts</div>
+                <!-- Need Help? -->
+                <div [routerLink]="['Privacy']" class="col text-lg cursor-pointer">Privacy Policy</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-lg cursor-pointer">Chain Restaurants</div>
+
+            </div>
+
+            <!-- Row 4 -->
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg "></div>
+                <!-- Need Help? -->
+                <div [routerLink]="['TOS']" class="col text-lg cursor-pointer">Terms of Use</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-lg "></div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg "></div>
+                <!-- Need Help? -->
+                <div [routerLink]="['Cookies']" class="col text-lg cursor-pointer">Cookie Policy</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-lg "></div>
+
+            </div>
+
+            <!-- Row 6 -->
+            <div class="row mb-3">
+                <!-- About Us -->
+                <div class="col text-lg "></div>
+                <!-- Need Help? -->
+                <div [routerLink]="['Guide']" class="col text-lg cursor-pointer">Site Guide</div>
+                <!-- Want to Become Our Partner?  -->
+                <div class="col text-lg "></div>
+
+            </div>
+        </div>
+        <!-- Copyright Row -->
+        <p-divider></p-divider>
+        <div class="row">
+            <div class="col text-center">
+                &copy; <span class="font-medium ml-2">Onur Eren Akgül</span>
+
+            </div>
+        </div>
+
+    </div>
 </div>

@@ -25,8 +25,11 @@ export class ShopsService {
     return this.http.get<any>(`${this.ApiBaseUrl}/GetShopById/${ShopId}`);
   }
   //-----------------POST-----------------
-  CreateNewShop(any: any): Observable<any> {
-    return this.http.post<any>(`${this.ApiBaseUrl}/CreateNewShop`, any);
+  CreateNewShop(userId: string, any: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.ApiBaseUrl}/CreateNewShop/${userId}`,
+      any
+    );
   }
   //-----------------PUT-----------------
   UpdateShopInfo(ShopId: string, any: any): Observable<any> {

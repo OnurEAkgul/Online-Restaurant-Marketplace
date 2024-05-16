@@ -1,5 +1,9 @@
-<ng-container *ngIf="ItemFlag;else elseTemplate">
-    {{ItemFlag}}
+<ng-container *ngIf="!ItemFlag;else elseTemplate">
+    <!-- cartItemFlag!{{ItemFlag}} -->
+
+</ng-container>
+<ng-template #elseTemplate>
+    <!-- cartItemFlag{{ItemFlag}} -->
     <div class="card"><p-dataView #dv [value]="CartItems" [paginator]="false">
             <ng-template let-Items pTemplate="listItem">
                 <!-- <ng-container *ngIf="Items.isOpen "> -->
@@ -44,7 +48,4 @@
         <p class="text-color">Total price: <span>{{totalPrice}}</span></p>
         <button pButton>Buy now</button>
     </div>
-</ng-container>
-<ng-template #elseTemplate>
-    {{ItemFlag}}
 </ng-template>

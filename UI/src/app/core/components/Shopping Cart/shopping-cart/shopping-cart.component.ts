@@ -18,37 +18,53 @@ export class ShoppingCartComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.GetUser();
-    this.getShoppingCart(this.user.nameid);
-    if (this.flag == false) {
-      this.router.navigateByUrl('');
+    console.log(this.user);
+
+    if (this.user) {
+      console.log(this.user);
+      this.getShoppingCart(this.user.nameid);
+      if (this.flag == false) {
+        this.router.navigateByUrl('Foods/Restaurants');
+      }
+    } else {
+      this.router.navigateByUrl('Foods/Restaurants');
     }
   }
 
   flag: boolean = true;
   getShoppingCart(userId: string) {
-    this.shoppingCartService
-      .GetShoppingCartByUserId(this.user.nameid)
-      .subscribe(
-        (response) => {
-          if (response.data) {
-            this.flag = true;
-            console.log(this.flag);
-            console.log(response);
+    if (this.user.nameid) {
+      this.shoppingCartService
+
+        .GetShoppingCartByUserId(this.user.nameid)
+        .subscribe(
+          (response) => {
+            if (response.data) {
+              this.flag = true;
+              console.log(this.flag);
+              console.log(response);
+              // this.router.navigateByUrl('Foods');
+            }
+          },
+          (error) => {
+            if (error.data == null) {
+              this.flag = false;
+              console.log(this.flag);
+              console.log(error);
+              this.router.navigateByUrl('Foods/Restaurants');
+            }
           }
-        },
-        (error) => {
-          if (error.data == null) {
-            this.flag = false;
-            console.log(this.flag);
-            console.log(error);
-            this.router.navigateByUrl('');
-          }
-        }
-      );
+        );
+    } else {
+      console.log('else');
+      this.router.navigateByUrl('Foods/Restaurants');
+    }
   }
   user: any;
   GetUser() {
+    console.log(this.user);
     let Token = this.cookieService.get('Authorization');
-    this.user = this.userService.TokenDecode(Token);
+    if (Token) this.user = this.userService.TokenDecode(Token);
+    console.log(this.user.nameid);
   }
 }

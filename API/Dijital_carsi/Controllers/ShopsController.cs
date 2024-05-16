@@ -254,11 +254,11 @@ namespace Dijital_carsi.Controllers
                 var CreateResult = await _shopService.CreateShopAsync(CreateRequest);
                 if (!CreateResult.Success)
                 {
-                    return BadRequest(CreateResult.Message);
+                    return BadRequest(CreateResult);
                 }
 
 
-                return Ok($"Your shop has been created");
+                return Ok(CreateResult);
 
             }
             catch (Exception ex)

@@ -40,11 +40,12 @@ export class AdminTablesComponent implements OnInit {
     this.GetUserTables();
     this.GetTicketTables();
     this.GetShopTables();
-    this.GetShoppingCartTables();
+
     this.GetProductTables();
     this.GetOrderTables();
     this.GetOrderItemTables();
     this.GetCategoryTables();
+    // this.GetShoppingCartTables();
     this.GetCartItemTables();
   }
 
@@ -70,7 +71,9 @@ export class AdminTablesComponent implements OnInit {
           this.shoppingCart = response;
         }
       },
-      (error) => {}
+      (error) => {
+        this.shoppingCart = error;
+      }
     );
   }
   GetProductTables() {
@@ -100,7 +103,9 @@ export class AdminTablesComponent implements OnInit {
           this.cartItems = response;
         }
       },
-      (error) => {}
+      (error) => {
+        this.cartItems = error;
+      }
     );
   }
 

@@ -16,6 +16,8 @@ import { BadgeModule } from 'primeng/badge';
 import { TabViewModule } from 'primeng/tabview';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
+import { DividerModule } from 'primeng/divider';
+import { PasswordModule } from 'primeng/password';
 
 //UTILS
 import { MessageService } from 'primeng/api';
@@ -103,6 +105,8 @@ import { MaintenanceComponent } from './core/components/Error Pages/maintenance/
     TabViewModule,
     FieldsetModule,
     DialogModule,
+    DividerModule,
+    PasswordModule,
   ],
   providers: [
     MessageService,

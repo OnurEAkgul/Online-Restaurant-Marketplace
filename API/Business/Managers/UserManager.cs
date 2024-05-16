@@ -58,6 +58,7 @@ namespace Business.Services
             try
             {
                 var Result = await _UserManager.CreateAsync(user, password);
+                
                 return Result.Succeeded
                     ? new SuccessResult("User Registered Successfully")
                     : new ErrorResult(string.Join(",", "User Registeration Error"));

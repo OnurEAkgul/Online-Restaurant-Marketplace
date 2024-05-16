@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from './service/app.layout.service';
 import { UserActionsService } from '../services/UserActions/user-actions.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -20,7 +21,8 @@ export class AppTopBarComponent implements OnInit {
   constructor(
     public layoutService: LayoutService,
     private userService: UserActionsService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     // this.writetoconsole();
@@ -32,6 +34,7 @@ export class AppTopBarComponent implements OnInit {
 
   UserLogout() {
     this.userService.Logout();
+    this.router.navigateByUrl('');
   }
 
   writetoconsole() {

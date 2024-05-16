@@ -38,7 +38,7 @@ namespace Business.Managers
                 {
                     // No associated cart items found, delete the shopping cart
                     await _shoppingCartDAL.DeleteAsync(shoppingCart);
-
+                    
                     return new SuccessDataResult<ShoppingCart>(null, "Shopping cart deleted due to no associated cart items.");
                 }
 

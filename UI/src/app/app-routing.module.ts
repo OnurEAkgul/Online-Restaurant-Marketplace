@@ -21,15 +21,16 @@ import { OperationGuideComponent } from './core/components/Agreements/operation-
 import { PrivacyComponent } from './core/components/Agreements/privacy/privacy.component';
 import { TosComponent } from './core/components/Agreements/tos/tos.component';
 import { KVKKComponent } from './core/components/Agreements/kvkk/kvkk.component';
+import { LandingComponent } from './core/components/Main Menu/landing/landing.component';
 
 const routes: Routes = [
   {
     //LAYOUT COMPONENT
-    path: '',
+    path: 'Foods',
     component: AppLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'Restaurants',
         component: MenuComponent,
       },
       {
@@ -47,10 +48,6 @@ const routes: Routes = [
       {
         path: 'PreviousOrders/:OrderId',
         component: OrdersComponent,
-      },
-      {
-        path: 'CreateShop',
-        component: CreateShopComponent,
       },
       {
         path: 'UpdateShop/:ShopId',
@@ -84,9 +81,14 @@ const routes: Routes = [
         path: 'KVKK',
         component: KVKKComponent,
       },
+      {
+        path: 'Become-Partner',
+        component: CreateShopComponent,
+      },
     ],
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
+  { path: '', component: LandingComponent },
   {
     path: 'Login',
     component: LoginComponent,
@@ -96,8 +98,36 @@ const routes: Routes = [
     component: SignUpComponent,
   },
   {
+    path: 'CreateShop',
+    component: CreateShopComponent,
+  },
+  {
+    path: 'Cookies',
+    component: CookiesComponent,
+  },
+  {
+    path: 'Guide',
+    component: OperationGuideComponent,
+  },
+  {
+    path: 'Privacy',
+    component: PrivacyComponent,
+  },
+  {
+    path: 'TOS',
+    component: TosComponent,
+  },
+  {
+    path: 'FAQ',
+    component: FAQComponent,
+  },
+  {
+    path: 'KVKK',
+    component: KVKKComponent,
+  },
+  {
     path: 'Become-Partner',
-    component: ShopOwnerRegisterComponent,
+    component: CreateShopComponent,
   },
   {
     path: '**',
