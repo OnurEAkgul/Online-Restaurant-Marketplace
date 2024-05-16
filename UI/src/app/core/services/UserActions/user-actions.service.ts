@@ -4,6 +4,12 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { GenericResponseModel } from '../GenericResponse.model';
+import { UserInfoModel } from './models/UserInfo.model';
+import { LoginResponseModel } from './models/LoginResponse.model';
+import { LoginRequestModel } from './models/LoginRequest.model';
+import { SignUpModel } from './models/SignUp.model';
+import { UserUpdateModel } from './models/UserUpdate.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,41 +20,55 @@ export class UserActionsService {
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   //-----------------GET-----------------
-  GetAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllUsers`);
+  GetAllUsers(): Observable<GenericResponseModel<UserInfoModel[]>> {
+    return this.http.get<GenericResponseModel<UserInfoModel[]>>(
+      `${this.ApiBaseUrl}/GetAllUsers`
+    );
   }
 
-  GetUser(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetUser`);
+  GetUser(): Observable<GenericResponseModel<UserInfoModel>> {
+    return this.http.get<GenericResponseModel<UserInfoModel>>(
+      `${this.ApiBaseUrl}/GetUser`
+    );
   }
 
-  GetAllUsersByRole(role: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllUsersByRole`, {
-      params: { Role: role ?? '' },
-    });
+  GetAllUsersByRole(
+    role: string
+  ): Observable<GenericResponseModel<UserInfoModel[]>> {
+    return this.http.get<GenericResponseModel<UserInfoModel[]>>(
+      `${this.ApiBaseUrl}/GetAllUsersByRole`,
+      {
+        params: { Role: role ?? '' },
+      }
+    );
   }
-  GetUserInfoById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetUserInfoById/${id}`);
+  GetUserInfoById(id: string): Observable<GenericResponseModel<UserInfoModel>> {
+    return this.http.get<GenericResponseModel<UserInfoModel>>(
+      `${this.ApiBaseUrl}/GetUserInfoById/${id}`
+    );
   }
 
   //-----------------POST-----------------
 
-  Login(any: any): Observable<any> {
-    return this.http.post<any>(`${this.ApiBaseUrl}/Login`, any);
+  Login(model: LoginRequestModel): Observable<LoginResponseModel> {
+    return this.http.post<LoginResponseModel>(
+      `${this.ApiBaseUrl}/Login`,
+      model
+    );
   }
 
-  SignUp(any: any): Observable<any> {
+  SignUp(any: SignUpModel): Observable<any> {
     return this.http.post<any>(`${this.ApiBaseUrl}/SignUp`, any);
   }
-  ShopOwnerSignUp(any: any): Observable<any> {
+  ShopOwnerSignUp(any: SignUpModel): Observable<any> {
     return this.http.post<any>(`${this.ApiBaseUrl}/ShopOwnerSignUp`, any);
   }
-  SupportUserRegister(any: any): Observable<any> {
+  SupportUserRegister(any: SignUpModel): Observable<any> {
     return this.http.post<any>(`${this.ApiBaseUrl}/SupportUserRegister`, any);
   }
 
   //-----------------PUT-----------------
-  UpdateUserInfo(id: string, any: any): Observable<any> {
+  UpdateUserInfo(id: string, any: UserUpdateModel): Observable<any> {
     return this.http.put<any>(`${this.ApiBaseUrl}/UpdateUserInfo/${id}`, any);
   }
 

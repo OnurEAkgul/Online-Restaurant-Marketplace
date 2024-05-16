@@ -2,10 +2,11 @@
     <label class="text-color primary" for="Users">Users Table</label>
     <div class="card">
 
-        <p-table [value]="users.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
+
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width:25%">User Id</th>
@@ -21,6 +22,7 @@
                     <td>{{ TableData.userName }}</td>
                     <td>{{ TableData.phoneNumber }}</td>
                 </tr>
+
             </ng-template>
             <ng-template pTemplate="paginatorleft">
                 <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
@@ -29,6 +31,7 @@
                 <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
             </ng-template>
         </p-table>
+
     </div>
 
     <!-- TICKETS TABLE -->
@@ -36,7 +39,7 @@
     <div class="card">
         <div class="mt-3 mb-3"></div>
 
-        <p-table [value]="tickets.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="tickets" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
@@ -162,7 +165,7 @@
     <div class="card">
         <div class="mt-3 mb-3"></div>
 
-        <p-table [value]="products.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">

@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { GenericResponseModel } from '../GenericResponse.model';
+import { ShoppingCartModel } from './models/ShoppingCartInfo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,24 +12,30 @@ export class ShoppingCartsService {
   ApiBaseUrl = environment.apiBaseUrl + 'ShoppingCarts';
   constructor(private http: HttpClient) {}
   //-----------------GET-----------------
-  GetAllShoppingCarts(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllShoppingCarts`);
+  GetAllShoppingCarts(): Observable<GenericResponseModel<ShoppingCartModel[]>> {
+    return this.http.get<GenericResponseModel<ShoppingCartModel[]>>(
+      `${this.ApiBaseUrl}/GetAllShoppingCarts`
+    );
   }
-  GetShoppingCartById(ShoppingCartId: string): Observable<any> {
-    return this.http.get<any>(
+  GetShoppingCartById(
+    ShoppingCartId: string
+  ): Observable<GenericResponseModel<ShoppingCartModel>> {
+    return this.http.get<GenericResponseModel<ShoppingCartModel>>(
       `${this.ApiBaseUrl}/GetShoppingCartById/${ShoppingCartId}`
     );
   }
-  GetShoppingCartByUserId(UserId: string): Observable<any> {
-    return this.http.get<any>(
+  GetShoppingCartByUserId(
+    UserId: string
+  ): Observable<GenericResponseModel<ShoppingCartModel>> {
+    return this.http.get<GenericResponseModel<ShoppingCartModel>>(
       `${this.ApiBaseUrl}/GetShoppingCartByUserId/${UserId}`
     );
   }
   //-----------------POST-----------------
-  CreateShoppingCart(UserId: string, any: any): Observable<any> {
+  CreateShoppingCart(UserId: string): Observable<any> {
     return this.http.post<any>(
       `${this.ApiBaseUrl}/CreateShoppingCart/${UserId}`,
-      any
+      null
     );
   }
   //-----------------PUT-----------------

@@ -3,10 +3,13 @@ import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.ser
 import { CategoriesService } from 'src/app/core/services/Categories/categories.service';
 import { OrderItemsService } from 'src/app/core/services/OrderItems/order-items.service';
 import { OrdersService } from 'src/app/core/services/Orders/orders.service';
+import { ProductInfoModel } from 'src/app/core/services/Products/models/ProductInfo.model';
 import { ProductsService } from 'src/app/core/services/Products/products.service';
 import { ShoppingCartsService } from 'src/app/core/services/ShoppingCarts/shopping-carts.service';
 import { ShopsService } from 'src/app/core/services/Shops/shops.service';
+import { TicketInfoModel } from 'src/app/core/services/Tickets/models/TicketInfo.model';
 import { TicketsService } from 'src/app/core/services/Tickets/tickets.service';
+import { UserInfoModel } from 'src/app/core/services/UserActions/models/UserInfo.model';
 import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
 @Component({
@@ -15,11 +18,11 @@ import { UserActionsService } from 'src/app/core/services/UserActions/user-actio
   styleUrls: ['./tables.component.css'],
 })
 export class AdminTablesComponent implements OnInit {
-  users: any;
-  tickets: any;
+  users: UserInfoModel[] = [];
+  tickets: TicketInfoModel[] = [];
   shops: any;
   shoppingCart: any;
-  products: any;
+  products: ProductInfoModel[] = [];
   orders: any;
   orderItems: any;
   categories: any;
@@ -51,12 +54,12 @@ export class AdminTablesComponent implements OnInit {
 
   GetUserTables() {
     this.userService.GetAllUsers().subscribe((response) => {
-      this.users = response;
+      this.users = response.data;
     });
   }
   GetTicketTables() {
     this.ticketService.GetAllTickets().subscribe((response) => {
-      this.tickets = response;
+      this.tickets = response.data;
     });
   }
   GetShopTables() {
@@ -78,7 +81,7 @@ export class AdminTablesComponent implements OnInit {
   }
   GetProductTables() {
     this.productService.GetAllProducts().subscribe((response) => {
-      this.products = response;
+      this.products = response.data;
     });
   }
   GetOrderTables() {

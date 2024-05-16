@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { GenericResponseModel } from '../GenericResponse.model';
+import { ProductInfoModel } from './models/ProductInfo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,29 +12,43 @@ export class ProductsService {
   ApiBaseUrl = environment.apiBaseUrl + 'Products';
   constructor(private http: HttpClient) {}
   //-----------------GET-----------------
-  GetAllProducts(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllProducts`);
+  GetAllProducts(): Observable<GenericResponseModel<ProductInfoModel[]>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel[]>>(
+      `${this.ApiBaseUrl}/GetAllProducts`
+    );
   }
-  GetProductsByShopId(ShopId: string): Observable<any> {
-    return this.http.get<any>(
+  GetProductsByShopId(
+    ShopId: string
+  ): Observable<GenericResponseModel<ProductInfoModel[]>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel[]>>(
       `${this.ApiBaseUrl}/GetProductsByShopId/${ShopId}`
     );
   }
-  GetProductById(ProductId: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetProductById/${ProductId}`);
+  GetProductById(
+    ProductId: string
+  ): Observable<GenericResponseModel<ProductInfoModel>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel>>(
+      `${this.ApiBaseUrl}/GetProductById/${ProductId}`
+    );
   }
-  GetProductsByName(ProductName: string): Observable<any> {
-    return this.http.get<any>(
+  GetProductsByName(
+    ProductName: string
+  ): Observable<GenericResponseModel<ProductInfoModel[]>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel[]>>(
       `${this.ApiBaseUrl}/GetProductsByName/${ProductName}`
     );
   }
-  GetProductsByCategory(CategoryId: string): Observable<any> {
-    return this.http.get<any>(
+  GetProductsByCategory(
+    CategoryId: string
+  ): Observable<GenericResponseModel<ProductInfoModel[]>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel[]>>(
       `${this.ApiBaseUrl}/GetProductsByCategory/${CategoryId}`
     );
   }
-  GetProductsByCategoryName(CategoryName: string): Observable<any> {
-    return this.http.get<any>(
+  GetProductsByCategoryName(
+    CategoryName: string
+  ): Observable<GenericResponseModel<ProductInfoModel[]>> {
+    return this.http.get<GenericResponseModel<ProductInfoModel[]>>(
       `${this.ApiBaseUrl}/GetProductsByCategoryName/${CategoryName}`
     );
   }

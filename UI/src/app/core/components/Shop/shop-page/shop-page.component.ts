@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.service';
+import { ProductInfoModel } from 'src/app/core/services/Products/models/ProductInfo.model';
 import { ProductsService } from 'src/app/core/services/Products/products.service';
 import { ShopsService } from 'src/app/core/services/Shops/shops.service';
 
@@ -10,7 +11,7 @@ import { ShopsService } from 'src/app/core/services/Shops/shops.service';
   styleUrls: ['./shop-page.component.css'],
 })
 export class ShopPageComponent {
-  Products: any;
+  Products: ProductInfoModel[] = [];
   ModalItems?: any;
   constructor(
     private productService: ProductsService,
@@ -49,8 +50,8 @@ export class ShopPageComponent {
     this.productService.GetProductsByShopId(this.ShopId).subscribe(
       (data) => {
         if (data) {
-          this.Products = data;
-          if (this.Products.data) {
+          this.Products = data.data;
+          if (this.Products) {
             this.InMaintenance = false;
           }
           // this.Products.data.slice(0, 12);

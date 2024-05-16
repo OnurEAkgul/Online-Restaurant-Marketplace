@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LoginRequestModel } from 'src/app/core/services/UserActions/models/LoginRequest.model';
 import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginComponent implements OnDestroy {
   // Checkbox: boolean = false;
 
   LoginSubs?: Subscription;
-  loginModel: any;
+  loginModel: LoginRequestModel;
 
   constructor(private userService: UserActionsService, private router: Router) {
     this.loginModel = {

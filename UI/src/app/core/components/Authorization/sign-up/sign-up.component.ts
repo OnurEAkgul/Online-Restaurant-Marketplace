@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { SignUpModel } from 'src/app/core/services/UserActions/models/SignUp.model';
 import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UserActionsService } from 'src/app/core/services/UserActions/user-actio
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent {
-  signupmodel: any;
+  signupmodel: SignUpModel;
 
   constructor(
     private userService: UserActionsService,

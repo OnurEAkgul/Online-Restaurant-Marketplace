@@ -12,7 +12,7 @@
                     <span class="ml-2">The Menu</span>
                 </ng-template>
                 <div class="card">
-                    <p-dataView #dv [value]="Products.data" [rows]="5" [paginator]="true">
+                    <p-dataView #dv [value]="Products" [rows]="5" [paginator]="true">
                         <ng-template let-product pTemplate="listItem">
                             <ng-container *ngIf="product.isActive ">
 
