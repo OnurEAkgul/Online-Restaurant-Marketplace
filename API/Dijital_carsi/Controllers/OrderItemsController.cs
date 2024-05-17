@@ -235,7 +235,7 @@ namespace Dijital_carsi.Controllers
                 var result = await _orderItemService.AddOrderItem(CreateRequest);
                 if (!result.Success)
                 {
-                    return BadRequest(result.Message);
+                    return BadRequest(result);
                 }
 
                 return Ok(result);
@@ -274,7 +274,7 @@ namespace Dijital_carsi.Controllers
                 var result = await _orderItemService.UpdateOrderItem(UpdateRequest);
                 if (!result.Success)
                 {
-                    return BadRequest(result.Message);
+                    return BadRequest(result);
                 }
 
                 return Ok(result);
@@ -306,7 +306,7 @@ namespace Dijital_carsi.Controllers
                 var result = await _orderItemService.DeleteOrderItem(OrderItemId);
                 if (!result.Success)
                 {
-                    return BadRequest(result.Message);
+                    return BadRequest(result);
                 }
 
                 return Ok(result);

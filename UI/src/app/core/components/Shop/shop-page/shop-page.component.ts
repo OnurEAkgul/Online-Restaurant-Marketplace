@@ -1,9 +1,13 @@
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.service';
 import { ProductInfoModel } from 'src/app/core/services/Products/models/ProductInfo.model';
 import { ProductsService } from 'src/app/core/services/Products/products.service';
+import { ShopInfoModel } from 'src/app/core/services/Shops/models/ShopInfo.model';
 import { ShopsService } from 'src/app/core/services/Shops/shops.service';
+import { TokenModel } from 'src/app/core/services/UserActions/models/Token.model';
+import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
 @Component({
   selector: 'app-shop-page',
@@ -12,22 +16,36 @@ import { ShopsService } from 'src/app/core/services/Shops/shops.service';
 })
 export class ShopPageComponent {
   Products: ProductInfoModel[] = [];
-  ModalItems?: any;
+  ModalItems?: ProductInfoModel;
   constructor(
     private productService: ProductsService,
     private shopService: ShopsService,
     private route: ActivatedRoute,
-    private cartItemService: CartItemsService
-  ) {}
+    private cartItemService: CartItemsService,
+    private UserService: UserActionsService,
+    private CookieService: CookieService
+  ) {
+    this.ShopInfo = {
+      contactEmail: '',
+      contactPhone: '',
+      description: '',
+      id: '',
+      isOpen: false,
+      location: '',
+      logoUrl: '',
+      name: '',
+    };
+  }
   ShopId: any;
   InMaintenance: boolean = false;
-  ShopInfo: any;
+  ShopInfo: ShopInfoModel;
   itemQuantity: number = 0;
   ngOnInit() {
     this.GetShopId();
     console.log(this.ShopId);
     this.GetRestaurant();
     this.GetShopInformation(this.ShopId);
+    this.getUserInfo();
   }
 
   GetShopId() {
@@ -40,8 +58,8 @@ export class ShopPageComponent {
 
   GetShopInformation(ShopId: string) {
     this.shopService.GetShopById(this.ShopId).subscribe((response) => {
-      this.ShopInfo = response;
-      console.log(this.ShopInfo.data);
+      this.ShopInfo = response.data;
+      console.log(this.ShopInfo);
     });
   }
 
@@ -92,16 +110,25 @@ export class ShopPageComponent {
 
   basketItemId: string = '';
   AddToBasket(quantity: number) {
+    console.log(this.UserInfo.nameid);
     // console.log(this.basketItemId);
     // console.log(quantity);
     let model = { productId: this.ModalItems?.id, quantity: this.itemQuantity };
     console.log(model);
     this.cartItemService
-      .AddCartItem('eb3f51e6-5b57-4314-ac08-af7cf2ec4ead', model)
+      .AddCartItem(this.UserInfo.nameid, model)
       .subscribe((response) => {
         console.log(response);
       });
 
     this.visible = !this.visible;
+  }
+  UserInfo: any;
+  getUserInfo() {
+    // console.log('thiss');
+    this.UserInfo = this.UserService.TokenDecode(
+      this.CookieService.get('Authorization')
+    );
+    // console.log(this.UserInfo);
   }
 }

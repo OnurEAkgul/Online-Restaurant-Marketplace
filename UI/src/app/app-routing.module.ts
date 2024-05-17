@@ -85,6 +85,10 @@ const routes: Routes = [
         path: 'Become-Partner',
         component: CreateShopComponent,
       },
+      {
+        path: '**',
+        component: MenuComponent,
+      },
     ],
     // canActivate: [authGuard],
   },

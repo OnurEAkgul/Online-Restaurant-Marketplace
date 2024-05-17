@@ -376,7 +376,7 @@ namespace Dijital_carsi.Controllers
                 var Result = await _orderService.CreateOrder(CreateRequest);
 
                 if (!Result.Success)
-                    return BadRequest(Result.Message);
+                    return BadRequest(Result);
 
                 return Ok(Result);
             }
@@ -410,7 +410,7 @@ namespace Dijital_carsi.Controllers
                 var Result = await _orderService.UpdateOrder(UpdateRequest);
 
                 if (!Result.Success)
-                    return BadRequest(Result.Message);
+                    return BadRequest(Result);
 
                 return Ok(Result);
             }
@@ -435,7 +435,7 @@ namespace Dijital_carsi.Controllers
                 var Result = await _orderService.UpdateOrderStatus(OrderId,isCompleted);
 
                 if (!Result.Success)
-                    return BadRequest(Result.Message);
+                    return BadRequest(Result);
 
                 return Ok(Result);
             }
@@ -462,7 +462,7 @@ namespace Dijital_carsi.Controllers
                 var Result = await _orderService.DeleteOrder(OrderId);
 
                 if (!Result.Success)
-                    return BadRequest(Result.Message);
+                    return BadRequest(Result);
 
                 return Ok(Result);
             }

@@ -11,10 +11,7 @@ import { UserActionsService } from 'src/app/core/services/UserActions/user-actio
 export class SignUpComponent {
   signupmodel: SignUpModel;
 
-  constructor(
-    private userService: UserActionsService,
-    private message: MessageService
-  ) {
+  constructor(private userService: UserActionsService) {
     this.signupmodel = {
       email: '',
       password: '',

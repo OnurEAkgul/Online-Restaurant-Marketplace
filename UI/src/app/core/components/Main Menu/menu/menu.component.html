@@ -1,4 +1,4 @@
-<p-dataView #dv [value]="restaurants.data" [rows]="5" [paginator]="true">
+<p-dataView #dv [value]="restaurants" [rows]="5" [paginator]="true">
     <ng-template let-shops pTemplate="listItem">
         <ng-container *ngIf="shops.isOpen ">
 

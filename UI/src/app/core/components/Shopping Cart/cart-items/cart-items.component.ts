@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.service';
+import { CartItemInfoModel } from 'src/app/core/services/CartItems/models/CartItemInfo.model';
 import { ProductsService } from 'src/app/core/services/Products/products.service';
 import { UserActionsService } from 'src/app/core/services/UserActions/user-actions.service';
 
@@ -17,7 +18,7 @@ export class CartItemsComponent implements OnInit {
     this.cdr.detectChanges();
   }
   totalPrice: number = 0;
-  CartItems: any;
+  CartItems: CartItemInfoModel[] = [];
 
   constructor(
     private CartItemService: CartItemsService,

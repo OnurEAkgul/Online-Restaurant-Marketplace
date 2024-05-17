@@ -214,11 +214,11 @@ namespace Dijital_carsi.Controllers
                 var CreateResult = await _cartItemService.AddCartItem(UserId, CreateRequest);
                 if (!CreateResult.Success)
                 {
-                    return BadRequest(CreateResult.Message);
+                    return BadRequest(CreateResult);
                 }
 
 
-                return Ok($"Item has been added");
+                return Ok(CreateResult);
 
             }
             catch (Exception ex)
@@ -253,11 +253,11 @@ namespace Dijital_carsi.Controllers
                 var UpdateResult = await _cartItemService.UpdateCartItem(UpdateRequest);
                 if (!UpdateResult.Success)
                 {
-                    return BadRequest(UpdateResult.Message);
+                    return BadRequest(UpdateResult);
                 }
 
 
-                return Ok($"Item has been Updated");
+                return Ok(UpdateResult);
 
             }
             catch (Exception ex)

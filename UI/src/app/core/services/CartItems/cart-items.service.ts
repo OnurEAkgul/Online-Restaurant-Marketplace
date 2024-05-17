@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { GenericResponseModel } from '../GenericResponse.model';
+import { CartItemInfoModel } from './models/CartItemInfo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +13,30 @@ export class CartItemsService {
   constructor(private http: HttpClient) {}
   //-----------------GET-----------------
 
-  GetAllCartItems(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllCartItems`);
+  GetAllCartItems(): Observable<GenericResponseModel<CartItemInfoModel[]>> {
+    return this.http.get<GenericResponseModel<CartItemInfoModel[]>>(
+      `${this.ApiBaseUrl}/GetAllCartItems`
+    );
   }
 
-  GetCartItemById(ItemId: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetCartItemById/${ItemId}`);
+  GetCartItemById(
+    ItemId: string
+  ): Observable<GenericResponseModel<CartItemInfoModel>> {
+    return this.http.get<GenericResponseModel<CartItemInfoModel>>(
+      `${this.ApiBaseUrl}/GetCartItemById/${ItemId}`
+    );
   }
-  GetCartItemsByShoppingCartId(ShoppingCartId: string): Observable<any> {
-    return this.http.get<any>(
+  GetCartItemsByShoppingCartId(
+    ShoppingCartId: string
+  ): Observable<GenericResponseModel<CartItemInfoModel[]>> {
+    return this.http.get<GenericResponseModel<CartItemInfoModel[]>>(
       `${this.ApiBaseUrl}/GetCartItemsByShoppingCartId/${ShoppingCartId}`
     );
   }
-  GetCartItemsByUserId(UserId: string): Observable<any> {
-    return this.http.get<any>(
+  GetCartItemsByUserId(
+    UserId: string
+  ): Observable<GenericResponseModel<CartItemInfoModel[]>> {
+    return this.http.get<GenericResponseModel<CartItemInfoModel[]>>(
       `${this.ApiBaseUrl}/GetCartItemsByUserId/${UserId}`
     );
   }

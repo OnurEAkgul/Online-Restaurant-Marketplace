@@ -85,7 +85,7 @@
     <div class="card">
         <div class="mt-3 mb-3"></div>
 
-        <p-table [value]="shops.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="shops" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
@@ -129,13 +129,14 @@
     </div>
 
     <!-- SHOPPING CARTS TABLE -->
-    <!-- <label class="text-color primary" for="ShopppingCarts">Shopping Carts Table</label>
-    <div class="card">
-        <div class="mt-3 mb-3"></div>
+    <ng-container *ngIf="shoppingCart; else NoShoppingCart">
+        <label class="text-color primary" for="ShopppingCarts">Shopping Carts Table</label>
+        <div class="card">
+            <div class="mt-3 mb-3"></div>
 
-        <ng-container *ngIf="shoppingCart">
 
-            <p-table [value]="shoppingCart.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+
+            <p-table [value]="shoppingCart" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 15, 25]">
@@ -157,8 +158,55 @@
                 <ng-template pTemplate="paginatorright">
                     <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
                 </ng-template>
-            </p-table></ng-container>
-    </div> -->
+            </p-table>
+        </div>
+    </ng-container>
+    <ng-template #NoShoppingCart>
+
+    </ng-template>
+    <!-- CART ITEMS TABLE -->
+    <ng-container *ngIf="cartItems; else noCartItem">
+        <label class="text-color primary" for="CartItems">Cart Items Table</label>
+        <div class="card">
+            <div class="mt-3 mb-3"></div>
+            <p-table [value]="cartItems" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 15, 25]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:25%">Cart Item Id</th>
+                        <th style="width:25%">Shopping Cart Id</th>
+                        <th style="width:25%">Product Id</th>
+                        <th style="width:25%">Quantity of Cart Item </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-TableData>
+                    <tr>
+                        <td>{{ TableData.id }}</td>
+                        <td>{{ TableData.shoppingCartId }}</td>
+                        <td>{{ TableData.productId }}</td>
+                        <td>{{ TableData.quantity }}</td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+
+            <div class="mt-3 mb-3"></div>
+        </div>
+    </ng-container>
+    <ng-template #noCartItem>
+
+    </ng-template>
+
+
 
     <!-- PRODUCTS TABLE -->
     <label class="text-color primary" for="Products">Products Table</label>
@@ -216,7 +264,7 @@
     <div class="card">
         <div class="mt-3 mb-3">
 
-            <p-table [value]="orders.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            <p-table [value]="orders" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 15, 25]">
@@ -349,7 +397,7 @@
     <div class="card">
         <div class="mt-3 mb-3"></div>
 
-        <p-table [value]="categories.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        <p-table [value]="categories" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
             [tableStyle]="{ 'min-width': '50rem' }"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             [rowsPerPageOptions]="[10, 15, 25]">
@@ -385,47 +433,6 @@
 
 
 
-    <!-- CART ITEMS TABLE -->
-    <ng-container *ngIf="cartItems.data; else noCartItem">
-        <label class="text-color primary" for="CartItems">Cart Items Table</label>
-        <div class="card">
-            <div class="mt-3 mb-3"></div>
-            <p-table [value]="cartItems.data" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-                [tableStyle]="{ 'min-width': '50rem' }"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [rowsPerPageOptions]="[10, 15, 25]">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width:25%">Cart Item Id</th>
-                        <th style="width:25%">Shopping Cart Id</th>
-                        <th style="width:25%">Product Id</th>
-                        <th style="width:25%">Quantity of Cart Item </th>
-
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-TableData>
-                    <tr>
-                        <td>{{ TableData.id }}</td>
-                        <td>{{ TableData.shoppingCartId }}</td>
-                        <td>{{ TableData.productId }}</td>
-                        <td>{{ TableData.quantity }}</td>
-
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="paginatorleft">
-                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-                </ng-template>
-                <ng-template pTemplate="paginatorright">
-                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-                </ng-template>
-            </p-table>
-
-            <div class="mt-3 mb-3"></div>
-        </div>
-    </ng-container>
-    <ng-template #noCartItem>
-
-    </ng-template>
 
 
 </div>

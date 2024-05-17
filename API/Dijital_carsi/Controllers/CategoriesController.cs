@@ -195,11 +195,11 @@ namespace Dijital_carsi.Controllers
                 var CreateResult = await _CategoryService.CreateCategory(CreateRequest);
                 if (!CreateResult.Success)
                 {
-                    return BadRequest(CreateResult.Message);
+                    return BadRequest(CreateResult);
                 }
 
 
-                return Ok($"New category has been created");
+                return Ok(CreateResult);
 
             }
             catch (Exception ex)
@@ -236,11 +236,11 @@ namespace Dijital_carsi.Controllers
                 var UpdateResult = await _CategoryService.UpdateCategory(UpdateRequest);
                 if (!UpdateResult.Success)
                 {
-                    return BadRequest(UpdateResult.Message);
+                    return BadRequest(UpdateResult);
                 }
 
 
-                return Ok($"Category has been Updated");
+                return Ok(UpdateResult);
 
             }
             catch (Exception ex)
@@ -291,11 +291,11 @@ namespace Dijital_carsi.Controllers
                 var DeleteResult = await _CategoryService.DeleteCategory(CategoryId);
                 if (!DeleteResult.Success)
                 {
-                    return BadRequest(DeleteResult.Message);
+                    return BadRequest(DeleteResult);
                 }
 
 
-                return Ok($"Category has been Deleted");
+                return Ok(DeleteResult);
 
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ShopInfoModel } from 'src/app/core/services/Shops/models/ShopInfo.model';
 import { ShopsService } from 'src/app/core/services/Shops/shops.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { ShopsService } from 'src/app/core/services/Shops/shops.service';
   styleUrls: ['./menu.component.css'],
 })
 export class MenuComponent {
-  restaurants: any;
+  restaurants: ShopInfoModel[] = [];
   constructor(private ShopService: ShopsService) {}
 
   ngOnInit() {
@@ -17,25 +18,10 @@ export class MenuComponent {
   GetRestaurant() {
     this.ShopService.GetShops().subscribe((data) => {
       if (data) {
-        this.restaurants = data;
-        this.restaurants.data.slice(0, 12);
+        this.restaurants = data.data;
+        this.restaurants.slice(0, 12);
         console.log(this.restaurants);
       }
     });
-  }
-  getSeverity(restaurant: any) {
-    switch (restaurant.inventoryStatus) {
-      case 'INSTOCK':
-        return 'success';
-
-      case 'LOWSTOCK':
-        return 'warning';
-
-      case 'OUTOFSTOCK':
-        return 'danger';
-
-      default:
-        return null;
-    }
   }
 }

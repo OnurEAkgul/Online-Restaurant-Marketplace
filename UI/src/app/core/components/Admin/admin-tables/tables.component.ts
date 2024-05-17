@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.service';
+import { CartItemInfoModel } from 'src/app/core/services/CartItems/models/CartItemInfo.model';
 import { CategoriesService } from 'src/app/core/services/Categories/categories.service';
+import { CategoryInfoModel } from 'src/app/core/services/Categories/models/CategoryInfo.model';
 import { OrderItemsService } from 'src/app/core/services/OrderItems/order-items.service';
+import { OrderInfoModel } from 'src/app/core/services/Orders/models/OrderInfo.model';
 import { OrdersService } from 'src/app/core/services/Orders/orders.service';
 import { ProductInfoModel } from 'src/app/core/services/Products/models/ProductInfo.model';
 import { ProductsService } from 'src/app/core/services/Products/products.service';
+import { ShoppingCartModel } from 'src/app/core/services/ShoppingCarts/models/ShoppingCartInfo.model';
 import { ShoppingCartsService } from 'src/app/core/services/ShoppingCarts/shopping-carts.service';
+import { ShopInfoModel } from 'src/app/core/services/Shops/models/ShopInfo.model';
 import { ShopsService } from 'src/app/core/services/Shops/shops.service';
 import { TicketInfoModel } from 'src/app/core/services/Tickets/models/TicketInfo.model';
 import { TicketsService } from 'src/app/core/services/Tickets/tickets.service';
@@ -20,13 +25,13 @@ import { UserActionsService } from 'src/app/core/services/UserActions/user-actio
 export class AdminTablesComponent implements OnInit {
   users: UserInfoModel[] = [];
   tickets: TicketInfoModel[] = [];
-  shops: any;
-  shoppingCart: any;
+  shops: ShopInfoModel[] = [];
+  shoppingCart: ShoppingCartModel[] = [];
   products: ProductInfoModel[] = [];
-  orders: any;
+  orders: OrderInfoModel[] = [];
   orderItems: any;
-  categories: any;
-  cartItems: any;
+  categories: CategoryInfoModel[] = [];
+  cartItems: CartItemInfoModel[] = [];
   constructor(
     private cartItemService: CartItemsService,
     private categoryService: CategoriesService,
@@ -43,12 +48,11 @@ export class AdminTablesComponent implements OnInit {
     this.GetUserTables();
     this.GetTicketTables();
     this.GetShopTables();
-
     this.GetProductTables();
     this.GetOrderTables();
     this.GetOrderItemTables();
     this.GetCategoryTables();
-    // this.GetShoppingCartTables();
+    this.GetShoppingCartTables();
     this.GetCartItemTables();
   }
 
@@ -64,18 +68,30 @@ export class AdminTablesComponent implements OnInit {
   }
   GetShopTables() {
     this.shopService.GetShops().subscribe((response) => {
-      this.shops = response;
+      this.shops = response.data;
     });
   }
   GetShoppingCartTables() {
     this.shoppingCartService.GetAllShoppingCarts().subscribe(
       (response) => {
         if (response.data) {
-          this.shoppingCart = response;
+          this.shoppingCart = response.data;
         }
       },
       (error) => {
         this.shoppingCart = error;
+      }
+    );
+  }
+  GetCartItemTables() {
+    this.cartItemService.GetAllCartItems().subscribe(
+      (response) => {
+        if (response.data) {
+          this.cartItems = response.data;
+        }
+      },
+      (error) => {
+        this.cartItems = error;
       }
     );
   }
@@ -86,7 +102,7 @@ export class AdminTablesComponent implements OnInit {
   }
   GetOrderTables() {
     this.orderService.GetAllOrders().subscribe((response) => {
-      this.orders = response;
+      this.orders = response.data;
     });
   }
   GetOrderItemTables() {
@@ -96,20 +112,8 @@ export class AdminTablesComponent implements OnInit {
   }
   GetCategoryTables() {
     this.categoryService.GetAllCategories().subscribe((response) => {
-      this.categories = response;
+      this.categories = response.data;
     });
-  }
-  GetCartItemTables() {
-    this.cartItemService.GetAllCartItems().subscribe(
-      (response) => {
-        if (response.data) {
-          this.cartItems = response;
-        }
-      },
-      (error) => {
-        this.cartItems = error;
-      }
-    );
   }
 
   //STATUS UPDATE METHODS

@@ -2,6 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
+import { OrderUpdateModel } from './models/OrderUpdate.model';
+import { OrderCreateModel } from './models/OrderCreate.model';
+import { GenericResponseModel } from '../GenericResponse.model';
+import { OrderInfoModel } from './models/OrderInfo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,48 +16,72 @@ export class OrdersService {
 
   //-----------------GET-----------------
 
-  GetAllOrders(): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetAllOrders`);
+  GetAllOrders(): Observable<GenericResponseModel<OrderInfoModel[]>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel[]>>(
+      `${this.ApiBaseUrl}/GetAllOrders`
+    );
   }
 
-  GetAllOrdersByUserId(UserId: string): Observable<any> {
-    return this.http.get<any>(
+  GetAllOrdersByUserId(
+    UserId: string
+  ): Observable<GenericResponseModel<OrderInfoModel[]>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel[]>>(
       `${this.ApiBaseUrl}/GetAllOrdersByUserId/${UserId}`
     );
   }
 
-  GetAllOrdersByShopId(ShopId: string): Observable<any> {
-    return this.http.get<any>(
+  GetAllOrdersByShopId(
+    ShopId: string
+  ): Observable<GenericResponseModel<OrderInfoModel[]>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel[]>>(
       `${this.ApiBaseUrl}/GetAllOrdersByShopId/${ShopId}`
     );
   }
 
-  GetOrderById(OrderId: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetOrderById/${OrderId}`);
+  GetOrderById(
+    OrderId: string
+  ): Observable<GenericResponseModel<OrderInfoModel>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel>>(
+      `${this.ApiBaseUrl}/GetOrderById/${OrderId}`
+    );
   }
 
-  GetOrderByUserId(UserId: string): Observable<any> {
-    return this.http.get<any>(`${this.ApiBaseUrl}/GetOrderByUserId/${UserId}`);
+  GetOrderByUserId(
+    UserId: string
+  ): Observable<GenericResponseModel<OrderInfoModel>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel>>(
+      `${this.ApiBaseUrl}/GetOrderByUserId/${UserId}`
+    );
   }
 
-  GetActiveOrdersByUserId(UserId: string): Observable<any> {
-    return this.http.get<any>(
+  GetActiveOrdersByUserId(
+    UserId: string
+  ): Observable<GenericResponseModel<OrderInfoModel[]>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel[]>>(
       `${this.ApiBaseUrl}/GetActiveOrdersByUserId/${UserId}`
     );
   }
 
-  GetActiveOrdersByShopId(ShopId: string): Observable<any> {
-    return this.http.get<any>(
+  GetActiveOrdersByShopId(
+    ShopId: string
+  ): Observable<GenericResponseModel<OrderInfoModel[]>> {
+    return this.http.get<GenericResponseModel<OrderInfoModel[]>>(
       `${this.ApiBaseUrl}/GetActiveOrdersByShopId/${ShopId}`
     );
   }
   //-----------------POST-----------------
-  CreateOrder(UserId: string, any: any): Observable<any> {
-    return this.http.post<any>(`${this.ApiBaseUrl}/CreateOrder/${UserId}`, any);
+  CreateOrder(UserId: string, model: OrderCreateModel): Observable<any> {
+    return this.http.post<any>(
+      `${this.ApiBaseUrl}/CreateOrder/${UserId}`,
+      model
+    );
   }
   //-----------------PUT-----------------
-  UpdateOrder(OrderId: string, any: any): Observable<any> {
-    return this.http.put<any>(`${this.ApiBaseUrl}/UpdateOrder/${OrderId}`, any);
+  UpdateOrder(OrderId: string, model: OrderUpdateModel): Observable<any> {
+    return this.http.put<any>(
+      `${this.ApiBaseUrl}/UpdateOrder/${OrderId}`,
+      model
+    );
   }
   UpdateOrderStatus(OrderId: string, isCompleted: boolean): Observable<any> {
     return this.http.put<any>(

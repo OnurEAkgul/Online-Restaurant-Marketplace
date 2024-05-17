@@ -34,7 +34,7 @@ export class AppTopBarComponent implements OnInit {
 
   UserLogout() {
     this.userService.Logout();
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/');
   }
 
   writetoconsole() {

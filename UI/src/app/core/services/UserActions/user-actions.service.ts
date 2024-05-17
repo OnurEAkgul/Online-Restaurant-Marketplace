@@ -88,6 +88,9 @@ export class UserActionsService {
 
   TokenDecode(EncodedToken: string) {
     let DecodedToken = jwtDecode(EncodedToken);
+
+    console.log(DecodedToken);
+
     return DecodedToken;
   }
 }

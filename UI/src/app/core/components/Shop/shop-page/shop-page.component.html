@@ -102,15 +102,15 @@
 
                     <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
                         <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-                            [src]="ShopInfo.data.logoUrl" [alt]="ShopInfo.data.name" />
+                            [src]="ShopInfo.logoUrl" [alt]="ShopInfo.name" />
                         <div
                             class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                             <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                                <div class="text-2xl font-bold text-900">Restaurant name: {{ ShopInfo.data.name }}</div>
-                                <div class="text-xl font-bold text-900">Address: {{ ShopInfo.data.location }}</div>
-                                <div class="text-lg font-bold text-900">{{ ShopInfo.data.description }}</div>
-                                <div class="text-lg font-bold text-900">E-mail: {{ ShopInfo.data.contactEmail }}</div>
-                                <div class="text-lg font-bold text-900">Restaurant Number: {{ ShopInfo.data.contactPhone
+                                <div class="text-2xl font-bold text-900">Restaurant name: {{ ShopInfo.name }}</div>
+                                <div class="text-xl font-bold text-900">Address: {{ ShopInfo.location }}</div>
+                                <div class="text-lg font-bold text-900">{{ ShopInfo.description }}</div>
+                                <div class="text-lg font-bold text-900">E-mail: {{ ShopInfo.contactEmail }}</div>
+                                <div class="text-lg font-bold text-900">Restaurant Number: {{ ShopInfo.contactPhone
                                     }}
                                 </div>
 

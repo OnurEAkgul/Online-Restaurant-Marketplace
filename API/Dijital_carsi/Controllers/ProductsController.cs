@@ -327,11 +327,11 @@ namespace Dijital_carsi.Controllers
                 var CreateResult = await _productService.CreateProduct(CreateRequest);
                 if (!CreateResult.Success)
                 {
-                    return BadRequest(CreateResult.Message);
+                    return BadRequest(CreateResult);
                 }
 
 
-                return Ok($"Product has been added");
+                return Ok(CreateResult);
 
             }
             catch (Exception ex)
@@ -369,11 +369,11 @@ namespace Dijital_carsi.Controllers
                 var UpdateResult = await _productService.UpdateProduct(UpdateRequest);
                 if (!UpdateResult.Success)
                 {
-                    return BadRequest(UpdateResult.Message);
+                    return BadRequest(UpdateResult);
                 }
 
 
-                return Ok($"Product has been Updated");
+                return Ok(UpdateResult);
 
             }
             catch (Exception ex)
@@ -425,11 +425,11 @@ namespace Dijital_carsi.Controllers
                 var UpdateResult = await _productService.DeleteProduct(ProductId);
                 if (!UpdateResult.Success)
                 {
-                    return BadRequest(UpdateResult.Message);
+                    return BadRequest(UpdateResult);
                 }
 
 
-                return Ok($"Item has been Deleted");
+                return Ok(UpdateResult);
 
             }
             catch (Exception ex)

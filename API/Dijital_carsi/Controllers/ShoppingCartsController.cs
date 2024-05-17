@@ -168,7 +168,7 @@ namespace Dijital_carsi.Controllers
                     return BadRequest(result);
                 }
 
-                return Ok(result.Message);
+                return Ok(result);
 
             }
             catch (Exception ex)
@@ -201,7 +201,7 @@ namespace Dijital_carsi.Controllers
                     return BadRequest(result);
                 }
 
-                return Ok(result.Message);
+                return Ok(result);
 
             }
             catch (Exception ex)
@@ -229,7 +229,7 @@ namespace Dijital_carsi.Controllers
                     return BadRequest(result);
                 }
 
-                return Ok(result.Message);
+                return Ok(result);
 
             }
             catch (Exception ex)
