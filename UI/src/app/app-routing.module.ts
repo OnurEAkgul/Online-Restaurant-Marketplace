@@ -22,6 +22,9 @@ import { PrivacyComponent } from './core/components/Agreements/privacy/privacy.c
 import { TosComponent } from './core/components/Agreements/tos/tos.component';
 import { KVKKComponent } from './core/components/Agreements/kvkk/kvkk.component';
 import { LandingComponent } from './core/components/Main Menu/landing/landing.component';
+import { AddProductComponent } from './core/components/Products/add-product/add-product.component';
+import { ShowProductComponent } from './core/components/Products/show-product/show-product.component';
+import { UpdateProductComponent } from './core/components/Products/update-product/update-product.component';
 
 const routes: Routes = [
   {
@@ -52,6 +55,18 @@ const routes: Routes = [
       {
         path: 'UpdateShop/:ShopId',
         component: UpdateShopComponent,
+      },
+      {
+        path: 'CreateProduct',
+        component: AddProductComponent,
+      },
+      {
+        path: 'ShowProducts/:ShopId',
+        component: ShowProductComponent,
+      },
+      {
+        path: 'UpdateProduct/:ProductId',
+        component: UpdateProductComponent,
       },
       {
         path: 'admin',

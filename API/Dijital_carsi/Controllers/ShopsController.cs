@@ -183,7 +183,7 @@ namespace Dijital_carsi.Controllers
 
         }
 
-        //GET BY NAME
+        //GET BY SHOPID
         [HttpGet("GetShopById/{ShopId:Guid}")]
         public async Task<IActionResult> GetShopsById([FromRoute] Guid ShopId)
         {
@@ -191,6 +191,49 @@ namespace Dijital_carsi.Controllers
             {
 
                 var result = await _shopService.GetShopByIdAsync(ShopId);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                var responseData = new ShopInfoDTO
+                {
+                    Id = result.Data.Id,
+                    Name = result.Data.Name,
+                    Description = result.Data.Description,
+                    Location = result.Data.Location,
+                    ContactEmail = result.Data.ContactEmail,
+                    ContactPhone = result.Data.ContactPhone,
+                    LogoUrl = result.Data.LogoUrl,
+                    IsOpen = result.Data.IsOpen
+                };
+
+                var response = new CommonResponseDTO<ShopInfoDTO>
+                {
+                    Message = "Shop has been listed",
+                    Data = responseData,
+                    Successful = true
+                };
+                return Ok(response);
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
+        }
+
+
+        //GET BY SHOPID
+        [HttpGet("GetShopByShopOwnerId/{ShopOwnerId}")]
+        public async Task<IActionResult> GetShopByShopOwnerId([FromRoute] string ShopOwnerId)
+        {
+            try
+            {
+
+                var result = await _shopService.GetShopByShopOwnerId(ShopOwnerId);
                 if (!result.Success)
                 {
                     return BadRequest(result);

@@ -39,6 +39,13 @@ export class ShopsService {
       `${this.ApiBaseUrl}/GetShopById/${ShopId}`
     );
   }
+  GetShopByShopOwnerId(
+    shopOwnerId: string
+  ): Observable<GenericResponseModel<ShopInfoModel>> {
+    return this.http.get<GenericResponseModel<ShopInfoModel>>(
+      `${this.ApiBaseUrl}/GetShopByShopOwnerId/${shopOwnerId}`
+    );
+  }
   //-----------------POST-----------------
   CreateNewShop(userId: string, model: ShopCreateModel): Observable<any> {
     return this.http.post<any>(

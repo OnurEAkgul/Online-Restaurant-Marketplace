@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { GenericResponseModel } from '../GenericResponse.model';
 import { ProductInfoModel } from './models/ProductInfo.model';
-import { UpdateProductComponent } from '../../components/Products/update-product/update-product.component';
 import { ProductCreateModel } from './models/ProductCreate.model';
+import { ProductUpdateModel } from './models/ProductUpdate.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,19 +55,13 @@ export class ProductsService {
     );
   }
   //-----------------POST-----------------
-  CreateProduct(UserId: string, model: ProductCreateModel): Observable<any> {
-    return this.http.post<any>(
-      `${this.ApiBaseUrl}/CreateProduct/${UserId}`,
-      model
-    );
+  CreateProduct(model: ProductCreateModel): Observable<any> {
+    return this.http.post<any>(`${this.ApiBaseUrl}/CreateProduct`, model);
   }
 
   //-----------------PUT-----------------
 
-  UpdateProduct(
-    ProductId: string,
-    model: UpdateProductComponent
-  ): Observable<any> {
+  UpdateProduct(ProductId: string, model: ProductUpdateModel): Observable<any> {
     return this.http.put<any>(
       `${this.ApiBaseUrl}/UpdateProduct/${ProductId}`,
       model

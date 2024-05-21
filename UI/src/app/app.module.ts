@@ -54,6 +54,7 @@ import { AdminTablesComponent } from './core/components/Admin/admin-tables/table
 import { OperationsComponent } from './core/components/Admin/operations/operations.component';
 import { NotfoundComponent } from './core/components/Error Pages/Not Found/notfound.component';
 import { MaintenanceComponent } from './core/components/Error Pages/maintenance/maintenance.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { MaintenanceComponent } from './core/components/Error Pages/maintenance/
     DialogModule,
     DividerModule,
     PasswordModule,
+    DropdownModule,
   ],
   providers: [
     MessageService,

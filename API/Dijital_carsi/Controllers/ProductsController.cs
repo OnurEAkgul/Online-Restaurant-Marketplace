@@ -319,7 +319,7 @@ namespace Dijital_carsi.Controllers
                     Name = request.Name,
                     Price = request.Price,
                     ShopId = request.ShopId,
-                    IsActive = false,
+                    IsActive = request.IsActive,
                     
                     
                 };

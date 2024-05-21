@@ -1,1 +1,52 @@
-<p>show-product works!</p>
+<label class="text-color primary" for="Products">Products Table</label>
+<div class="card">
+    <div class="mt-3 mb-3"></div>
+
+    <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 15, 25]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%">Product Id</th>
+                <th style="width:10%">Product Name</th>
+                <th style="width:10%">Product Description</th>
+                <th style="width:10%">Product Category Id</th>
+                <th style="width:10%">Product Category Name</th>
+                <th hidden style="width:10%">Product Image Url</th>
+                <th style="width:10%">Product Price</th>
+                <th style="width:10%">Product's Shop Id</th>
+                <th style="width:10%">Product's Shop Name</th>
+                <th style="width:10%">Is Product Active</th>
+                <th style="width: 10%;">Update Product</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-TableData>
+            <tr>
+                <td>{{ TableData.id }}</td>
+                <td>{{ TableData.name }}</td>
+                <td>{{ TableData.description }}</td>
+                <td>{{ TableData.categoryId }}</td>
+                <td>{{ TableData.categoryName }}</td>
+                <td hidden>{{ TableData.imageUrl }}</td>
+                <td>{{ TableData.price }}</td>
+                <td>{{ TableData.shopId }}</td>
+                <td>{{ TableData.shopName }}</td>
+                <td>
+                    <p-checkbox [(ngModel)]="TableData.isActive" [binary]=" true" inputId="binary"
+                        (ngModelChange)="ProductUpdateStatus(TableData.id,TableData.isActive)">
+                    </p-checkbox>
+                    {{TableData.isActive }}
+                </td>
+                <td><p-button icon="pi pi-pencil" [routerLink]="['/Foods/UpdateProduct',TableData.id]"></p-button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" [routerLink]="['/Foods/CreateProduct']"
+                styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</div>

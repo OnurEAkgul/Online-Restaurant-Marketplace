@@ -66,6 +66,7 @@ namespace Business.Services
                 _shop.ContactEmail = shop.ContactEmail ?? _shop.ContactEmail;
                 _shop.ContactPhone = shop.ContactPhone ?? _shop.ContactPhone;
                 _shop.LogoUrl = shop.LogoUrl ?? _shop.LogoUrl;
+                _shop.IsOpen = shop.IsOpen;
 
                 // Save changes to the database
                 await shopDAL.UpdateAsync(_shop);
@@ -166,5 +167,22 @@ namespace Business.Services
                 return new ErrorDataResult<List<Shop>>(null, $"Error retrieving cart item: {ex.Message}");
             }
         }
+
+        public async Task<IDataResult<Shop>> GetShopByShopOwnerId(string shopOwnerId)
+        {
+            try
+            {
+                var shop = await shopDAL.GetAsync(s => s.ShopOwnerId == shopOwnerId);
+                return shop != null
+                    ? new SuccessDataResult<Shop>(shop, "Shop has been retrieved successfully")
+                    : new ErrorDataResult<Shop>(null, "Shop not found");
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<Shop>(null, $"An error has been occured while retrieveing the shop: {ex.Message}");
+            }
+        }
+
+
     }
 }

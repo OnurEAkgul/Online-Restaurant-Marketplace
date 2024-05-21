@@ -1,1 +1,40 @@
-<p>update-shop works!</p>
+<div class="card">
+    <form #UpdateShopFrom="ngForm" (ngSubmit)="UpdateForm()">
+
+        <label for="logoUrl" class="block text-900 font-medium mb-2">logoUrl</label>
+        <input id="logoUrl" name="logoUrl" [(ngModel)]="UpdateModel.logoUrl" placeholder="Enter your logoUrl"
+            type="text" pInputText class="w-full mb-3">
+        <ng-container *ngIf="!UpdateModel.logoUrl; else image">
+            <img src="/assets/images/blank.jpeg" alt="">
+        </ng-container>
+        <ng-template #image>
+            <img [src]="UpdateModel.logoUrl" alt="">
+        </ng-template>
+
+        <label for="name" class="block text-900 font-medium mb-2">name</label>
+        <input id="name" name="name" [(ngModel)]="UpdateModel.name" placeholder="Enter your name" type="text" pInputText
+            class="w-full mb-3">
+
+        <label for="description" class="block text-900 font-medium mb-2">description</label>
+        <input id="description" name="description" [(ngModel)]="UpdateModel.description"
+            placeholder="Enter your description" type="text" pInputText class="w-full mb-3">
+
+        <label for="location" class="block text-900 font-medium mb-2">location</label>
+        <input id="location" name="location" [(ngModel)]="UpdateModel.location" placeholder="Enter your location"
+            type="text" pInputText class="w-full mb-3">
+
+        <label for="contactEmail" class="block text-900 font-medium mb-2">contactEmail</label>
+        <input id="contactEmail" name="contactEmail" [(ngModel)]="UpdateModel.contactEmail"
+            placeholder="Enter your contactEmail" type="text" pInputText class="w-full mb-3">
+
+        <p-checkbox name="isOpen" [binary]="true" label=" isOpen" [(ngModel)]="UpdateModel.isOpen"
+            inputId="isOpen"></p-checkbox>
+
+        <label for="contactPhone" class="block text-900 font-medium mb-2">contactPhone</label>
+        <p-inputMask id="contactPhone" name="contactPhone" [(ngModel)]="UpdateModel.contactPhone" mask="059999999999"
+            placeholder="0(5xx) 999-9999" class="w-full  mb-3"></p-inputMask>
+        <br>
+        <br><br>
+        <p-button icon="pi pi-save" type="submit" label="save"></p-button>
+    </form>
+</div>

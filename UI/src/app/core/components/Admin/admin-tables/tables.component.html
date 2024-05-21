@@ -291,7 +291,7 @@
                         <td>{{ TableData.shopId }}</td>
                         <td>{{ TableData.shopName }}</td>
                         <td>
-                            <p-checkbox [(ngModel)]="TableData.isCompleted" [binary]="true" inputId="binary"
+                            <p-checkbox [(ngMode l)]="TableData.isCompleted" [binary]="true" inputId="binary"
                                 (ngModelChange)="OrderUpdateStatus(TableData.id,TableData.isCompleted)">
                             </p-checkbox>
                             {{ TableData.isCompleted }}

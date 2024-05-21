@@ -75,4 +75,5 @@ export class CartItemsComponent implements OnInit {
       }
     );
   }
+  AddToOrder() {}
 }

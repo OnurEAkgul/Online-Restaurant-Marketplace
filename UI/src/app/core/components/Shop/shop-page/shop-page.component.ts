@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CartItemsService } from 'src/app/core/services/CartItems/cart-items.service';
 import { ProductInfoModel } from 'src/app/core/services/Products/models/ProductInfo.model';
@@ -17,13 +17,15 @@ import { UserActionsService } from 'src/app/core/services/UserActions/user-actio
 export class ShopPageComponent {
   Products: ProductInfoModel[] = [];
   ModalItems?: ProductInfoModel;
+
   constructor(
     private productService: ProductsService,
     private shopService: ShopsService,
     private route: ActivatedRoute,
     private cartItemService: CartItemsService,
     private UserService: UserActionsService,
-    private CookieService: CookieService
+    private CookieService: CookieService,
+    private router: Router
   ) {
     this.ShopInfo = {
       contactEmail: '',
@@ -36,13 +38,15 @@ export class ShopPageComponent {
       name: '',
     };
   }
+
   ShopId: any;
   InMaintenance: boolean = false;
   ShopInfo: ShopInfoModel;
   itemQuantity: number = 0;
+
   ngOnInit() {
     this.GetShopId();
-    console.log(this.ShopId);
+    // console.log(this.ShopId);
     this.GetRestaurant();
     this.GetShopInformation(this.ShopId);
     this.getUserInfo();
@@ -57,10 +61,15 @@ export class ShopPageComponent {
   }
 
   GetShopInformation(ShopId: string) {
-    this.shopService.GetShopById(this.ShopId).subscribe((response) => {
-      this.ShopInfo = response.data;
-      console.log(this.ShopInfo);
-    });
+    this.shopService.GetShopById(this.ShopId).subscribe(
+      (response) => {
+        this.ShopInfo = response.data;
+        // console.log(this.ShopInfo);
+      },
+      (error) => {
+        this.ShopInfo = error.data;
+      }
+    );
   }
 
   GetRestaurant() {
@@ -77,25 +86,12 @@ export class ShopPageComponent {
         }
       },
       (error) => {
+        this.Products = error.data;
         this.InMaintenance = true;
       }
     );
   }
-  getSeverity(shops: any) {
-    switch (shops.price) {
-      case 'INSTOCK':
-        return 'success';
 
-      case 'LOWSTOCK':
-        return 'warning';
-
-      case 'OUTOFSTOCK':
-        return 'danger';
-
-      default:
-        return null;
-    }
-  }
   visible: boolean = false;
   ShowDialog(product: any) {
     console.log(product);
@@ -123,12 +119,22 @@ export class ShopPageComponent {
 
     this.visible = !this.visible;
   }
+
   UserInfo: any;
   getUserInfo() {
     // console.log('thiss');
     this.UserInfo = this.UserService.TokenDecode(
       this.CookieService.get('Authorization')
     );
-    // console.log(this.UserInfo);
+    console.log(this.UserInfo);
+  }
+
+  RouteToUpdate() {
+    console.log(this.ShopId);
+    this.router.navigateByUrl(`/Foods/UpdateShop/${this.ShopId}`);
+  }
+  RouteToProducts() {
+    console.log(this.ShopId);
+    this.router.navigateByUrl(`/Foods/ShowProducts/${this.ShopId}`);
   }
 }

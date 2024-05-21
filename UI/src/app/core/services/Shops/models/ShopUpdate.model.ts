@@ -4,4 +4,6 @@ export interface ShopUpdateModel {
   location: string;
   contactEmail: string;
   contactPhone: string;
+  logoUrl: string;
+  isOpen: boolean;
 }
